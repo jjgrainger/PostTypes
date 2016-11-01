@@ -113,6 +113,9 @@ class PostType
         // set the options
         $this->options($options);
 
+				// set the labels
+        $this->labels($labels);
+
         // create a columns object
         $this->columns = new Columns();
 
