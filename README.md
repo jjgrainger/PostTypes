@@ -84,7 +84,7 @@ $labels = [
 $books = new PostType('book', $options, $labels);
 ```
 
-All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
+All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
 
 #### Exisiting Post Types
 
