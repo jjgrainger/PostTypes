@@ -132,7 +132,7 @@ You can further customise taxonomies by passing an array of options as the secon
 
 ```php
 $options = [
-    'heirarchical' => false
+	'hierarchical' => false,
 ];
 
 $books->taxonomy('genre', $options);
