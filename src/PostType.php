@@ -51,6 +51,13 @@ class PostType
     public $options;
 
     /**
+     * The labels passed for the post type.
+     *
+     * @var array
+     */
+    public $labels;
+
+    /**
      * An array of taxonomy names attached to the post type.
      *
      * @var array
@@ -98,13 +105,16 @@ class PostType
      * @param mixed $names   The name(s) of the post type, accepts (post type name, slug, plural, singular).
      * @param array $options User submitted options.
      */
-    public function __construct($names, $options = [])
+    public function __construct($names, $options = [], $labels =[])
     {
         // create necessary post type names
         $this->names($names);
 
         // set the options
         $this->options($options);
+
+		// set the labels
+        $this->labels($labels);
 
         // create a columns object
         $this->columns = new Columns();
@@ -174,8 +184,28 @@ class PostType
     public function options($options)
     {
 
+        // default options.
+        $defaults = [
+            'public' => true,
+            'rewrite' => [
+                'slug' => $this->slug,
+            ],
+        ];
+
+        // merge user submitted options with defaults.
+        $this->options = array_replace_recursive($defaults, $options);
+    }
+
+    /**
+     * Set the post type labels.
+     *
+     * @param array $labels an array of post type options
+     */
+    public function labels($labels = [])
+    {
+
         // default labels.
-        $labels = [
+        $defaults = [
             'name' => sprintf(__('%s', $this->textdomain), $this->plural),
             'singular_name' => sprintf(__('%s', $this->textdomain), $this->singular),
             'menu_name' => sprintf(__('%s', $this->textdomain), $this->plural),
@@ -191,17 +221,9 @@ class PostType
             'parent_item_colon' => sprintf(__('Parent %s:', $this->textdomain), $this->singular),
         ];
 
-        // default options.
-        $defaults = [
-            'labels' => $labels,
-            'public' => true,
-            'rewrite' => [
-                'slug' => $this->slug,
-            ],
-        ];
-
-        // merge user submitted options with defaults.
-        $this->options = array_replace_recursive($defaults, $options);
+        // merge user submitted labels with defaults.
+        $this->labels = array_replace_recursive($defaults, $labels);
+        $this->options['labels'] = $this->labels;
     }
 
     /**

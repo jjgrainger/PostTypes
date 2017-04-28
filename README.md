@@ -72,6 +72,20 @@ $books = new PostType('book', $options);
 
 All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
 
+#### Adding labels
+
+You can define the labels for the post type by passing an array as the third argument in the class constructor.
+
+```php
+$labels = [
+    'featured_image' => __( 'Book Cover Image' ),
+];
+
+$books = new PostType('book', $options, $labels);
+```
+
+All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
+
 #### Exisiting Post Types
 
 To work with exisiting post types simple pass the post type name into the object. Be careful using global variables (i.e `$post`) which can lead to unwanted results.
@@ -118,7 +132,7 @@ You can further customise taxonomies by passing an array of options as the secon
 
 ```php
 $options = [
-    'heirarchical' => false
+	'hierarchical' => false,
 ];
 
 $books->taxonomy('genre', $options);
@@ -186,7 +200,7 @@ $books->columns()->set([
 
 ###### Column Order
 
-After hiding and adding columns you may want to rearrange the column order. To do this use the `order()` method. You only have to pass through an array of the columns you want to reposition, not all of them. Their positions are based on a zero based index. 
+After hiding and adding columns you may want to rearrange the column order. To do this use the `order()` method. You only have to pass through an array of the columns you want to reposition, not all of them. Their positions are based on a zero based index.
 
 ```php
 $books->columns()->order([
@@ -231,7 +245,7 @@ $books->columns()->sortable([
 
 #### Menu Icons
 
-With WordPress 3.8 comes [Dashicons](https://developer.wordpress.org/resource/dashicons/) an icon font you can use with your custom post types. 
+With WordPress 3.8 comes [Dashicons](https://developer.wordpress.org/resource/dashicons/) an icon font you can use with your custom post types.
 
 ```php
 $books->icon('dashicons-book-alt');
@@ -267,4 +281,3 @@ $books->translation('your-textdomain');
 
 * [http://jjgrainger.co.uk](http://jjgrainger.co.uk)
 * [http://twitter.com/jjgrainger](http://twitter.com/jjgrainger)
-
