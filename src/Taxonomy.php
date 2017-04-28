@@ -72,10 +72,8 @@ class Taxonomy
         ];
 
         foreach ($required as $key) {
-
             // if the name has not been passed, generate it
             if (!isset($names[$key])) {
-
                 // if it is the singular/plural make the post type name human friendly
                 if ($key === 'singular' || $key === 'plural') {
                     $name = ucwords(strtolower(str_replace('-', ' ', str_replace('_', ' ', $names['name']))));
