@@ -8,7 +8,7 @@ class Taxonomy
      * The name of the taxonomy
      * @var string
      */
-    public $taxonomyName;
+    public $name;
 
     /**
      * The singular label
@@ -65,7 +65,7 @@ class Taxonomy
         }
 
         $required = [
-            // 'taxonomyName',
+            // 'name',
             'singular',
             'plural',
             'slug',

@@ -241,18 +241,12 @@ class PostType
             $names = ['name' => $names];
         }
 
-        // add taxonomy to the list
+        // add taxonomy name to the list
         $this->taxonomies[] = $names['name'];
 
-        // if taxonomy exists, just add the name
-        if (taxonomy_exists($names['name'])) {
-            $this->existingTaxonomies[] = $names['name'];
-
-        // else create a new taxonomy
-        } else {
-            $this->newTaxonomies[$names['name']] = new Taxonomy($names, $options);
-            $this->newTaxonomies[$names['name']]->textdomain($this->textdomain);
-        }
+        // create taxonomy and options for registering later
+        $this->addTaxonomies[$names['name']] = new Taxonomy($names, $options);
+        $this->addTaxonomies[$names['name']]->textdomain($this->textdomain);
     }
 
     /**
@@ -356,9 +350,20 @@ class PostType
      */
     public function registerTaxonomies()
     {
-        foreach ($this->newTaxonomies as $taxonomy_name => $tax) {
-            // register the taxonomy with Wordpress
-            register_taxonomy($taxonomy_name, $this->postTypeName, $tax->options);
+
+        // foreach taxonomy to register to the post type
+        foreach ($this->addTaxonomies as $name => $taxonomy) {
+
+            // if the taxonomy exists
+            if (taxonomy_exists($name)) {
+
+                // save the taxonomy name to register later
+                $this->existingTaxonomies[] = $name;
+            } else {
+
+                // create new taxonomy and add to the post
+                register_taxonomy($name, $this->postTypeName, $taxonomy->options);
+            }
         }
     }
 
@@ -367,7 +372,10 @@ class PostType
      */
     public function registerExistingTaxonomies()
     {
+        // foreach existing taxonomy
         foreach ($this->existingTaxonomies as $taxonomy_name) {
+
+            // register taxonomy to the post type
             register_taxonomy_for_object_type($taxonomy_name, $this->postTypeName);
         }
     }
