@@ -1,6 +1,8 @@
 # PostTypes v1.0
 
-Simple WordPress custom post types.
+[![Build Status](https://travis-ci.org/jjgrainger/PostTypes.svg?branch=master)](https://travis-ci.org/jjgrainger/PostTypes)
+
+> Simple WordPress custom post types.
 
 ## Installation
 
