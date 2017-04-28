@@ -105,7 +105,7 @@ class PostType
      * @param mixed $names   The name(s) of the post type, accepts (post type name, slug, plural, singular).
      * @param array $options User submitted options.
      */
-    public function __construct($names, $options = [])
+    public function __construct($names, $options = [], $labels =[])
     {
         // create necessary post type names
         $this->names($names);
@@ -113,7 +113,7 @@ class PostType
         // set the options
         $this->options($options);
 
-				// set the labels
+		// set the labels
         $this->labels($labels);
 
         // create a columns object
@@ -201,7 +201,7 @@ class PostType
      *
      * @param array $labels an array of post type options
      */
-    public function labels($labels)
+    public function labels($labels = [])
     {
 
         // default labels.
@@ -220,6 +220,7 @@ class PostType
             'not_found_in_trash' => sprintf(__('No %s found in Trash', $this->textdomain), $this->plural),
             'parent_item_colon' => sprintf(__('Parent %s:', $this->textdomain), $this->singular),
         ];
+
         // merge user submitted labels with defaults.
         $this->labels = array_replace_recursive($defaults, $labels);
         $this->options['labels'] = $this->labels;
