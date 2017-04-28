@@ -2,6 +2,17 @@
 
 namespace PostTypes;
 
+/**
+ * Taxonomy
+ *
+ * Used to help create taxonomies
+ *
+ * @link http://github.com/jjgrainger/PostTypes/
+ * @author  jjgrainger
+ * @link    http://jjgrainger.co.uk
+ * @version 1.1
+ * @license http://www.opensource.org/licenses/mit-license.html MIT License
+ */
 class Taxonomy
 {
     /**
