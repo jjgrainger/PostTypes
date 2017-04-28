@@ -2,13 +2,24 @@
 
 namespace PostTypes;
 
+/**
+ * Taxonomy
+ *
+ * Used to help create taxonomies
+ *
+ * @link http://github.com/jjgrainger/PostTypes/
+ * @author  jjgrainger
+ * @link    http://jjgrainger.co.uk
+ * @version 1.1
+ * @license http://www.opensource.org/licenses/mit-license.html MIT License
+ */
 class Taxonomy
 {
     /**
      * The name of the taxonomy
      * @var string
      */
-    public $taxonomyName;
+    public $name;
 
     /**
      * The singular label
@@ -65,17 +76,15 @@ class Taxonomy
         }
 
         $required = [
-            // 'taxonomyName',
+            // 'name',
             'singular',
             'plural',
             'slug',
         ];
 
         foreach ($required as $key) {
-
             // if the name has not been passed, generate it
             if (!isset($names[$key])) {
-
                 // if it is the singular/plural make the post type name human friendly
                 if ($key === 'singular' || $key === 'plural') {
                     $name = ucwords(strtolower(str_replace('-', ' ', str_replace('_', ' ', $names['name']))));

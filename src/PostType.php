@@ -7,10 +7,10 @@ namespace PostTypes;
  *
  * Used to help manage a post types columns in the admin table
  *
- * @link http://github.com/jjgrainger/wp-custom-post-type-class/
+ * @link http://github.com/jjgrainger/PostTypes/
  * @author  jjgrainger
  * @link    http://jjgrainger.co.uk
- * @version 1.4
+ * @version 1.1
  * @license http://www.opensource.org/licenses/mit-license.html MIT License
  */
 class PostType
@@ -49,6 +49,13 @@ class PostType
      * @var array
      */
     public $options;
+
+    /**
+     * The labels passed for the post type.
+     *
+     * @var array
+     */
+    public $labels;
 
     /**
      * An array of taxonomy names attached to the post type.
@@ -98,13 +105,16 @@ class PostType
      * @param mixed $names   The name(s) of the post type, accepts (post type name, slug, plural, singular).
      * @param array $options User submitted options.
      */
-    public function __construct($names, $options = [])
+    public function __construct($names, $options = [], $labels = [])
     {
         // create necessary post type names
         $this->names($names);
 
         // set the options
         $this->options($options);
+
+        // set the labels
+        $this->labels($labels);
 
         // create a columns object
         $this->columns = new Columns();
@@ -138,10 +148,8 @@ class PostType
         ];
 
         foreach ($required as $key) {
-
             // if the name has not been passed, generate it
             if (!isset($names[$key])) {
-
                 // if it is the singular/plural make the post type name human friendly
                 if ($key === 'singular' || $key === 'plural') {
                     $name = ucwords(strtolower(str_replace(['-', '_'], ' ', $this->postTypeName)));
@@ -174,8 +182,28 @@ class PostType
     public function options($options)
     {
 
+        // default options.
+        $defaults = [
+            'public' => true,
+            'rewrite' => [
+                'slug' => $this->slug,
+            ],
+        ];
+
+        // merge user submitted options with defaults.
+        $this->options = array_replace_recursive($defaults, $options);
+    }
+
+    /**
+     * Set the post type labels.
+     *
+     * @param array $labels an array of post type options
+     */
+    public function labels($labels = [])
+    {
+
         // default labels.
-        $labels = [
+        $defaults = [
             'name' => sprintf(__('%s', $this->textdomain), $this->plural),
             'singular_name' => sprintf(__('%s', $this->textdomain), $this->singular),
             'menu_name' => sprintf(__('%s', $this->textdomain), $this->plural),
@@ -191,17 +219,9 @@ class PostType
             'parent_item_colon' => sprintf(__('Parent %s:', $this->textdomain), $this->singular),
         ];
 
-        // default options.
-        $defaults = [
-            'labels' => $labels,
-            'public' => true,
-            'rewrite' => [
-                'slug' => $this->slug,
-            ],
-        ];
-
-        // merge user submitted options with defaults.
-        $this->options = array_replace_recursive($defaults, $options);
+        // merge user submitted labels with defaults.
+        $this->labels = array_replace_recursive($defaults, $labels);
+        $this->options['labels'] = $this->labels;
     }
 
     /**
@@ -219,18 +239,12 @@ class PostType
             $names = ['name' => $names];
         }
 
-        // add taxonomy to the list
+        // add taxonomy name to the list
         $this->taxonomies[] = $names['name'];
 
-        // if taxonomy exists, just add the name
-        if (taxonomy_exists($names['name'])) {
-            $this->existingTaxonomies[] = $names['name'];
-
-        // else create a new taxonomy
-        } else {
-            $this->newTaxonomies[$names['name']] = new Taxonomy($names, $options);
-            $this->newTaxonomies[$names['name']]->textdomain($this->textdomain);
-        }
+        // create taxonomy and options for registering later
+        $this->addTaxonomies[$names['name']] = new Taxonomy($names, $options);
+        $this->addTaxonomies[$names['name']]->textdomain($this->textdomain);
     }
 
     /**
@@ -323,7 +337,6 @@ class PostType
     {
         // check that the post type doesn't already exist.
         if (!post_type_exists($this->postTypeName)) {
-
             // register the post type.
             register_post_type($this->postTypeName, $this->options);
         }
@@ -334,9 +347,16 @@ class PostType
      */
     public function registerTaxonomies()
     {
-        foreach ($this->newTaxonomies as $taxonomy_name => $tax) {
-            // register the taxonomy with Wordpress
-            register_taxonomy($taxonomy_name, $this->postTypeName, $tax->options);
+        // foreach taxonomy to register to the post type
+        foreach ($this->addTaxonomies as $name => $taxonomy) {
+            // if the taxonomy exists
+            if (taxonomy_exists($name)) {
+                // save the taxonomy name to register later
+                $this->existingTaxonomies[] = $name;
+            } else {
+                // create new taxonomy and add to the post
+                register_taxonomy($name, $this->postTypeName, $taxonomy->options);
+            }
         }
     }
 
@@ -345,7 +365,9 @@ class PostType
      */
     public function registerExistingTaxonomies()
     {
+        // foreach existing taxonomy
         foreach ($this->existingTaxonomies as $taxonomy_name) {
+            // register taxonomy to the post type
             register_taxonomy_for_object_type($taxonomy_name, $this->postTypeName);
         }
     }
@@ -363,7 +385,6 @@ class PostType
 
         // must set this to the post type you want the filter(s) displayed on.
         if ($postType == $this->postTypeName) {
-
             // if we have user supplied filters use them
             if (!empty($this->filters)) {
                 $filters = $this->filters;
@@ -377,7 +398,6 @@ class PostType
 
             // foreach of the taxonomies we want to create filters for
             foreach ($filters as $taxonomy_name) {
-
                 // object for taxonomy, doesn't contain the terms
                 $tax = get_taxonomy($taxonomy_name);
 
@@ -402,7 +422,8 @@ class PostType
                     foreach ($terms as $term) {
                         // if filtered by this term make it selected
                         if (isset($_GET[$taxonomy_name]) && $_GET[$taxonomy_name] === $term->slug) {
-                            printf('<option value="%s" selected="selected">%s (%s)</option>', $term->slug, $term->name, $term->count);
+                            $format = '<option value="%s" selected="selected">%s (%s)</option>';
+                            printf($format, $term->slug, $term->name, $term->count);
                         // create option for taxonomy
                         } else {
                             printf('<option value="%s">%s (%s)</option>', $term->slug, $term->name, $term->count);
@@ -445,17 +466,23 @@ class PostType
             // create a new columns array
             $newColumns = [];
 
+            // cycle through the current columns
             foreach ($columns as $key => $label) {
+                // add columsn to new columns array
                 $newColumns[$key] = $label;
 
+                // if this column is where the taxonomies come after
                 if ($key === $after) {
+                    // cycle through taxonomies
                     foreach ($this->taxonomies as $taxonomy) {
+                        // if is a custom taxonomy
                         if ($taxonomy !== 'category' && $taxonomy !== 'post_tag') {
                             // get the taxonomy object for labels
                             $taxonomy_object = get_taxonomy($taxonomy);
+                            $label = $taxonomy_object->labels->name;
 
                             // column key is the slug, value is friendly name
-                            $newColumns[$taxonomy] = sprintf(__('%s', $this->textdomain), $taxonomy_object->labels->name);
+                            $newColumns[$taxonomy] = sprintf(__('%s', $this->textdomain), $label);
                         }
                     }
                 }
@@ -467,14 +494,14 @@ class PostType
 
         // if user has made added custom columns
         foreach ($this->columns()->add as $key => $label) {
-
             // if user has assigned a custom position
             if (isset($this->columns()->positions[$key])) {
+                // get the position
                 $position = $this->columns()->positions[$key];
-
+                // split columns array into two
                 $start = array_slice($columns, 0, $position, true);
                 $end = array_slice($columns, $position, count($columns) - 1, true);
-
+                // insert column between two parts
                 $columns = $start + [$key => $label] + $end;
             } else {
                 $columns[$key] = $label;
@@ -520,7 +547,6 @@ class PostType
 
                     // loop through each term, linking to the 'edit posts' page for the specific term
                     foreach ($terms as $term) {
-
                         // output is an array of terms associated with the post
                         $output[] = sprintf(
                             '<a href="%s">%s</a>', // Define link format
@@ -545,7 +571,7 @@ class PostType
             case 'post_id':
                 echo $post->ID;
                 break;
-            // if the column is prepended with 'meta_', this will automagically retrieve the meta values and display them
+            // if the column is prepended with 'meta_', retrieve the meta values and display them
             case preg_match('/^meta_/', $column) ? true : false:
                 // meta_book_author (meta key = book_author)
                 $x = substr($column, 5);
@@ -567,7 +593,11 @@ class PostType
                     echo '</a>';
                 } else {
                     // display default media image with link
-                    echo '<a href="'.$link.'"><img src="'.site_url('/wp-includes/images/crystal/default.png').'" alt="'.$post->post_title.'" /></a>';
+                    $image = site_url('/wp-includes/images/crystal/default.png');
+
+                    echo '<a href="'.$link.'">';
+                    echo '<img src="'.$image.'" alt="'.$post->post_title.'" />';
+                    echo '</a>';
                 }
                 break;
         }
@@ -613,7 +643,6 @@ class PostType
     {
         // cycle through all sortable columns submitted by the user
         foreach ($this->columns()->sortable as $column => $values) {
-
             // retrieve the meta key from the user submitted array of sortable columns
             $meta_key = $values[0];
 
@@ -663,13 +692,21 @@ class PostType
         $post = get_post();
         $singular = $this->singular;
 
+        $revision = false;
+
+        if (isset($_GET['revision'])) {
+            $revision_title = wp_post_revision_title((int) $_GET['revision'], false);
+            $message = __('%2$s restored to revision from %1$s', $this->textdomain);
+            $revision = sprintf($message, $revision_title, $singular);
+        }
+
         $messages[$this->postTypeName] = [
             0 => '',
             1 => sprintf(__('%s updated.', $this->textdomain), $singular),
             2 => __('Custom field updated.', $this->textdomain),
             3 => __('Custom field deleted.', $this->textdomain),
             4 => sprintf(__('%s updated.', $this->textdomain), $singular),
-            5 => isset($_GET['revision']) ? sprintf(__('%2$s restored to revision from %1$s', $this->textdomain), wp_post_revision_title((int) $_GET['revision'], false), $singular) : false,
+            5 => $revision,
             6 => sprintf(__('%s updated.', $this->textdomain), $singular),
             7 => sprintf(__('%s saved.', $this->textdomain), $singular),
             8 => sprintf(__('%s submitted.', $this->textdomain), $singular),
@@ -697,11 +734,31 @@ class PostType
         $plural = $this->plural;
 
         $bulk_messages[$this->postTypeName] = [
-            'updated' => _n('%s '.$singular.' updated.', '%s '.$plural.' updated.', $bulk_counts['updated']),
-            'locked' => _n('%s '.$singular.' not updated, somebody is editing it.', '%s '.$plural.' not updated, somebody is editing them.', $bulk_counts['locked']),
-            'deleted' => _n('%s '.$singular.' permanently deleted.', '%s '.$plural.' permanently deleted.', $bulk_counts['deleted']),
-            'trashed' => _n('%s '.$singular.' moved to the Trash.', '%s '.$plural.' moved to the Trash.', $bulk_counts['trashed']),
-            'untrashed' => _n('%s '.$singular.' restored from the Trash.', '%s '.$plural.' restored from the Trash.', $bulk_counts['untrashed']),
+            'updated' => _n(
+                '%s '.$singular.' updated.',
+                '%s '.$plural.' updated.',
+                $bulk_counts['updated']
+            ),
+            'locked' => _n(
+                '%s '.$singular.' not updated, somebody is editing it.',
+                '%s '.$plural.' not updated, somebody is editing them.',
+                $bulk_counts['locked']
+            ),
+            'deleted' => _n(
+                '%s '.$singular.' permanently deleted.',
+                '%s '.$plural.' permanently deleted.',
+                $bulk_counts['deleted']
+            ),
+            'trashed' => _n(
+                '%s '.$singular.' moved to the Trash.',
+                '%s '.$plural.' moved to the Trash.',
+                $bulk_counts['trashed']
+            ),
+            'untrashed' => _n(
+                '%s '.$singular.' restored from the Trash.',
+                '%s '.$plural.' restored from the Trash.',
+                $bulk_counts['untrashed']
+            ),
         ];
 
         return $bulk_messages;
