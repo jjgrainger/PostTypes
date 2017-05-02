@@ -69,7 +69,7 @@ class PostType
      *
      * @var array
      */
-    public $newTaxonomies = [];
+    public $addTaxonomies = [];
 
     /**
      * An array of existing taxonomies attached to the class.
