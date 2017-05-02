@@ -1,4 +1,4 @@
-# PostTypes v1.1
+# PostTypes v1.1.1
 
 [![Build Status](https://travis-ci.org/jjgrainger/PostTypes.svg?branch=master)](https://travis-ci.org/jjgrainger/PostTypes)
 
