@@ -6,6 +6,7 @@ php:
     - hhvm
 script:
     - ./vendor/bin/phpcs --standard=PSR2 src
+    - ./vendor/bin/phpunit
 before_script:
     - composer self-update
     - composer install --dev --no-interaction --prefer-source
