@@ -191,7 +191,7 @@ class PostTypeTest extends TestCase
             'public' => true,
             'labels' => $this->books->createLabels(),
             'rewrite' => [
-                'slug' => $this->slug
+                'slug' => $this->books->slug
             ]
         ];
 
