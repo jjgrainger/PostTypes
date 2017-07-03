@@ -221,4 +221,44 @@ class PostTypeTest extends TestCase
 
         $this->assertEquals($labels, $defaults);
     }
+
+    /** @test */
+    public function filtersAreEmptyIfNotSetAndNoTaxonomies()
+    {
+        $filters = $this->books->getFilters();
+
+        $this->assertEquals($filters, []);
+    }
+
+    public function filtersAreSameAsTaxonomyIfNotSet()
+    {
+        $this->books->taxonomy('genre');
+
+        $filters = $this->books->getFilters();
+
+        $this->assertEquals($filters, ['genre']);
+    }
+
+    /** @test */
+    public function filtersAreWhatAssignedIfPassed()
+    {
+        $this->books->filters(['genre', 'published']);
+
+        $this->books->taxonomy('genre');
+
+        $filters = $this->books->getFilters();
+
+        $this->assertEquals($filters, ['genre', 'published']);
+    }
+
+    public function filtersAreEmptyIfSetWithEmptyArray()
+    {
+        $this->books->filters([]);
+
+        $this->books->taxonomy('gener');
+
+        $filters = $this->books->getFilters();
+
+        $this->assertEquals($filters, []);
+    }
 }

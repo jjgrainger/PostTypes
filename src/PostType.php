@@ -231,6 +231,9 @@ class PostType
 
         // register Taxonomies to the PostType
         add_action('init', [&$this, 'registerTaxonomies']);
+
+        // modify filters on the admin edit screen
+        add_action('restrict_manage_posts', [&$this, 'modifyFilters']);
     }
 
     /**
@@ -357,9 +360,99 @@ class PostType
     public function registerTaxonomies()
     {
         if (!empty($this->taxonomies)) {
-            foreach($this->taxonomies as $taxonomy) {
+            foreach ($this->taxonomies as $taxonomy) {
                 register_taxonomy_for_object_type($taxonomy, $this->name);
             }
         }
+    }
+
+    /**
+     * Modify and display filters on the admin edit screen
+     * @param  string $posttype The current screen post type
+     * @return void
+     */
+    public function modifyFilters($posttype)
+    {
+        // first check we are working with the this PostType
+        if ($posttype === $this->name) {
+            // calculate what filters to add
+            $filters = $this->getFilters();
+
+            foreach ($filters as $taxonomy) {
+                // if the taxonomy doesn't exist, ignore it
+                if (!taxonomy_exists($taxonomy)) {
+                    continue;
+                }
+
+                // get the taxonomy object
+                $tax = get_taxonomy($taxonomy);
+
+                // get the terms for the taxonomy
+                $terms = get_terms([
+                    'taxonomy' => $taxonomy,
+                    'orderby' => 'name',
+                    'hide_empty' => false,
+                ]);
+
+                // if there are no terms in the taxonomy, ignore it
+                if (empty($terms)) {
+                    continue;
+                }
+
+                // start the html for the filter dropdown
+                $dropdown = sprintf(' &nbsp;<select name="%s" class="postform">', $taxonomy);
+
+                // set 'Show all' option
+                $dropdown .= sprintf('<option value="0">%s</option>', "Show all {$tax->label}");
+
+                // create option for each taxonomy tern
+                foreach ($terms as $term) {
+                    $selected = '';
+                    // if the current term is active, add selected attribute
+                    if (isset($_GET[$taxonomy]) && $_GET[$taxonomy] === $term->slug) {
+                        $selected = ' selected="selected"';
+                    }
+
+                    // html for term option
+                    $dropdown .= sprintf(
+                        '<option value="%s"%s>%s (%s)</option>',
+                        $term->slug,
+                        $selected,
+                        $term->name,
+                        $term->count
+                    );
+                }
+
+                // end the select field
+                $dropdown .= '</select>&nbsp;';
+
+                // display the dropdown filter
+                echo $dropdown;
+            }
+        }
+    }
+
+    /**
+     * Calculate the filters for the PostType
+     * @return array
+     */
+    public function getFilters()
+    {
+        // default filters are empty
+        $filters = [];
+
+        // if custom filters have been set, use them
+        if (!is_null($this->filters)) {
+            return $this->filters;
+        }
+
+        // if no custom filters have been set, and there are
+        // Taxonomies assigned to the PostType
+        if (is_null($this->filters) && !empty($this->taxonomies)) {
+            // create filters for each taxonomy assigned to the PostType
+            return $this->taxonomies;
+        }
+
+        return $filters;
     }
 }
