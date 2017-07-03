@@ -52,6 +52,12 @@ class PostType
     public $icon;
 
     /**
+     * The textdomain for translations
+     * @var string
+     */
+    public $textdomain = 'cpt';
+
+    /**
      * Create a PostType
      * @param mixed $names   A string for the name, or an array of names
      * @param array $options An array of options for the PostType
@@ -115,7 +121,7 @@ class PostType
      * @param  string $taxonomy The Taxonomy name to add
      * @return $this
      */
-    public function taxonomy(string $taxonomy)
+    public function taxonomy($taxonomy)
     {
         $this->taxonomies[] = $taxonomy;
 
@@ -139,7 +145,7 @@ class PostType
      * @param  string $icon A dashicon class for the menu icon
      * @return $this
      */
-    public function icon(string $icon)
+    public function icon($icon)
     {
         $this->icon = $icon;
 
@@ -155,5 +161,17 @@ class PostType
     public function flush($hard = true)
     {
         flush_rewrite_rules($hard);
+    }
+
+    /**
+     * Set the textdomain for translations
+     * @param  string $textdomain
+     * @return $this;
+     */
+    public function translation($textdomain)
+    {
+        $this->textdomain = $textdomain;
+
+        return $this;
     }
 }
