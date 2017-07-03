@@ -145,4 +145,15 @@ class PostType
 
         return $this;
     }
+
+    /**
+     * Flush rewrite rules
+     * @link https://codex.wordpress.org/Function_Reference/flush_rewrite_rules
+     * @param  boolean $hard
+     * @return void
+     */
+    public function flush($hard = true)
+    {
+        flush_rewrite_rules($hard);
+    }
 }
