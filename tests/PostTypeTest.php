@@ -55,4 +55,24 @@ class PostTypeTest extends TestCase
 
         $this->assertEquals($books->options, $options);
     }
+
+    /** @test */
+    public function hasLabelsOnInstantiation()
+    {
+        $books = new PostType('books');
+
+        $this->assertEquals($books->labels, []);
+    }
+
+    public function hasCustomLabelsOnInstantiation()
+    {
+        $labels = [
+            'name' => 'Books',
+            'add_new' => 'Add New Book'
+        ];
+
+        $books = new PostType('books', [], $labels);
+
+        $this->assertEquals($books->labels, $labels);
+    }
 }

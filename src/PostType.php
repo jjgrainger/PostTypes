@@ -28,17 +28,26 @@ class PostType
     public $options;
 
     /**
+     * Labels for the PostType
+     * @var array
+     */
+    public $labels;
+
+    /**
      * Create a PostType
      * @param mixed $names   A string for the name, or an array of names
      * @param array $options An array of options for the PostType
      */
-    public function __construct($names, $options = [])
+    public function __construct($names, $options = [], $labels = [])
     {
-        // assign names to the post type
+        // assign names to the PostType
         $this->names($names);
 
-        // assign custom options to the post type
+        // assign custom options to the PostType
         $this->options($options);
+
+        // assign labels to the PostType
+        $this->labels($labels);
     }
 
     /**
@@ -67,6 +76,18 @@ class PostType
     public function options(array $options)
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Set the labels for the PostType
+     * @param  array $labels An array of labels for the PostType
+     * @return $this
+     */
+    public function labels(array $labels)
+    {
+        $this->labels = $labels;
 
         return $this;
     }
