@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PostTypes\PostType;
+use PostTypes\Columns;
 
 class PostTypeTest extends TestCase
 {
@@ -134,5 +135,17 @@ class PostTypeTest extends TestCase
         $books->translation('my_textdomain');
 
         $this->assertEquals($books->textdomain, 'my_textdomain');
+    }
+
+    /** @test */
+    public function columnsIsNullOnInstantiation()
+    {
+        $this->assertEquals($this->books->columns, null);
+    }
+
+    /** @test */
+    public function columnsReturnsInstanceOfColumns()
+    {
+        $this->assertInstanceOf(Columns::class, $this->books->columns());
     }
 }

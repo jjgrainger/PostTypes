@@ -2,6 +2,8 @@
 
 namespace PostTypes;
 
+use PostTypes\Columns;
+
 /**
  * PostType
  *
@@ -56,6 +58,12 @@ class PostType
      * @var string
      */
     public $textdomain = 'cpt';
+
+    /**
+     * The column manager for the PostType
+     * @var mixed
+     */
+    public $columns;
 
     /**
      * Create a PostType
@@ -173,5 +181,18 @@ class PostType
         $this->textdomain = $textdomain;
 
         return $this;
+    }
+
+    /**
+     * Get the Column Manager for the PostType
+     * @return Columns
+     */
+    public function columns()
+    {
+        if (!isset($this->columns)) {
+            $this->columns = new Columns;
+        }
+
+        return $this->columns;
     }
 }
