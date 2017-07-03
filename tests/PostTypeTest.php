@@ -104,4 +104,20 @@ class PostTypeTest extends TestCase
 
         $this->assertEquals($books->filters, ['genre']);
     }
+
+    /** @test */
+    public function iconNullOnInstantiation()
+    {
+        $this->assertNull($this->books->icon);
+    }
+
+    /** @test */
+    public function hasIconWhenSet()
+    {
+        $books = $this->books;
+
+        $books->icon('dashicon-book-alt');
+
+        $this->assertEquals($books->icon, 'dashicon-book-alt');
+    }
 }

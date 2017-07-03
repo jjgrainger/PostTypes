@@ -46,6 +46,12 @@ class PostType
     public $filters;
 
     /**
+     * The menu icon for the PostType
+     * @var string
+     */
+    public $icon;
+
+    /**
      * Create a PostType
      * @param mixed $names   A string for the name, or an array of names
      * @param array $options An array of options for the PostType
@@ -109,7 +115,7 @@ class PostType
      * @param  string $taxonomy The Taxonomy name to add
      * @return $this
      */
-    public function taxonomy($taxonomy)
+    public function taxonomy(string $taxonomy)
     {
         $this->taxonomies[] = $taxonomy;
 
@@ -124,6 +130,18 @@ class PostType
     public function filters(array $filters)
     {
         $this->filters = $filters;
+
+        return $this;
+    }
+
+    /**
+     * Set the menu icon for the PostType
+     * @param  string $icon A dashicon class for the menu icon
+     * @return $this
+     */
+    public function icon(string $icon)
+    {
+        $this->icon = $icon;
 
         return $this;
     }
