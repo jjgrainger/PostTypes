@@ -89,4 +89,19 @@ class PostTypeTest extends TestCase
         $this->assertEquals($books->taxonomies, ['genre']);
     }
 
+    /** @test */
+    public function filtersNullOnInstantiation()
+    {
+        $this->assertNull($this->books->filters);
+    }
+
+    /** @test */
+    public function hasFiltersWhenAdded()
+    {
+        $books = $this->books;
+
+        $books->filters(['genre']);
+
+        $this->assertEquals($books->filters, ['genre']);
+    }
 }

@@ -40,6 +40,12 @@ class PostType
     public $taxonomies = [];
 
     /**
+     * Filters for the PostType
+     * @var mixed
+     */
+    public $filters;
+
+    /**
      * Create a PostType
      * @param mixed $names   A string for the name, or an array of names
      * @param array $options An array of options for the PostType
@@ -106,6 +112,18 @@ class PostType
     public function taxonomy($taxonomy)
     {
         $this->taxonomies[] = $taxonomy;
+
+        return $this;
+    }
+
+    /**
+     * Add filters to the PostType
+     * @param  array $filters An array of Taxonomy filters
+     * @return $this
+     */
+    public function filters(array $filters)
+    {
+        $this->filters = $filters;
 
         return $this;
     }
