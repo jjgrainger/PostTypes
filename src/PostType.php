@@ -195,4 +195,13 @@ class PostType
 
         return $this->columns;
     }
+
+    /**
+     * Register the PostType to WordPress
+     * @return void
+     */
+    public function register()
+    {
+        //
+    }
 }
