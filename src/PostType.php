@@ -34,6 +34,12 @@ class PostType
     public $labels;
 
     /**
+     * Taxonomies for the PostType
+     * @var array
+     */
+    public $taxonomies = [];
+
+    /**
      * Create a PostType
      * @param mixed $names   A string for the name, or an array of names
      * @param array $options An array of options for the PostType
@@ -88,6 +94,18 @@ class PostType
     public function labels(array $labels)
     {
         $this->labels = $labels;
+
+        return $this;
+    }
+
+    /**
+     * Add a Taxonomy to the PostType
+     * @param  string $taxonomy The Taxonomy name to add
+     * @return $this
+     */
+    public function taxonomy($taxonomy)
+    {
+        $this->taxonomies[] = $taxonomy;
 
         return $this;
     }

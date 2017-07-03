@@ -5,20 +5,21 @@ use PostTypes\PostType;
 
 class PostTypeTest extends TestCase
 {
+    public function setUp() {
+        // setup basic PostType
+        $this->books = new PostType('book');
+    }
+
     /** @test */
     public function canCreatePostType()
     {
-        $books = new PostType('book');
-
-        $this->assertInstanceOf(PostType::class, $books);
+        $this->assertInstanceOf(PostType::class, $this->books);
     }
 
     /** @test */
     public function hasNameOnInstantiation()
     {
-        $books = new PostType('book');
-
-        $this->assertEquals($books->names['name'], 'book');
+        $this->assertEquals($this->books->names['name'], 'book');
     }
 
     /** @test */
@@ -39,9 +40,7 @@ class PostTypeTest extends TestCase
     /** @test */
     public function hasOptionsOnInstantiation()
     {
-        $books = new PostType('books');
-
-        $this->assertEquals($books->options, []);
+        $this->assertEquals($this->books->options, []);
     }
 
     /** @test */
@@ -59,9 +58,7 @@ class PostTypeTest extends TestCase
     /** @test */
     public function hasLabelsOnInstantiation()
     {
-        $books = new PostType('books');
-
-        $this->assertEquals($books->labels, []);
+        $this->assertEquals($this->books->labels, []);
     }
 
     public function hasCustomLabelsOnInstantiation()
@@ -75,4 +72,21 @@ class PostTypeTest extends TestCase
 
         $this->assertEquals($books->labels, $labels);
     }
+
+    /** @test */
+    public function taxonomiesEmptyOnInstantiation()
+    {
+        $this->assertEquals($this->books->taxonomies, []);
+    }
+
+    /** @test */
+    public function hasCustomTaxonomiesWhenPassed()
+    {
+        $books = $this->books;
+
+        $books->taxonomy('genre');
+
+        $this->assertEquals($books->taxonomies, ['genre']);
+    }
+
 }
