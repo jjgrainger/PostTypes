@@ -21,5 +21,11 @@
     },
     "autoload": {
         "psr-4": { "PostTypes\\": "src/" }
+    },
+    "scripts": {
+        "test": [
+            "phpcs --standard=psr2 src",
+            "phpunit"
+        ]
     }
 }
