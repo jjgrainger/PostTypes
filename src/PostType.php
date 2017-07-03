@@ -228,6 +228,9 @@ class PostType
     {
         // register the PostType
         add_action('init', [&$this, 'registerPostType']);
+
+        // register Taxonomies to the PostType
+        add_action('init', [&$this, 'registerTaxonomies']);
     }
 
     /**
@@ -345,5 +348,18 @@ class PostType
         ];
 
         return array_replace_recursive($labels, $this->labels);
+    }
+
+    /**
+     * Register Taxonomies to the PostType
+     * @return void
+     */
+    public function registerTaxonomies()
+    {
+        if (!empty($this->taxonomies)) {
+            foreach($this->taxonomies as $taxonomy) {
+                register_taxonomy_for_object_type($taxonomy, $this->name);
+            }
+        }
     }
 }
