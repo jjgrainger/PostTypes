@@ -148,4 +148,35 @@ class PostTypeTest extends TestCase
     {
         $this->assertInstanceOf(Columns::class, $this->books->columns());
     }
+
+    /** @test */
+    public function namesCreatedFromName()
+    {
+        $this->books->createNames();
+
+        $this->assertEquals($this->books->name, 'book');
+        $this->assertEquals($this->books->singular, 'Book');
+        $this->assertEquals($this->books->plural, 'Books');
+        $this->assertEquals($this->books->slug, 'books');
+    }
+
+    /** @test */
+    public function passedNamesAreUsed()
+    {
+        $names = [
+            'name' => 'book',
+            'singular' => 'Single Book',
+            'plural' => 'Multiple Books',
+            'slug' => 'slug_books',
+        ];
+
+        $this->books->names($names);
+
+        $this->books->createNames();
+
+        $this->assertEquals($this->books->name, 'book');
+        $this->assertEquals($this->books->singular, 'Single Book');
+        $this->assertEquals($this->books->plural, 'Multiple Books');
+        $this->assertEquals($this->books->slug, 'slug_books');
+    }
 }

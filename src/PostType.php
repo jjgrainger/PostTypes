@@ -18,10 +18,34 @@ use PostTypes\Columns;
 class PostType
 {
     /**
-     * Various names for the PostType
+     * The names passed to the PostType
      * @var array
      */
     public $names;
+
+    /**
+     * The name for the PostType
+     * @var array
+     */
+    public $name;
+
+    /**
+     * The singular for the PostType
+     * @var array
+     */
+    public $singular;
+
+    /**
+     * The plural name for the PostType
+     * @var array
+     */
+    public $plural;
+
+    /**
+     * The slug for the PostType
+     * @var array
+     */
+    public $slug;
 
     /**
      * Options for the PostType
@@ -202,6 +226,68 @@ class PostType
      */
     public function register()
     {
-        //
+        // register the PostType
+        add_action('init', [&$this, 'registerPostType']);
+    }
+
+    /**
+     * Register the PostType
+     * @return void
+     */
+    public function registerPostType()
+    {
+        // create names for the PostType
+        $this->createNames();
+
+        // create options for the PostType
+        $options = $this->createOptions();
+
+        // check that the post type doesn't already exist
+        if (!post_type_exists($this->name)) {
+            // register the post type
+            register_post_type($this->name, $this->options);
+        }
+    }
+
+    /**
+     * Create the required names for the PostType
+     * @return void
+     */
+    public function createNames()
+    {
+        // names required for the PostType
+        $required = [
+            'name',
+            'singular',
+            'plural',
+            'slug',
+        ];
+
+        foreach ($required as $key) {
+            // if the name is set, assign it
+            if (isset($this->names[$key])) {
+                $this->$key = $this->names[$key];
+                continue;
+            }
+
+            // if the key is not set and is singular or plural
+            if (in_array($key, ['singular', 'plural'])) {
+                // create a human friendly name
+                $name = ucwords(strtolower(str_replace(['-', '_'], ' ', $this->names['name'])));
+            }
+
+            if ($key === 'slug') {
+                // create a slug friendly name
+                $name = strtolower(str_replace([' ', '_'], '-', $this->names['name']));
+            }
+
+            // if is plural or slug, append an 's'
+            if (in_array($key, ['plural', 'slug'])) {
+                $name .= 's';
+            }
+
+            // asign the name to the PostType property
+            $this->$key = $name;
+        }
     }
 }
