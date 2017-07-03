@@ -22,15 +22,30 @@ class PostType
     public $names;
 
     /**
-     * Create a PostType
-     * @param mixed  $names   String for the PostType name, or array for all names
+     * Options for the PostType
+     * @var array
      */
-    public function __construct($names)
+    public $options;
+
+    /**
+     * Create a PostType
+     * @param mixed $names   A string for the name, or an array of names
+     * @param array $options An array of options for the PostType
+     */
+    public function __construct($names, $options = [])
     {
         // assign names to the post type
         $this->names($names);
+
+        // assign custom options to the post type
+        $this->options($options);
     }
 
+    /**
+     * Set the names for the PostType
+     * @param  mixed $names A string for the name, or an array of names
+     * @return $this
+     */
     public function names($names)
     {
         // only the post type name is passed
@@ -40,5 +55,19 @@ class PostType
 
         // set the names array
         $this->names = $names;
+
+        return $this;
+    }
+
+    /**
+     * Set the options for the PostType
+     * @param  array $options An array of options for the PostType
+     * @return $this
+     */
+    public function options(array $options)
+    {
+        $this->options = $options;
+
+        return $this;
     }
 }

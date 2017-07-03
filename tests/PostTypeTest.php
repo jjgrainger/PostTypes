@@ -20,4 +20,39 @@ class PostTypeTest extends TestCase
 
         $this->assertEquals($books->names['name'], 'book');
     }
+
+    /** @test */
+    public function hasNamesOnInstantiation()
+    {
+        $names = [
+            'name' => 'book',
+            'singular' => 'Book',
+            'plural' => 'Books',
+            'slug' => 'books'
+        ];
+
+        $books = new PostType($names);
+
+        $this->assertEquals($books->names, $names);
+    }
+
+    /** @test */
+    public function hasOptionsOnInstantiation()
+    {
+        $books = new PostType('books');
+
+        $this->assertEquals($books->options, []);
+    }
+
+    /** @test */
+    public function hasCustomOptionsOnInstantiation()
+    {
+        $options = [
+            'public' => true
+        ];
+
+        $books = new PostType('books', $options);
+
+        $this->assertEquals($books->options, $options);
+    }
 }
