@@ -179,4 +179,46 @@ class PostTypeTest extends TestCase
         $this->assertEquals($this->books->plural, 'Multiple Books');
         $this->assertEquals($this->books->slug, 'slug_books');
     }
+
+    /** @test */
+    public function defaultOptionsUsedIfNotSet()
+    {
+        // generated options
+        $options = $this->books->createOptions();
+
+        // expected options
+        $defaults = [
+            'public' => true,
+            'labels' => $this->books->createLabels(),
+            'rewrite' => [
+                'slug' => $this->slug
+            ]
+        ];
+
+        $this->assertEquals($options, $defaults);
+    }
+
+    /** @test */
+    public function defaultLabelsAreGenerated()
+    {
+        $labels = $this->books->createLabels();
+
+        $defaults = [
+            'name' => $this->books->plural,
+            'singular_name' => $this->books->singular,
+            'menu_name' => $this->books->plural,
+            'all_items' => $this->books->plural,
+            'add_new' => "Add New",
+            'add_new_item' => "Add New {$this->books->singular}",
+            'edit_item' => "Edit {$this->books->singular}",
+            'new_item' => "New {$this->books->singular}",
+            'view_item' => "View {$this->books->singular}",
+            'search_items' => "Search {$this->books->plural}",
+            'not_found' => "No {$this->books->plural} found",
+            'not_found_in_trash' => "No {$this->books->plural} found in Trash",
+            'parent_item_colon' => "Parent {$this->books->singular}:",
+        ];
+
+        $this->assertEquals($labels, $defaults);
+    }
 }

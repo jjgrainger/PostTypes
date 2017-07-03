@@ -245,7 +245,7 @@ class PostType
         // check that the post type doesn't already exist
         if (!post_type_exists($this->name)) {
             // register the post type
-            register_post_type($this->name, $this->options);
+            register_post_type($this->name, $options);
         }
     }
 
@@ -289,5 +289,61 @@ class PostType
             // asign the name to the PostType property
             $this->$key = $name;
         }
+    }
+
+    /**
+     * Create options for PostType
+     * @return array Options to pass to register_post_type
+     */
+    public function createOptions()
+    {
+        // default options
+        $options = [
+            'public' => true,
+            'rewrite' => [
+                'slug' => $this->slug
+            ]
+        ];
+
+        // replace defaults with the options passed
+        $options = array_replace_recursive($options, $this->options);
+
+        // create and set labels
+        if (!isset($options['labels'])) {
+            $options['labels'] = $this->createLabels();
+        }
+
+        // set the menu icon
+        if (!isset($options['menu_icon']) && isset($this->icon)) {
+            $options['menu_icon'] = $this->icon;
+        }
+
+        return $options;
+    }
+
+    /**
+     * Create the labels for the PostType
+     * @return array
+     */
+    public function createLabels()
+    {
+        // default labels
+        $labels = [
+            'name' => $this->plural,
+            'singular_name' => $this->singular,
+            'menu_name' => $this->plural,
+            'all_items' => $this->plural,
+            'add_new' => "Add New",
+            'add_new_item' => "Add New {$this->singular}",
+            'edit_item' => "Edit {$this->singular}",
+            'new_item' => "New {$this->singular}",
+            'view_item' => "View {$this->singular}",
+            'search_items' => "Search {$this->plural}",
+            'not_found' => "No {$this->plural} found",
+            'not_found_in_trash' => "No {$this->plural} found in Trash",
+            'parent_item_colon' => "Parent {$this->singular}:",
+        ];
+
+        return array_replace_recursive($labels, $this->labels);
     }
 }
