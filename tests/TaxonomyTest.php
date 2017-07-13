@@ -104,4 +104,22 @@ class TaxonomyTest extends TestCase
         $this->assertEquals($this->genres->plural, 'Multiple Genres');
         $this->assertEquals($this->genres->slug, 'slug-genres');
     }
+
+    /** @test */
+    public function defaultOptionsUsedIfNotSet()
+    {
+        // generated options
+        $options = $this->genres->createOptions();
+
+        // expected options
+        $defaults = [
+            'hierarchical' => true,
+            'labels' => $this->genres->createLabels(),
+            'rewrite' => [
+                'slug' => $this->genres->slug
+            ]
+        ];
+
+        $this->assertEquals($options, $defaults);
+    }
 }

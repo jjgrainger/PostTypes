@@ -115,7 +115,7 @@ class Taxonomy
             $this->createNames();
 
             // create options for the Taxonomy
-            $options = [];
+            $options = $this->createOptions();
 
             // register the Taxonomy with WordPress
             register_taxonomy($this->name, null, $options);
@@ -161,5 +161,60 @@ class Taxonomy
             // asign the name to the PostType property
             $this->$key = $name;
         }
+    }
+
+    /**
+     * Create options for Taxonomy
+     * @return array Options to pass to register_taxonomy
+     */
+    public function createOptions()
+    {
+        // default options
+        $options = [
+            'hierarchical' => true,
+            'rewrite' => [
+                'slug' => $this->slug,
+            ],
+        ];
+
+        // replace defaults with the options passed
+        $options = array_replace_recursive($options, $this->options);
+
+        // create and set labels
+        if (!isset($options['labels'])) {
+            $options['labels'] = $this->createLabels();
+        }
+
+        return $options;
+    }
+
+    /**
+     * Create labels for the Taxonomy
+     * @return array
+     */
+    public function createLabels()
+    {
+        // default labels
+        $labels = [
+            'name' => $this->plural,
+            'singular_name' => $this->singular,
+            'menu_name' => $this->plural,
+            'all_items' => "All {$this->plural}",
+            'edit_item' => "Edit {$this->singular}",
+            'view_item' => "View {$this->singular}",
+            'update_item' => "Update {$this->singular}",
+            'add_new_item' => "Add New {$this->singular}",
+            'new_item_name' => "New {$this->singular} Name",
+            'parent_item' => "Parent {$this->plural}",
+            'parent_item_colon' => "Parent {$this->plural}:",
+            'search_items' => "Search {$this->plural}",
+            'popular_items' => "Popular {$this->plural}",
+            'separate_items_with_commas' => "Seperate {$this->plural} with commas",
+            'add_or_remove_items' => "Add or remove {$this->plural}",
+            'choose_from_most_used' => "Choose from most used {$this->plural}",
+            'not_found' => "No {$this->plural} found",
+        ];
+
+        return array_replace($labels, $this->labels);
     }
 }
