@@ -98,4 +98,68 @@ class Taxonomy
 
         return $this;
     }
+
+    /**
+     * Register the Taxonomy to WordPress
+     * @return void
+     */
+    public function register()
+    {
+        add_action('init', [&$this, 'registerTaxonomy'], 9);
+    }
+
+    public function registerTaxonomy()
+    {
+        if (!taxonomy_exists($this->name)) {
+            // create names for the Taxonomy
+            $this->createNames();
+
+            // create options for the Taxonomy
+            $options = [];
+
+            // register the Taxonomy with WordPress
+            register_taxonomy($this->name, null, $options);
+        }
+    }
+
+    /**
+     * Create names for the Taxonomy
+     * @return void
+     */
+    public function createNames()
+    {
+        $required = [
+            'name',
+            'singular',
+            'plural',
+            'slug',
+        ];
+
+        foreach ($required as $key) {
+            // if the name is set, assign it
+            if (isset($this->names[$key])) {
+                $this->$key = $this->names[$key];
+                continue;
+            }
+
+            // if the key is not set and is singular or plural
+            if (in_array($key, ['singular', 'plural'])) {
+                // create a human friendly name
+                $name = ucwords(strtolower(str_replace(['-', '_'], ' ', $this->names['name'])));
+            }
+
+            if ($key === 'slug') {
+                // create a slug friendly name
+                $name = strtolower(str_replace([' ', '_'], '-', $this->names['name']));
+            }
+
+            // if is plural or slug, append an 's'
+            if (in_array($key, ['plural', 'slug'])) {
+                $name .= 's';
+            }
+
+            // asign the name to the PostType property
+            $this->$key = $name;
+        }
+    }
 }
