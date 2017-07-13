@@ -47,6 +47,12 @@ class Taxonomy
     public $labels;
 
     /**
+     * PostTypes to register the Taxonomy to
+     * @var array
+     */
+    public $posttypes = [];
+
+    /**
      * Create a Taxonomy
      * @param mixed $names The name(s) for the Taxonomy
      */
@@ -100,6 +106,16 @@ class Taxonomy
     }
 
     /**
+     * Assign a PostType to register the Taxonomy to
+     * @param  string $posttype
+     * @return $this
+     */
+    public function posttype($posttype)
+    {
+        $this->posttypes[] = $posttype;
+    }
+
+    /**
      * Register the Taxonomy to WordPress
      * @return void
      */
@@ -108,6 +124,10 @@ class Taxonomy
         add_action('init', [&$this, 'registerTaxonomy'], 9);
     }
 
+    /**
+     * Register the Taxonomy to WordPress
+     * @return void
+     */
     public function registerTaxonomy()
     {
         if (!taxonomy_exists($this->name)) {
@@ -119,6 +139,13 @@ class Taxonomy
 
             // register the Taxonomy with WordPress
             register_taxonomy($this->name, null, $options);
+        }
+
+        // register Taxonomy to each of the PostTypes assigned
+        if (!empty($this->posttypes)) {
+            foreach ($this->posttypes as $posttype) {
+                register_taxonomy_for_object_type($this->name, $posttype);
+            }
         }
     }
 

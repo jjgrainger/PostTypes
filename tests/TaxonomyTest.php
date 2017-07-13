@@ -75,6 +75,22 @@ class TaxonomyTest extends TestCase
     }
 
     /** @test */
+    public function posttypesEmptyOnInstantiation()
+    {
+        $this->assertEquals($this->genres->posttypes, []);
+    }
+
+    /** @test */
+    public function hasCustomPosttypesWhenAssigned()
+    {
+        $genres = new Taxonomy('genre');
+
+        $genres->posttype('books');
+
+        $this->assertEquals($genres->posttypes, ['books']);
+    }
+
+    /** @test */
     public function namesCreatedFromName()
     {
         $this->genres->createNames();
