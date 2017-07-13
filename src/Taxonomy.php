@@ -35,12 +35,28 @@ class Taxonomy
     public $slug;
 
     /**
+     * Custom options for the Taxonomy
+     * @var array
+     */
+    public $options;
+
+    /**
+     * Custom labels for the Taxonomy
+     * @var array
+     */
+    public $labels;
+
+    /**
      * Create a Taxonomy
      * @param mixed $names The name(s) for the Taxonomy
      */
-    public function __construct($names)
+    public function __construct($names, $options = [], $labels = [])
     {
         $this->names($names);
+
+        $this->options($options);
+
+        $this->labels($labels);
     }
 
     /**
@@ -55,6 +71,30 @@ class Taxonomy
         }
 
         $this->names = $names;
+
+        return $this;
+    }
+
+    /**
+     * Set options for the Taxonomy
+     * @param  array  $options
+     * @return $this
+     */
+    public function options(array $options = [])
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    /**
+     * Set the Taxonomy labels
+     * @param  array  $labels
+     * @return $this
+     */
+    public function labels(array $labels = [])
+    {
+        $this->labels = $labels;
 
         return $this;
     }
