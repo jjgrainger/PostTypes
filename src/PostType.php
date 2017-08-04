@@ -260,7 +260,7 @@ class PostType
     /**
      * the columns object for the post type.
      *
-     * @return PostType\Columns;
+     * @return PostTypes\Columns;
      */
     public function columns()
     {
