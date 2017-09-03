@@ -89,4 +89,122 @@ class ColumnsTest extends TestCase
 
         $this->assertEquals($this->columns->sortable, $columns);
     }
+
+    /** @test */
+    public function usesSetColumnsOverDefaults()
+    {
+        $defaults = [
+            'title' => 'Title',
+            'author' => 'Author',
+            'comments' => 'Comments',
+            'date' => 'Date'
+        ];
+
+        $columns = [
+            'title' => 'Title',
+            'author' => 'Author',
+            'date' => 'Date'
+        ];
+
+        $this->columns->set($columns);
+
+        $output = $this->columns->modifyColumns($defaults);
+
+        $this->assertEquals($output, $columns);
+    }
+
+    /** @test */
+    public function addsColumnsToDefaults()
+    {
+        $columns = [
+            'title' => 'Title',
+            'author' => 'Author',
+            'comments' => 'Comments',
+            'date' => 'Date'
+        ];
+
+        $this->columns->add(['genre' => 'Genres']);
+
+        $output = $this->columns->modifyColumns($columns);
+
+        $columns['genre'] = 'Genres';
+
+        $this->assertEquals($output, $columns);
+    }
+
+    /** @test */
+    public function hideColumnsFromDefaults()
+    {
+        $columns = [
+            'title' => 'Title',
+            'author' => 'Author',
+            'comments' => 'Comments',
+            'date' => 'Date'
+        ];
+
+        $this->columns->hide('comments');
+
+        $output = $this->columns->modifyColumns($columns);
+
+        unset($columns['comments']);
+
+        $this->assertEquals($output, $columns);
+    }
+
+    /** @test */
+    public function setOrderOfDefaultColumns()
+    {
+        $columns = [
+            'title' => 'Title',
+            'author' => 'Author',
+            'comments' => 'Comments',
+            'date' => 'Date'
+        ];
+
+        $this->columns->order([
+            'date' => 1,
+            'title' => 3
+        ]);
+
+        $output = $this->columns->modifyColumns($columns);
+
+        $expected = [
+            'date' => 'Date',
+            'author' => 'Author',
+            'title' => 'Title',
+            'comments' => 'Comments',
+        ];
+
+        $this->assertEquals($output, $expected);
+    }
+
+    /** @test */
+    public function canModifyColumns()
+    {
+        $defaults = [
+            'title' => 'Title',
+            'author' => 'Author',
+            'comments' => 'Comments',
+            'date' => 'Date'
+        ];
+
+        $expected = [
+            'title' => 'Title',
+            'genre' => 'Genre',
+            'author' => 'Author',
+            'date' => 'Date'
+        ];
+
+        $this->columns->hide('comments');
+
+        $this->columns->add(['genre' => 'Genre']);
+
+        $this->columns->order([
+            'genre' => 2,
+        ]);
+
+        $output = $this->columns->modifyColumns($defaults);
+
+        $this->assertEquals($output, $expected);
+    }
 }

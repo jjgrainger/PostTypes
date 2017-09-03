@@ -121,6 +121,9 @@ class PostType
         // set the names array
         $this->names = $names;
 
+        // create names for the PostType
+        $this->createNames();
+
         return $this;
     }
 
@@ -234,6 +237,11 @@ class PostType
 
         // modify filters on the admin edit screen
         add_action('restrict_manage_posts', [&$this, 'modifyFilters']);
+
+        if (isset($this->columns)) {
+            // modify the admin edit columns.
+            add_filter("manage_{$this->name}_posts_columns", [&$this, 'modifyColumns']);
+        }
     }
 
     /**
@@ -242,9 +250,6 @@ class PostType
      */
     public function registerPostType()
     {
-        // create names for the PostType
-        $this->createNames();
-
         // create options for the PostType
         $options = $this->createOptions();
 
@@ -454,5 +459,17 @@ class PostType
         }
 
         return $filters;
+    }
+
+    /**
+     * Modify the columns for the post type
+     * @param  array  $columns  Default WordPress columns
+     * @return array            The modified columns
+     */
+    public function modifyColumns($columns)
+    {
+        $columns = $this->columns->modifyColumns($columns);
+
+        return $columns;
     }
 }
