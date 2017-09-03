@@ -240,7 +240,10 @@ class PostType
 
         if (isset($this->columns)) {
             // modify the admin edit columns.
-            add_filter("manage_{$this->name}_posts_columns", [&$this, 'modifyColumns']);
+            add_filter("manage_{$this->name}_posts_columns", [&$this, 'modifyColumns'], 10, 1);
+
+            // populate custom columns
+            add_filter("manage_{$this->name}_posts_custom_column", [&$this, 'populateColumns'], 10, 2);
         }
     }
 
@@ -462,7 +465,7 @@ class PostType
     }
 
     /**
-     * Modify the columns for the post type
+     * Modify the columns for the PostType
      * @param  array  $columns  Default WordPress columns
      * @return array            The modified columns
      */
@@ -471,5 +474,17 @@ class PostType
         $columns = $this->columns->modifyColumns($columns);
 
         return $columns;
+    }
+
+    /**
+     * Populate custom columns for the PostType
+     * @param  string $column   The column slug
+     * @param  int    $post_id  The post ID
+     */
+    public function populateColumns($column, $post_id)
+    {
+        if (isset($this->columns->populate[$column])) {
+            call_user_func_array($this->columns()->populate[$column], [$column, $post_id]);
+        }
     }
 }
