@@ -130,10 +130,11 @@ class TaxonomyTest extends TestCase
         // expected options
         $defaults = [
             'hierarchical' => true,
+            'show_admin_column' => true,
             'labels' => $this->genres->createLabels(),
             'rewrite' => [
-                'slug' => $this->genres->slug
-            ]
+                'slug' => $this->genres->slug,
+            ],
         ];
 
         $this->assertEquals($options, $defaults);

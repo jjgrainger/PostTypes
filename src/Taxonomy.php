@@ -139,7 +139,10 @@ class Taxonomy
 
         if (isset($this->columns)) {
             // modify the columns for the Taxonomy
-            add_filter("manage_edit-{$this->name}_columns" , [&$this, 'modifyColumns']);
+            add_filter("manage_edit-{$this->name}_columns", [&$this, 'modifyColumns']);
+
+            // populate the columns for the Taxonomy
+            add_filter("manage_{$this->name}_custom_column", [&$this, 'popualteColumns'], 10, 3);
         }
     }
 
@@ -150,7 +153,6 @@ class Taxonomy
     public function registerTaxonomy()
     {
         if (!taxonomy_exists($this->name)) {
-
             // create options for the Taxonomy
             $options = $this->createOptions();
 
@@ -289,5 +291,20 @@ class Taxonomy
         $columns = $this->columns->modifyColumns($columns);
 
         return $columns;
+    }
+
+    /**
+     * Populate custom columns for the Taxonomy
+     * @param  string $content
+     * @param  string $column
+     * @param  int    $term_id
+     */
+    public function popualteColumns($content, $column, $term_id)
+    {
+        if (isset($this->columns->populate[$column])) {
+            $content = call_user_func_array($this->columns()->populate[$column], [$content, $column, $term_id]);
+        }
+
+        return $content;
     }
 }
