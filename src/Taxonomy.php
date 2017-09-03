@@ -121,7 +121,12 @@ class Taxonomy
      */
     public function register()
     {
+        // register the taxonomy, set priority to 9
+        // so taxonomies are registered before PostTypes
         add_action('init', [&$this, 'registerTaxonomy'], 9);
+
+        // assign taxonomy to post type objects
+        add_action('init', [&$this, 'registerTaxonomyToObjects']);
     }
 
     /**
@@ -140,7 +145,10 @@ class Taxonomy
             // register the Taxonomy with WordPress
             register_taxonomy($this->name, null, $options);
         }
+    }
 
+    public function registerTaxonomyToObjects()
+    {
         // register Taxonomy to each of the PostTypes assigned
         if (!empty($this->posttypes)) {
             foreach ($this->posttypes as $posttype) {
@@ -199,6 +207,7 @@ class Taxonomy
         // default options
         $options = [
             'hierarchical' => true,
+            'show_admin_column' => true,
             'rewrite' => [
                 'slug' => $this->slug,
             ],
