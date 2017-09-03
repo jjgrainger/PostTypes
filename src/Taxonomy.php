@@ -53,6 +53,12 @@ class Taxonomy
     public $posttypes = [];
 
     /**
+     * The column manager for the Taxonomy
+     * @var mixed
+     */
+    public $columns;
+
+    /**
      * Create a Taxonomy
      * @param mixed $names The name(s) for the Taxonomy
      */
@@ -77,6 +83,9 @@ class Taxonomy
         }
 
         $this->names = $names;
+
+        // create names for the Taxonomy
+        $this->createNames();
 
         return $this;
     }
@@ -127,6 +136,11 @@ class Taxonomy
 
         // assign taxonomy to post type objects
         add_action('init', [&$this, 'registerTaxonomyToObjects']);
+
+        if (isset($this->columns)) {
+            // modify the columns for the Taxonomy
+            add_filter("manage_edit-{$this->name}_columns" , [&$this, 'modifyColumns']);
+        }
     }
 
     /**
@@ -136,8 +150,6 @@ class Taxonomy
     public function registerTaxonomy()
     {
         if (!taxonomy_exists($this->name)) {
-            // create names for the Taxonomy
-            $this->createNames();
 
             // create options for the Taxonomy
             $options = $this->createOptions();
@@ -252,5 +264,30 @@ class Taxonomy
         ];
 
         return array_replace($labels, $this->labels);
+    }
+
+    /**
+     * Get the Column Manager for the Taxonomy
+     * @return Columns
+     */
+    public function columns()
+    {
+        if (!isset($this->columns)) {
+            $this->columns = new Columns;
+        }
+
+        return $this->columns;
+    }
+
+    /**
+     * Modify the columns for the Taxonomy
+     * @param  array  $columns  The WordPress default columns
+     * @return array
+     */
+    public function modifyColumns($columns)
+    {
+        $columns = $this->columns->modifyColumns($columns);
+
+        return $columns;
     }
 }
