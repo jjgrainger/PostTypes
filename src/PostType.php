@@ -244,6 +244,12 @@ class PostType
 
             // populate custom columns
             add_filter("manage_{$this->name}_posts_custom_column", [&$this, 'populateColumns'], 10, 2);
+
+            // run filter to make columns sortable.
+            add_filter('manage_edit-'.$this->name.'_sortable_columns', [&$this, 'setSortableColumns']);
+
+            // run action that sorts columns on request.
+            add_action('pre_get_posts', [&$this, 'sortSortableColumns']);
         }
     }
 
@@ -485,6 +491,48 @@ class PostType
     {
         if (isset($this->columns->populate[$column])) {
             call_user_func_array($this->columns()->populate[$column], [$column, $post_id]);
+        }
+    }
+
+    /**
+     * Make custom columns sortable
+     * @param array  $columns  Default WordPress sortable columns
+     */
+    public function setSortableColumns($columns)
+    {
+        if (!empty($this->columns()->sortable)) {
+            $columns = array_merge($columns, $this->columns()->sortable);
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Set query to sort custom columns
+     * @param  WP_Query $query
+     */
+    public function sortSortableColumns($query)
+    {
+        // don't modify the query if we're not in the post type admin
+        if (!is_admin() || $query->get('post_type') !== $this->name) {
+            return;
+        }
+
+        $orderby = $query->get('orderby');
+
+        if (array_key_exists($orderby, $this->columns()->sortable)) {
+            $meta = $this->columns()->sortable[$orderby];
+
+            if (is_string($meta)) {
+                $meta_key = $meta;
+                $meta_value = 'meta_value';
+            } else {
+                $meta_key = $meta[0];
+                $meta_value = 'meta_value_num';
+            }
+
+            $query->set('meta_key', $meta_key);
+            $query->set('orderby', $meta_value);
         }
     }
 }
