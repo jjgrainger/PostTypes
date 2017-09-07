@@ -143,6 +143,12 @@ class Taxonomy
 
             // populate the columns for the Taxonomy
             add_filter("manage_{$this->name}_custom_column", [&$this, 'popualteColumns'], 10, 3);
+
+            // set custom sortable columns
+            add_filter("manage_edit-{$this->name}_sortable_columns", [&$this, 'setSortableColumns']);
+
+            // run action that sorts columns on request
+            add_action('parse_term_query', [&$this, 'sortSortableColumns']);
         }
     }
 
@@ -306,5 +312,47 @@ class Taxonomy
         }
 
         return $content;
+    }
+
+    /**
+     * Make custom columns sortable
+     * @param array $columns Default WordPress sortable columns
+     */
+    public function setSortableColumns($columns)
+    {
+        if (!empty($this->columns()->sortable)) {
+            $columns = array_merge($columns, $this->columns()->sortable);
+        }
+
+        return $columns;
+    }
+
+    /**
+     * Set query to sort custom columns
+     * @param WP_Term_Query $query
+     */
+    public function sortSortableColumns($query)
+    {
+        // don't modify the query if we're not in the post type admin
+        if (!is_admin() || !in_array($this->name, $query->query_vars['taxonomy'])) {
+            return;
+        }
+
+        // check the orderby is a custom ordering
+        if (isset($_GET['orderby']) && array_key_exists($_GET['orderby'], $this->columns()->sortable)) {
+            // get the custom sorting options
+            $meta = $this->columns()->sortable[$_GET['orderby']];
+
+            if (is_string($meta)) {
+                $meta_key = $meta;
+                $orderby = 'meta_value';
+            } else {
+                $meta_key = $meta[0];
+                $orderby = 'meta_value_num';
+            }
+
+            $query->query_vars['orderby'] = $orderby;
+            $query->query_vars['meta_key'] = $meta_key;
+        }
     }
 }
