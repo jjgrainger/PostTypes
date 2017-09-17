@@ -2,6 +2,17 @@
 
 namespace PostTypes;
 
+/**
+ * Taxonomy
+ *
+ * Create WordPress Taxonomies easily
+ *
+ * @link http://github.com/jjgrainger/PostTypes/
+ * @author  jjgrainger
+ * @link    http://jjgrainger.co.uk
+ * @version 2.0
+ * @license http://www.opensource.org/licenses/mit-license.html MIT License
+ */
 class Taxonomy
 {
     /**
@@ -92,7 +103,7 @@ class Taxonomy
 
     /**
      * Set options for the Taxonomy
-     * @param  array  $options
+     * @param  array $options
      * @return $this
      */
     public function options(array $options = [])
@@ -125,6 +136,19 @@ class Taxonomy
     }
 
     /**
+     * Get the Column Manager for the Taxonomy
+     * @return Columns
+     */
+    public function columns()
+    {
+        if (!isset($this->columns)) {
+            $this->columns = new Columns;
+        }
+
+        return $this->columns;
+    }
+
+    /**
      * Register the Taxonomy to WordPress
      * @return void
      */
@@ -142,7 +166,7 @@ class Taxonomy
             add_filter("manage_edit-{$this->name}_columns", [&$this, 'modifyColumns']);
 
             // populate the columns for the Taxonomy
-            add_filter("manage_{$this->name}_custom_column", [&$this, 'popualteColumns'], 10, 3);
+            add_filter("manage_{$this->name}_custom_column", [&$this, 'populateColumns'], 10, 3);
 
             // set custom sortable columns
             add_filter("manage_edit-{$this->name}_sortable_columns", [&$this, 'setSortableColumns']);
@@ -167,6 +191,10 @@ class Taxonomy
         }
     }
 
+    /**
+     * Register the Taxonomy to PostTypes
+     * @return void
+     */
     public function registerTaxonomyToObjects()
     {
         // register Taxonomy to each of the PostTypes assigned
@@ -275,19 +303,6 @@ class Taxonomy
     }
 
     /**
-     * Get the Column Manager for the Taxonomy
-     * @return Columns
-     */
-    public function columns()
-    {
-        if (!isset($this->columns)) {
-            $this->columns = new Columns;
-        }
-
-        return $this->columns;
-    }
-
-    /**
      * Modify the columns for the Taxonomy
      * @param  array  $columns  The WordPress default columns
      * @return array
@@ -305,7 +320,7 @@ class Taxonomy
      * @param  string $column
      * @param  int    $term_id
      */
-    public function popualteColumns($content, $column, $term_id)
+    public function populateColumns($content, $column, $term_id)
     {
         if (isset($this->columns->populate[$column])) {
             $content = call_user_func_array($this->columns()->populate[$column], [$content, $column, $term_id]);
@@ -343,6 +358,7 @@ class Taxonomy
             // get the custom sorting options
             $meta = $this->columns()->sortable[$_GET['orderby']];
 
+            // check ordering is not numeric
             if (is_string($meta)) {
                 $meta_key = $meta;
                 $orderby = 'meta_value';
@@ -351,6 +367,7 @@ class Taxonomy
                 $orderby = 'meta_value_num';
             }
 
+            // set the sort order
             $query->query_vars['orderby'] = $orderby;
             $query->query_vars['meta_key'] = $meta_key;
         }

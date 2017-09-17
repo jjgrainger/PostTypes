@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PostTypes\Taxonomy;
+use PostTypes\Columns;
 
 class TaxonomyTest extends TestCase
 {
@@ -138,5 +139,17 @@ class TaxonomyTest extends TestCase
         ];
 
         $this->assertEquals($options, $defaults);
+    }
+
+    /** @test */
+    public function columnsIsNullOnInstantiation()
+    {
+        $this->assertEquals($this->genres->columns, null);
+    }
+
+    /** @test */
+    public function columnsReturnsInstanceOfColumns()
+    {
+        $this->assertInstanceOf(Columns::class, $this->genres->columns());
     }
 }

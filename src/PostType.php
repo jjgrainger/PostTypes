@@ -212,7 +212,7 @@ class PostType
 
     /**
      * Get the Column Manager for the PostType
-     * @return Columns
+     * @return PostTypes\Columns
      */
     public function columns()
     {
@@ -520,9 +520,12 @@ class PostType
 
         $orderby = $query->get('orderby');
 
+        // if the sorting a custom column
         if (array_key_exists($orderby, $this->columns()->sortable)) {
+            // get the custom column options
             $meta = $this->columns()->sortable[$orderby];
 
+            // determine type of ordering
             if (is_string($meta)) {
                 $meta_key = $meta;
                 $meta_value = 'meta_value';
@@ -531,6 +534,7 @@ class PostType
                 $meta_value = 'meta_value_num';
             }
 
+            // set the custom order
             $query->set('meta_key', $meta_key);
             $query->set('orderby', $meta_value);
         }
