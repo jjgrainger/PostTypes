@@ -2,6 +2,7 @@
 
 use PHPUnit\Framework\TestCase;
 use PostTypes\Taxonomy;
+use PostTypes\Columns;
 
 class TaxonomyTest extends TestCase
 {
@@ -130,12 +131,25 @@ class TaxonomyTest extends TestCase
         // expected options
         $defaults = [
             'hierarchical' => true,
+            'show_admin_column' => true,
             'labels' => $this->genres->createLabels(),
             'rewrite' => [
-                'slug' => $this->genres->slug
-            ]
+                'slug' => $this->genres->slug,
+            ],
         ];
 
         $this->assertEquals($options, $defaults);
+    }
+
+    /** @test */
+    public function columnsIsNullOnInstantiation()
+    {
+        $this->assertEquals($this->genres->columns, null);
+    }
+
+    /** @test */
+    public function columnsReturnsInstanceOfColumns()
+    {
+        $this->assertInstanceOf(Columns::class, $this->genres->columns());
     }
 }
