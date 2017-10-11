@@ -133,6 +133,8 @@ class Taxonomy
     public function posttype($posttype)
     {
         $this->posttypes[] = $posttype;
+
+        return $this;
     }
 
     /**
