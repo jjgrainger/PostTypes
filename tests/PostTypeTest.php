@@ -62,6 +62,7 @@ class PostTypeTest extends TestCase
         $this->assertEquals($this->books->labels, []);
     }
 
+    /** @test */
     public function hasCustomLabelsOnInstantiation()
     {
         $labels = [
@@ -120,21 +121,6 @@ class PostTypeTest extends TestCase
         $books->icon('dashicon-book-alt');
 
         $this->assertEquals($books->icon, 'dashicon-book-alt');
-    }
-
-    /** @test */
-    public function hasTextdomainOnInstantiation()
-    {
-        $this->assertEquals($this->books->textdomain, 'cpt');
-    }
-
-    public function hasCustomTextdomainWhenSet()
-    {
-        $books = $this->books;
-
-        $books->translation('my_textdomain');
-
-        $this->assertEquals($books->textdomain, 'my_textdomain');
     }
 
     /** @test */
@@ -230,6 +216,7 @@ class PostTypeTest extends TestCase
         $this->assertEquals($filters, []);
     }
 
+    /** @test */
     public function filtersAreSameAsTaxonomyIfNotSet()
     {
         $this->books->taxonomy('genre');
@@ -251,11 +238,12 @@ class PostTypeTest extends TestCase
         $this->assertEquals($filters, ['genre', 'published']);
     }
 
+    /** @test */
     public function filtersAreEmptyIfSetWithEmptyArray()
     {
         $this->books->filters([]);
 
-        $this->books->taxonomy('gener');
+        $this->books->taxonomy('genre');
 
         $filters = $this->books->getFilters();
 
