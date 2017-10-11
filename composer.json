@@ -24,8 +24,8 @@
     },
     "scripts": {
         "test": [
-            "phpcs --standard=psr2 src",
-            "phpunit"
+            "./vendor/bin/phpcs --standard=psr2 src",
+            "./vendor/bin/phpunit"
         ]
     }
 }

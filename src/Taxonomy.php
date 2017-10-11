@@ -2,6 +2,8 @@
 
 namespace PostTypes;
 
+use PostTypes\Columns;
+
 /**
  * Taxonomy
  *
@@ -41,7 +43,7 @@ class Taxonomy
 
     /**
      * The Taxonomy slug
-     * @var name
+     * @var string
      */
     public $slug;
 
@@ -133,6 +135,8 @@ class Taxonomy
     public function posttype($posttype)
     {
         $this->posttypes[] = $posttype;
+
+        return $this;
     }
 
     /**
