@@ -78,12 +78,6 @@ class PostType
     public $icon;
 
     /**
-     * The textdomain for translations
-     * @var string
-     */
-    public $textdomain = 'cpt';
-
-    /**
      * The column manager for the PostType
      * @var mixed
      */
@@ -196,18 +190,6 @@ class PostType
     public function flush($hard = true)
     {
         flush_rewrite_rules($hard);
-    }
-
-    /**
-     * Set the textdomain for translations
-     * @param  string $textdomain
-     * @return $this;
-     */
-    public function translation($textdomain)
-    {
-        $this->textdomain = $textdomain;
-
-        return $this;
     }
 
     /**
