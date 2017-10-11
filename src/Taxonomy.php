@@ -2,6 +2,8 @@
 
 namespace PostTypes;
 
+use PostTypes\Columns;
+
 /**
  * Taxonomy
  *
@@ -41,7 +43,7 @@ class Taxonomy
 
     /**
      * The Taxonomy slug
-     * @var name
+     * @var string
      */
     public $slug;
 
