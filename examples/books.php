@@ -3,11 +3,12 @@
 require __DIR__ . '/vendor/autoload.php';
 
 use PostTypes\PostType;
+use PostTypes\Taxonomy;
 
 // Create a books Post Type
 $books = new PostType('book');
 
-// Add a Genre Taxonomy
+// Add the Genre Taxonomy
 $books->taxonomy('genre');
 
 // Hide the date and author columns
@@ -37,3 +38,22 @@ $books->columns()->sortable([
 
 // Set the Books menu icon
 $books->icon('dashicons-book-alt');
+
+// Register the PostType to WordPress
+$books->register();
+
+// Create the genre Taxonomy
+$genres = new Taxonomy('genre');
+
+// Add a popularity column to the genre taxonomy
+$genres->columns()->add([
+    'popularity' => 'Popularity'
+]);
+
+// Populate the new column
+$genres->columns()->populate('popularity', function($content, $column, $term_id) {
+    return get_term_meta($term_id, 'popularity', true);
+});
+
+// Register the taxonomy to WordPress
+$genres->register();
