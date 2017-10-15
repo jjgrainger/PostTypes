@@ -1,5 +1,13 @@
 # Changelog
 
+##### v2.0
+* fix [issue #9](https://github.com/jjgrainger/PostTypes/issues/9): add unit tests
+* fix [issue #12](https://github.com/jjgrainger/PostTypes/issues/12) and [issue #13](https://github.com/jjgrainger/PostTypes/issues/13): generating duplicate columns
+* fix [issue #2](https://github.com/jjgrainger/PostTypes/issues/2) and [issue #16](https://github.com/jjgrainger/PostTypes/issues/16): translations not working
+* create Taxonomy class
+* fix [issue #11](https://github.com/jjgrainger/PostTypes/issues/11): add `columns()` to Taxonomy class
+* update [`examples/books.php`](https://github.com/jjgrainger/PostTypes/blob/master/examples/books.php)
+
 ##### v1.1.2
 * fix PHPCS as dev requirement
 * add version to composer json
