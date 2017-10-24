@@ -1,6 +1,6 @@
 {
     "name": "jjgrainger/posttypes",
-    "version": "1.1.2",
+    "version": "2.0",
     "description": "Simple WordPress custom post types.",
     "homepage": "https://github.com/jjgrainger/posttype",
     "license": "MIT",
@@ -16,9 +16,16 @@
         "php": ">=5.3.0"
     },
     "require-dev": {
-        "squizlabs/php_codesniffer": "^2.8"
+        "squizlabs/php_codesniffer": "^2.8",
+        "phpunit/phpunit": "5.7"
     },
     "autoload": {
         "psr-4": { "PostTypes\\": "src/" }
+    },
+    "scripts": {
+        "test": [
+            "./vendor/bin/phpcs --standard=psr2 src",
+            "./vendor/bin/phpunit"
+        ]
     }
 }

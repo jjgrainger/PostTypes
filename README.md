@@ -1,4 +1,4 @@
-# PostTypes v1.1.2
+# PostTypes v2.0
 
 [![Build Status](https://travis-ci.org/jjgrainger/PostTypes.svg?branch=master)](https://travis-ci.org/jjgrainger/PostTypes) [![Total Downloads](https://poser.pugx.org/jjgrainger/posttypes/downloads)](https://packagist.org/packages/jjgrainger/posttypes) [![Latest Stable Version](https://poser.pugx.org/jjgrainger/posttypes/v/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://poser.pugx.org/jjgrainger/posttypes/license)](https://packagist.org/packages/jjgrainger/posttypes)
 
@@ -22,6 +22,8 @@ require __DIR__ . '/vendor/autoload.php';
 use PostTypes\PostType;
 
 $books = new PostType('book');
+
+$books->register();
 ```
 
 See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working Composer and autoloading.
@@ -30,10 +32,14 @@ See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autolo
 
 #### Create a new Post Type
 
-A new post type can be created by simply passing the post types name to the class constructor.
+A new post type can be created by simply passing the post types name to the class constructor. To register the post type to WordPress you must call the `register()` method.
 
 ```php
+// Create a book post type
 $books = new PostType('book');
+
+// Register the post type to WordPress
+$books->register();
 ```
 
 #### Defining names
@@ -49,6 +55,8 @@ $names = [
 ];
 
 $books = new PostType($names);
+
+$books->register();
 ```
 
 It can accept the following names:
@@ -70,6 +78,8 @@ $options = [
 ];
 
 $books = new PostType('book', $options);
+
+$books->register();
 ```
 
 All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
@@ -84,6 +94,20 @@ $labels = [
 ];
 
 $books = new PostType('book', $options, $labels);
+
+$books->register();
+```
+
+Alternatively, you can use the `labels()` method to set the labels for the post type.
+
+```php
+$books = new PostType('books');
+
+$books->labels([
+    'add_new_item' => __('Add new Book')
+]);
+
+$books->register();
 ```
 
 All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
@@ -93,19 +117,29 @@ All available labels are on the [WordPress Codex](https://codex.wordpress.org/Fu
 To work with exisiting post types simple pass the post type name into the object. Be careful using global variables (i.e `$post`) which can lead to unwanted results.
 
 ```php
+// Create a PostType object for an existing post type in WordPress
 $blog = new PostType('post');
+
+// Make changes to the post type...
+
+// You still need to register the changes to WordPress
+$blog->register();
 ```
 
-## Add Taxonomies
+## Taxonomies
 
-Adding taxonomies to a post type is easily achieved by using the `taxonomy()` method.
+Taxonomies are created using the `Taxonomy` class. This works indetically to the `PostType` class and holds similar methods.
 
 #### Create new taxonomy
 
-To create a new taxonomy simply pass the taxonomy name to the `taxonomy()` method. Labels and the taxonomy slug are generated from the taxonomy name.
+To create a new taxonomy simply pass the taxonomy name to the `Taxonomy` class constructor. Labels and the taxonomy slug are generated from the taxonomy name.
 
 ```php
-$books->taxonomy('genre');
+// Create a new taxonomy
+$genres = new Taxonomy('genre');
+
+// Register the taxonomy to WordPress
+$genres->register();
 ```
 
 #### Defining names
@@ -125,7 +159,9 @@ $names = [
     'slug' => 'genres'
 ];
 
-$books->taxonomy($names);
+$genres = new Taxonomy($names);
+
+$genres->register();
 ```
 
 #### Adding options
@@ -134,27 +170,91 @@ You can further customise taxonomies by passing an array of options as the secon
 
 ```php
 $options = [
-	'hierarchical' => false,
+    'hierarchical' => false,
 ];
 
-$books->taxonomy('genre', $options);
+$genres = new Taxonomy('genre', $options);
+
+$genres->register();
 ```
 
 All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy)
 
-#### Adding Exisiting Taxonomies
+#### Adding labels
 
-You can add existing taxonomies by passing the taxonomy name to the `taxonomy()` method. This works with custom taxonomies too. You only need to pass the options/names for the taxonomy **once**, afterwards you only need to pass the taxonomy name.
+You can define the labels for a Taxonomy by passing an array as the third argument in the class constructor.
 
 ```php
-$books->taxonomy('post_tag');
+$labels = [
+    'add_new_item' => __('Add new Genre'),
+];
+
+$genres = new Taxonomy('genres', $options, $labels);
+
+$genres->register();
+```
+
+Alternatively, you can use the `labels()` method to set the labels for the post type.
+
+```php
+$genres = new Taxonomy('genre');
+
+$genres->labels([
+    'add_new_item' => __('Add new Genre')
+]);
+
+$genres->register();
+```
+
+All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy)
+
+#### Exisiting Taxonomies
+
+You can work with existing taxonomies by passing the taxonomy name to the Taxonoy constructor. Once you have made your changes you need to register them to WordPress using the `register()` method.
+
+```php
+// Create a new Taxonomy object for an existing taxonomy
+$tags = new Taxonomy('post_tags');
+
+// Modify the taxonomy...
+
+// Regsiter changes to WordPress
+$tags->register();
+```
+
+## Link Taxonomies and PostTypes
+
+Depending on the object type (Taxonomy/PostType) you can link the two together with the respective methods.
+
+For registering a Taxonomy to a PostType use the `taxonomy()` method.
+
+For regsitering a PostType to a Taxonomy use the `posttype()` method.
+
+```php
+// Create a books post type
+$books = new PostType('book');
+
+// Add the genre taxonomy to the book post type
+$books->taxonomy('genre');
+
+// Register the post type to WordPress
+$books->register();
+
+// Create the genre taxonomy
+$genres = new Taxonomy('genre');
+
+// Use this method instead of the PostTypes taxonomy() method
+$genres->posttype('book');
+
+// register the genre taxonomy to WordPress
+$genres->register();
 ```
 
 ## Admin Edit Screen
 
 #### Filters
 
-Set the taxonomy filters on the admin edit screen by passing an array to the `filters()` method
+Set the taxonomy filters on the post type admin edit screen by passing an array to the `filters()` method
 
 ```php
 $books->filters(['genres', 'category']);
@@ -163,6 +263,21 @@ $books->filters(['genres', 'category']);
 The order of the filters are set by the order of the items in the array. An empty array will remove all dropdown filters.
 
 #### Columns
+
+You can now modify a `Taxonomy` columns using exactly the same methods listed below. For example:
+
+```php
+// Create a taxonomy
+$genres = new Taxonomy('genre');
+
+// Add a column to the taxonomy admin table
+$genres->columns()->add([
+    'popularity' => __('Popularity')
+]);
+
+// Register the taxonomy to WordPress
+$genres->register();
+```
 
 ###### Adding Columns
 
@@ -213,15 +328,7 @@ $books->columns()->order([
 
 ###### Populating Columns
 
-Columns that are automatically populated with correct slug
-
-* `post_id` - the post id
-* `title` - the posts title with edit links
-* `author` - the posts author
-* `date` - the posts dates
-* `{taxonomy_name}` - a list of the taxonomy terms attached to the post
-* `thumbnail` - the post featured image
-* `meta_{meta_key}` - the post meta for that key
+You can populate any column using the `populate()` method and passing the column slug and function.
 
 ```php
 $books->columns()->populate('rating', function($column, $post_id) {
@@ -264,10 +371,21 @@ $books->flush();
 
 ### Translation
 
-The class is setup for translation, but if you need to set your own textdomain to work with your theme or plugin use the `translation()` method:
+Since 2.0 the `translation()` method has been removed. You can translate any labels and names when you assign them to the PostType or Taxonomy. It was removed to provide more control to the developer while encouraging best practices around internationalizing plugins and themes set out by [WordPress](https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/).
 
 ```php
-$books->translation('your-textdomain');
+// Translating the PostType plural and singular names
+$books = new PostType([
+    'name' => 'book',
+    'singular' => __('Book', 'YOUR_TEXTDOMAIN'),
+    'plural' => __('Books', 'YOUR_TEXTDOMAIN'),
+    'slug' => 'books'
+]);
+
+// Translating Labels
+$books->labels([
+    'add_new_item' => __('Add new Book', 'YOUR_TEXTDOMAIN')
+]);
 ```
 
 ## Notes
