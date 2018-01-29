@@ -402,6 +402,7 @@ class PostType
                 }
                 
                 $dropdown_args = array(
+                    'option_none_value'=> '',
                     'hide_empty'       => 0,
                     'hide_if_empty'    => false,
                     'show_count'       => true,
