@@ -396,34 +396,26 @@ class PostType
                 }
 
                 // start the html for the filter dropdown
-                $dropdown = sprintf(' &nbsp;<select name="%s" class="postform">', $taxonomy);
-
-                // set 'Show all' option
-                $dropdown .= sprintf('<option value="0">%s</option>', "Show all {$tax->label}");
-
-                // create option for each taxonomy tern
-                foreach ($terms as $term) {
-                    $selected = '';
-                    // if the current term is active, add selected attribute
-                    if (isset($_GET[$taxonomy]) && $_GET[$taxonomy] === $term->slug) {
-                        $selected = ' selected="selected"';
-                    }
-
-                    // html for term option
-                    $dropdown .= sprintf(
-                        '<option value="%s"%s>%s (%s)</option>',
-                        $term->slug,
-                        $selected,
-                        $term->name,
-                        $term->count
-                    );
+                $selected = null;
+                if (isset($_GET[$taxonomy])) {
+                    $selected = sanitize_title($_GET[$taxonomy]);
                 }
+                
+                $dropdown_args = array(
+                    'option_none_value'=> '',
+                    'hide_empty'       => 0,
+                    'hide_if_empty'    => false,
+                    'show_count'       => true,
+                    'taxonomy'         => $tax->name,
+                    'name'             => $taxonomy,
+                    'orderby'          => 'name',
+                    'hierarchical'     => true,
+                    'show_option_none' => "Show all {$tax->label}",
+                    'value_field'      => 'slug',
+                    'selected'         => $selected
+                );
 
-                // end the select field
-                $dropdown .= '</select>&nbsp;';
-
-                // display the dropdown filter
-                echo $dropdown;
+                wp_dropdown_categories($dropdown_args);
             }
         }
     }
