@@ -1,5 +1,9 @@
 # Changelog
 
+##### v2.0.1
+* merge [pull reqeuest #19](https://github.com/jjgrainger/PostTypes/pull/19): Use wp_dropdown_categories function for post filtering selectbox
+* update minimum php version to 5.6
+
 ##### v2.0
 * fix [issue #9](https://github.com/jjgrainger/PostTypes/issues/9): add unit tests
 * fix [issue #12](https://github.com/jjgrainger/PostTypes/issues/12) and [issue #13](https://github.com/jjgrainger/PostTypes/issues/13): generating duplicate columns
