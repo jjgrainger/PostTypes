@@ -397,23 +397,24 @@ class PostType
 
                 // start the html for the filter dropdown
                 $selected = null;
+
                 if (isset($_GET[$taxonomy])) {
                     $selected = sanitize_title($_GET[$taxonomy]);
                 }
-                
-                $dropdown_args = array(
-                    'option_none_value'=> '',
-                    'hide_empty'       => 0,
-                    'hide_if_empty'    => false,
-                    'show_count'       => true,
-                    'taxonomy'         => $tax->name,
-                    'name'             => $taxonomy,
-                    'orderby'          => 'name',
-                    'hierarchical'     => true,
-                    'show_option_none' => "Show all {$tax->label}",
-                    'value_field'      => 'slug',
-                    'selected'         => $selected
-                );
+
+                $dropdown_args = [
+                    'option_none_value' => '',
+                    'hide_empty'        => 0,
+                    'hide_if_empty'     => false,
+                    'show_count'        => true,
+                    'taxonomy'          => $tax->name,
+                    'name'              => $taxonomy,
+                    'orderby'           => 'name',
+                    'hierarchical'      => true,
+                    'show_option_none'  => "Show all {$tax->label}",
+                    'value_field'       => 'slug',
+                    'selected'          => $selected
+                ];
 
                 wp_dropdown_categories($dropdown_args);
             }
