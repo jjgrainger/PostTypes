@@ -240,10 +240,18 @@ class Taxonomy
                 $name = strtolower(str_replace([' ', '_'], '-', $this->names['name']));
             }
 
-            // if is plural or slug, append an 's'
+            // if is plural or slug, append an 's', 'es' or 'ies'
             if (in_array($key, ['plural', 'slug'])) {
-                $name .= 's';
+                $last = strtolower(substr($name, -1));
+                if($last === 'y') {
+                    $name = substr($name, 0, -1) . 'ies';
+                } else if($last === 's') {
+                    $name .= 'es';
+                } else {
+                    $name .= 's';
+                }
             }
+
 
             // asign the name to the PostType property
             $this->$key = $name;
