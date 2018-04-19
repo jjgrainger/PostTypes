@@ -286,9 +286,9 @@ class PostType
             // if is plural or slug, append an 's', 'es' or 'ies'
             if (in_array($key, ['plural', 'slug'])) {
                 $last = strtolower(substr($name, -1));
-                if($last === 'y') {
+                if ($last === 'y') {
                     $name = substr($name, 0, -1) . 'ies';
-                } else if($last === 's') {
+                } elseif ($last === 's') {
                     $name .= 'es';
                 } else {
                     $name .= 's';
