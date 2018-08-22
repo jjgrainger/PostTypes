@@ -135,6 +135,9 @@ Taxonomies are created using the `Taxonomy` class. This works indetically to the
 To create a new taxonomy simply pass the taxonomy name to the `Taxonomy` class constructor. Labels and the taxonomy slug are generated from the taxonomy name.
 
 ```php
+// Make sure to load the Taxonomy class
+use PostTypes\Taxonomy;
+
 // Create a new taxonomy
 $genres = new Taxonomy('genre');
 
