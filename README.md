@@ -1,6 +1,6 @@
 # PostTypes v2.0.1
 
-[![Build Status](https://travis-ci.org/jjgrainger/PostTypes.svg?branch=master)](https://travis-ci.org/jjgrainger/PostTypes) [![Total Downloads](https://poser.pugx.org/jjgrainger/posttypes/downloads)](https://packagist.org/packages/jjgrainger/posttypes) [![Latest Stable Version](https://poser.pugx.org/jjgrainger/posttypes/v/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://poser.pugx.org/jjgrainger/posttypes/license)](https://packagist.org/packages/jjgrainger/posttypes)
+[![Build Status](https://flat.badgen.net/travis/jjgrainger/PostTypes?label=build)](https://travis-ci.org/jjgrainger/PostTypes) [![Latest Stable Version](https://flat.badgen.net/github/release/jjgrainger/PostTypes/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![Total Downloads](https://flat.badgen.net/packagist/dt/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://flat.badgen.net/github/license/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes)
 
 > Simple WordPress custom post types.
 
