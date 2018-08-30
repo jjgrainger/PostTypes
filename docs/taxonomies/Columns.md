@@ -14,4 +14,4 @@ $genres->columns()->add([
 // Register the taxonomy to WordPress
 $genres->register();
 ```
-Please refer to the [PostTypes column documentation](../posttypes/Columns.md) for more on how to work with the column manager.
+Please refer to the [PostTypes column documentation](../post-types/Columns.md) for more on how to work with the column manager.

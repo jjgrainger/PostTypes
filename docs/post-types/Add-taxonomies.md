@@ -9,7 +9,7 @@ $books = new PostType('book');
 // Add the genre taxonomy to the book post type
 $books->taxonomy('genre');
 
-// Add the cefault category taxonomy
+// Add the default category taxonomy
 $books->taxonomy('category');
 
 // Register the post type to WordPress

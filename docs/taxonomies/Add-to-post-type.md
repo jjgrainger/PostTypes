@@ -13,4 +13,4 @@ $genres->posttype('books');
 $genres->register();
 ```
 
-Alternatively, you can attach a taxonomy to a post type when creating a PostType using its [`taxonomy()`](../posttypes/Add-taxonomies.md) method.
+Alternatively, you can attach a taxonomy to a post type when creating a PostType using its [`taxonomy()`](../post-types/Add-taxonomies.md) method.

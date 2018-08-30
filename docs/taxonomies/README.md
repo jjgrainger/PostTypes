@@ -2,6 +2,6 @@
 
 The following section contains information on creating and working with Taxonomies.
 
-* [Create a Taxonomy](taxonomies/Create-a-taxonomy.md)
-* [Add to PostType](taxonomies/Add-to-post-type.md)
-* [Columns](taxonomies/Columns.md)
+* [Create a Taxonomy](Create-a-taxonomy.md)
+* [Add to PostType](Add-to-post-type.md)
+* [Columns](Columns.md)

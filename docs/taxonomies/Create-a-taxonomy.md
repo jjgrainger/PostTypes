@@ -68,7 +68,7 @@ $genres->options([
 $genres->register();
 ```
 
-The options match the arguements passed to the `register_taxonomy()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments)
+The options match the arguements passed to the `register_taxonomy()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
 
 #### Add labels
 
@@ -104,7 +104,7 @@ You can work with existing taxonomies by passing the taxonomy name to the Taxono
 
 ```php
 // Create a new Taxonomy object for an existing taxonomy
-$tags = new Taxonomy('post_tags');
+$tags = new Taxonomy('post_tag');
 
 // Modify the taxonomy...
 
