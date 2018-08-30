@@ -15,6 +15,7 @@ $books->taxonomy('category');
 // Register the post type to WordPress
 $books->register();
 ```
-This method only attaches the taxonomy to the PostType, to _create_ a taxonomy see the [documentation](/taxonomies) on creating a new Taxonomy.
+
+This method only attaches the taxonomy to the PostType, to _create_ a taxonomy see the [documentation](../taxonomies/Create-a-taxonomy.md) on creating a new Taxonomy.
 
 Taxonomies and PostTypes can be created in any order.

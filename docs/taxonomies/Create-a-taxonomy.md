@@ -4,7 +4,7 @@ Taxonomies are created using the `Taxonomy` class. This works indetically to the
 
 ## Create a new taxonomy
 
-To create a new taxonomy simply pass the taxonomy name to the `Taxonomy` class constructor. Labels and the taxonomy slug are generated from the taxonomy name.
+To create a new taxonomy pass the taxonomy name to the class constructor. Labels and the slug are generated from the taxonomy name.
 
 ```php
 use PostTypes\Taxonomy;
@@ -16,14 +16,9 @@ $genres = new Taxonomy('genre');
 $genres->register();
 ```
 
-#### Defining names
+#### Set names
 
-You can define names by passing an array as the first argument. Only the `name` is required.
-
-* `name` is the post type name
-* `singular` is the singular label for the post type
-* `plural` is the plural label for the post type
-* `slug` is the post type slug used in the permalinks
+You can define names by passing an array as the first argument. Only `name` is required.
 
 ```php
 $names = [
@@ -38,7 +33,16 @@ $genres = new Taxonomy($names);
 $genres->register();
 ```
 
-#### Adding options
+The following names are accepted.
+
+| Key | Description | Example |
+| --- | --- | --- |
+| `name` | is the post type name | *required*, singular, lowercase, underscores |
+| `singular` | is the singular label for the post type | e.g 'Genre', 'Category' |
+| `plural` | is the plural label for the post type | e.g 'Genres', 'Categories' |
+| `slug` | is the post type slug used in the permalinks | plural, lowercase, hyphens |
+
+#### Add options
 
 You can further customise taxonomies by passing an array of options as the second argument to the method.
 
@@ -52,11 +56,23 @@ $genres = new Taxonomy('genre', $options);
 $genres->register();
 ```
 
-All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy)
+Alternatively, you can set options using the `options()` method.
 
-#### Adding labels
+```php
+$genres = new Taxonomy('genre');
 
-You can define the labels for a Taxonomy by passing an array as the third argument in the class constructor.
+$genres->options([
+    'hierarchical' => false,
+]);
+
+$genres->register();
+```
+
+The options match the arguements passed to the `register_taxonomy()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments)
+
+#### Add labels
+
+You can define the labels for a taxonomy by passing an array as the third argument in the class constructor.
 
 ```php
 $labels = [
@@ -82,7 +98,7 @@ $genres->register();
 
 All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy)
 
-## Working with exisiting Taxonomies
+## Work with exisiting Taxonomies
 
 You can work with existing taxonomies by passing the taxonomy name to the Taxonoy constructor. Once you have made your changes you need to register them to WordPress using the `register()` method.
 

@@ -1,6 +1,6 @@
 # Create a PostType
 
-You can use PostTypes to create a new post type, or work with an [existing post type](#working-with-exisiting-posttypes). PostTypes can be included in your theme or plugins.
+You can use PostTypes to create a new post type, or work with an [existing post type](#work-with-exisiting-posttypes). PostTypes can be included in your theme or plugins.
 
 ## Create a new PostType
 
@@ -15,16 +15,9 @@ $books = new PostType('book');
 // Register the post type to WordPress
 $books->register();
 ```
-> ##### Hint
->
-> The `register()` method hooks into WordPress and sets up the different actions and
-> filters to create your custom post type. You do not need to add any of your PostTypes
-> code in actions/filters. Doing so may lead to unexpected results.
-
-Testing hints
 
 {% hint style="info" %}
-Hello world
+The `register()` method hooks into WordPress and sets up the different actions and filters to create your custom post type. You do not need to add any of your PostTypes code in actions/filters. Doing so may lead to unexpected results.
 {% endhint %}
 
 ### Set names
