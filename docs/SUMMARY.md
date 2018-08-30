@@ -1,15 +1,16 @@
 # Table of Contents
 
+* [Post Types](../README.md)
 * [Getting Started](Getting-started.md)
 * [PostTypes](posttypes/README.md)
-    * [Create a new PostType](posttypes/Create-a-post-type.md)
+    * [Create a PostType](posttypes/Create-a-post-type.md)
     * [Add Taxonomies](posttypes/Add-taxonomies.md)
     * [Filters](posttypes/Filters.md)
     * [Columns](posttypes/Columns.md)
     * [Menu Icons](posttypes/Menu-icons.md)
     * [Flush Rewrite Rules](posttypes/Flush-rewrite-rules.md)
 * [Taxonomies](taxonomies/README.md)
-    * [Create a new Taxonomy](taxonomies/Create-a-taxonomy.md)
+    * [Create a Taxonomy](taxonomies/Create-a-taxonomy.md)
     * [Add to PostType](taxonomies/Add-to-post-type.md)
     * [Columns](taxonomies/Columns.md)
 * [Notes](Notes.md)

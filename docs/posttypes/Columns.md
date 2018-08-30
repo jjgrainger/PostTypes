@@ -1,10 +1,10 @@
 # Columns
 
-You can now modify a PostTypes admin columns using the `column()` manager.
+To modify a PostTypes admin columns use the `column()` manager. It has a variety of methods to help fine tune admin table columns.
 
-#### Adding Columns
+#### Add Columns
 
-You can add columns to the admin edit screen by passing an array of slugs and labels to the `add()` method.
+To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
 
 ```php
 // add multiple columns and set their labels
@@ -14,9 +14,9 @@ $books->columns()->add([
 ]);
 ```
 
-#### Hiding Columns
+#### Hide Columns
 
-You can hide columns by passing the column slug to the `hide()` method. You can hide multiple columns by passing an array of column slugs.
+To hide columns pass the column slug to the `hide()` method. For multiple columns pass an array of column slugs.
 
 ```php
 $books->columns()->hide('author');
@@ -24,9 +24,20 @@ $books->columns()->hide('author');
 $books->columns()->hide(['author', 'date']);
 ```
 
+#### Column Order
+
+To rearrange columns pass an array of column slugs and position to the `order()` method. Only columns you want to reorder need to be set, not all columns. Positions are based on a zero based index.
+
+```php
+$books->columns()->order([
+    'rating' => 2,
+    'genre' => 4
+]);
+```
+
 #### Set Columns
 
-You can force set all the columns to display on the admin page with the `set()` method by passing an array of the column slugs and labels.
+To set all columns to display pass an array of the column slugs and labels to the `set()` method. This overides any other configuration set by the methods above.
 
 ```php
 $books->columns()->set([
@@ -38,34 +49,23 @@ $books->columns()->set([
 ]);
 ```
 
-#### Column Order
+#### Populate Columns
 
-After hiding and adding columns you may want to rearrange the column order. To do this use the `order()` method. You only have to pass through an array of the columns you want to reposition, not all of them. Their positions are based on a zero based index.
-
-```php
-$books->columns()->order([
-    'rating' => 2,
-    'genre' => 4
-]);
-```
-
-#### Populating Columns
-
-You can populate any column using the `populate()` method and passing the column slug and function.
+To populate any column use the `populate()` method. and passing the column slug and function.
 
 ```php
-$books->columns()->populate('rating', function($column, $post_id) {
+$books->columns()->populate('rating', function ($column, $post_id) {
     echo get_post_meta($post_id, 'rating', true) . '/10';
 });
 ```
 
-#### Sorting Columns
+#### Sortable Columns
 
-You can choose which custom columns are sortable with the `sortable()` method. This method accepts an array of column slugs and an array of sorting options.
+To define which custom columns are sortable use the `sortable()` method. This method accepts an array of column slugs and an array of sorting options.
 
 The first option is the `meta_key` to sort the colums by.
 
-The second option is whether to order the items numerically (`true`) or alphabetically (`false`) by default.
+The second option is how the items are orders, either numerically (`true`) or alphabetically (`false`) by default.
 
 ```php
 // will make both the price and rating columns sortable and ordered numerically

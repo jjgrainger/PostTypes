@@ -1,10 +1,10 @@
 # Create a PostType
 
-You can use PostTypes to create a new post type, or work with an existing post type.
+You can use PostTypes to create a new post type, or work with an [existing post type](#working-with-exisiting-posttypes). PostTypes can be included in your theme or plugins.
 
 ## Create a new PostType
 
-A new post type can be created by simply passing the post types name to the class constructor. To register the post type to WordPress you must call the `register()` method.
+To create a new post type pass the post types name to the class constructor. In order to apply changes to WordPress you must call the `register()` method.
 
 ```php
 use PostTypes\PostType;
@@ -15,10 +15,21 @@ $books = new PostType('book');
 // Register the post type to WordPress
 $books->register();
 ```
+> ##### Hint
+>
+> The `register()` method hooks into WordPress and sets up the different actions and
+> filters to create your custom post type. You do not need to add any of your PostTypes
+> code in actions/filters. Doing so may lead to unexpected results.
 
-#### Defining names
+Testing hints
 
-The post type labels and slugs are automatically generated from the post type name, however, if you need to define these manually pass an array of names to the post types constructor.
+{% hint style="info" %}
+Hello world
+{% endhint %}
+
+### Set names
+
+The post type labels and slugs are automatically generated from the post type name, however, if you can set these manually by passing an array of names to the post types constructor.
 
 ```php
 $names = [
@@ -33,18 +44,20 @@ $books = new PostType($names);
 $books->register();
 ```
 
-It can accept the following names:
+The following names are accepted.
 
-* `name` is the post type name (*required*, singular, lowercase, underscores)
-* `singular` is the singular label for the post type (Book, Person)
-* `plural` is the plural label for the post type (Books, People)
-* `slug` is the post type slug used in the permalinks (plural, lowercase, hyphens)
+| Key | Description | Example |
+| --- | --- | --- |
+| `name` | is the post type name | *required*, singular, lowercase, underscores |
+| `singular` | is the singular label for the post type | e.g 'Book', 'Person' |
+| `plural` | is the plural label for the post type | e.g 'Books', 'People' |
+| `slug` | is the post type slug used in the permalinks | plural, lowercase, hyphens |
 
-The only required name is the post types `name`.
+The only required name is the post types `name`, all others are optional.
 
-#### Adding options
+### Set options
 
-You can define the options for the post type by passing an array as the second argument in the class constructor.
+Options for the post type are set by passing an array as the second argument in the class constructor.
 
 ```php
 $options = [
@@ -56,11 +69,23 @@ $books = new PostType('book', $options);
 $books->register();
 ```
 
-All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
+Alternatively, you can set options using the `options()` method.
 
-#### Adding labels
+```php
+$books = new PostType('book');
 
-You can define the labels for the post type by passing an array as the third argument in the class constructor.
+$books->options([
+    'has_archive' => false
+]);
+
+$books->register();
+```
+
+The options match the arguements passed to the `register_post_type()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#Parameters)
+
+### Set labels
+
+You can set the labels for the post type by passing an array as the third argument in the class constructor.
 
 ```php
 $labels = [
@@ -84,12 +109,12 @@ $books->labels([
 $books->register();
 ```
 
-All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type)
+All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#labels)
 
 
-## Working with exisiting PostTypes
+## Work with exisiting PostTypes
 
-To work with exisiting post types simple pass the post type name into the object. Be careful using global variables (i.e `$post`) which can lead to unwanted results.
+To work with exisiting post types pass the post type name into the comstructor. Be careful and avoid using global variables (e.g `$post`) which can lead to unwanted results.
 
 ```php
 // Create a PostType object for an existing post type in WordPress

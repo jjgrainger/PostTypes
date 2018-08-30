@@ -1,9 +1,21 @@
 # Filters
 
-Set the taxonomy filters on the post type admin edit screen by passing an array to the `filters()` method
+You can set what dropdown filters appear on the post type admin edit screen by passing an array of taxonomy names to the `filters()` method.
 
 ```php
-$books->filters(['genres', 'category']);
+$books->filters(['genre', 'category']);
 ```
 
-The order of the filters are set by the order of the items in the array. An empty array will remove all dropdown filters.
+The order the filters appear are set by the order of the items in the array.
+
+```php
+// Display the category dropdown first.
+$books->filters(['category', 'genre']);
+```
+
+An empty array will remove all dropdown filters from the admin edit screen.
+
+```php
+// Don't display filters on the admin edit screen
+$books->filters([]);
+```
