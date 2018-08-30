@@ -48,6 +48,6 @@ $books->columns()->hide(['date', 'author']);
 // Set the Books menu icon
 $books->icon('dashicons-book-alt');
 
-// Register the PostType to WordPRess
+// Register the PostType to WordPress
 $books->register();
 ```
