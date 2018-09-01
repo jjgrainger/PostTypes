@@ -14,4 +14,5 @@
     * [Add to PostType](taxonomies/Add-to-post-type.md)
     * [Columns](taxonomies/Columns.md)
 * [Notes](Notes.md)
+* [Contributing](../CONTRIBUTING.md)
 * [Changelog](../Changelog.md)
