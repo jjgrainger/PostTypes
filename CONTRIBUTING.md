@@ -1,6 +1,6 @@
 # Contributing
 
-First, thank you for taking the time to contribute to [PostTypes](https://github.com/jjgrainger/PostTypes), you're amazing! :tada: :clap: :raised_hands:
+First, thank you for taking the time to contribute to [PostTypes](https://github.com/jjgrainger/PostTypes), you're amazing! 🎉 👏 🙌
 
 All contributions are welcome and appreciated. It is recommend you read through this document before making your first contribution.
 
@@ -29,7 +29,7 @@ When creating an issue it is best to provide as much information as possible in 
 * [Documentation Improvements](#documentation-improvement)
 * [Support Questions](#support-questions)
 
-### :bug: Bug Report 🐛
+### 🐛 Bug Report
 
 Bug reports highlight an an error or unexpected behaviour when using the code. In order to resolve the issue, enough detail must be provided in order to recreate the problem so it can be investigated and fixed.
 
@@ -40,7 +40,7 @@ Bug reports highlight an an error or unexpected behaviour when using the code. I
 * Code examples and error messages are useful.
 * Version numbers (PHP, PostTypes, WordPress) are useful.
 
-### :rocket: Feature Request
+### 🚀 Feature Request
 
 Feature request suggest an idea for an improvement or additional functionality. Feature requests should be raised **before submitting a [pull request](#submit-a-pull-request)**. This provides an opportunity for discussion and help prevent unescessary work from being carried out.
 
@@ -51,7 +51,7 @@ Feature request suggest an idea for an improvement or additional functionality. 
 * Offer examples of how it would be used.
 * Provide links to WordPress documentation were relevant.
 
-### :book: Documentation Improvements
+### 📖 Documentation Improvements
 
 Documentation improvements suggest ways to enhance the [documentation](https://posttypes.jjgrainger.co.uk). This could be anything from fixing spelling errors to adding new sections.
 
@@ -60,7 +60,7 @@ Documentation improvements suggest ways to enhance the [documentation](https://p
 * Provide links to the pages you're referring to.
 * Offer an explanation on how this is an improvement.
 
-### :balloon: Support Questions
+### 🎈 Support Questions
 
 For general questions and support. This is also a catch-all for anything that doesn't fit in the categories above.
 
