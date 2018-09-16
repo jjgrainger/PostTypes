@@ -1,6 +1,6 @@
 ---
-name: :balloon: Support Question
-about: For general questions and support.
+name: ":balloon: Support Question"
+about: "For general questions and support."
 ---
 
 Please consider the following when creating your Support Question:

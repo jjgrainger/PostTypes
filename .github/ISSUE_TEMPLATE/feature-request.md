@@ -1,6 +1,6 @@
 ---
-name: :rocket: Feature Request
-about: Suggest an idea for an improvement or additional functionality
+name: ":rocket: Feature Request"
+about: "Suggest an idea for an improvement or additional functionality."
 ---
 
 Please consider the following when creating your Feature Request:
