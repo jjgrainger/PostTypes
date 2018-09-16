@@ -1,4 +1,4 @@
-Thank you for your Pull Request! :tada:
+Thank you for your Pull Request!
 
 Please consider the following when creating your pull request:
 

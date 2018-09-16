@@ -1,6 +1,6 @@
 ---
-name: :bug: Bug Report
-about: Report an error or unexpected behaviour you found when using the code.
+name: ":bug: Bug Report"
+about: "Report an error or unexpected behaviour you found when using the code."
 ---
 
 Please consider the following when creating your Bug Report:
