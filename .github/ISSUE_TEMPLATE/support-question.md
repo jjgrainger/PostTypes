@@ -1,5 +1,5 @@
 ---
-name: ":balloon: Support Question"
+name: "🎈 Support Question"
 about: "For general questions and support."
 ---
 
