@@ -1,5 +1,5 @@
 ---
-name: ":rocket: Feature Request"
+name: "🚀 Feature Request"
 about: "Suggest an idea for an improvement or additional functionality."
 ---
 

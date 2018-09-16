@@ -1,5 +1,5 @@
 ---
-name: ":bug: Bug Report"
+name: "🐛 Bug Report"
 about: "Report an error or unexpected behaviour you found when using the code."
 ---
 
