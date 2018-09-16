@@ -1,6 +1,6 @@
 ---
 name: "📖 Documentation Improvement"
-about: "Suggest improvements for the [documentation](https://posttypes.jjgrainger.co.uk). This could be anything from fixing spelling errors to adding new sections."
+about: "Suggest improvements for the documentation. This could be anything from fixing spelling errors to adding new sections."
 ---
 
 Please consider the following when creating your Documentation Improvement:
