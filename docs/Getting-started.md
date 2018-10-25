@@ -30,7 +30,7 @@ See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autolo
 
 ## Basic Usage
 
-Below is a basic example of setting up a simple books PostType.
+Below is a basic example of setting up a simple books post type.
 
 ```php
 // Require the Composer autoloader
@@ -39,7 +39,7 @@ require __DIR__ . '/vendor/autoload.php';
 // Import PostTypes
 use PostTypes\PostType;
 
-// Create a books PostType
+// Create a books post type
 $books = new PostType('book');
 
 // Hide the date and author columns
@@ -48,6 +48,6 @@ $books->columns()->hide(['date', 'author']);
 // Set the Books menu icon
 $books->icon('dashicons-book-alt');
 
-// Register the PostType to WordPress
+// Register the post type to WordPress
 $books->register();
 ```

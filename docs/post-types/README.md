@@ -1,8 +1,8 @@
 # PostTypes
 
-The following section contains information on creating and working with PostTypes.
+The following section contains information on creating and working with post types.
 
-* [Create a PostType](Create-a-post-type.md)
+* [Create a Post Type](Create-a-post-type.md)
 * [Add Taxonomies](Add-taxonomies.md)
 * [Filters](Filters.md)
 * [Columns](Columns.md)

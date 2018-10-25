@@ -36,7 +36,7 @@ See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autolo
 
 ## Basic Usage
 
-Below is a basic example of setting up a simple books PostType with a genre Taxonomy. For more information, check out the [online documentation here](https://posttypes.jjgrainger.co.uk).
+Below is a basic example of setting up a simple book post type with a genre taxonomy. For more information, check out the [online documentation here](https://posttypes.jjgrainger.co.uk).
 
 ```php
 // Require the Composer autoloader
@@ -45,7 +45,7 @@ require __DIR__ . '/vendor/autoload.php';
 // Import PostTypes
 use PostTypes\PostType;
 
-// Create a books PostType
+// Create a books post type
 $books = new PostType('book');
 
 // Attach the genre taxonomy, this is created below
@@ -57,18 +57,18 @@ $books->columns()->hide(['date', 'author']);
 // Set the Books menu icon
 $books->icon('dashicons-book-alt');
 
-// Register the PostType to WordPress
+// Register the post type to WordPress
 $books->register();
 
-// Create a genre Taxonomy
+// Create a genre taxonomy
 $genres = new Taxonomy('genre');
 
-// Set options for the Taxonomy
+// Set options for the taxonomy
 $genres->options([
     'hierarchical' => false,
 ]);
 
-// Register the Taxonomy to WordPress
+// Register the taxonomy to WordPress
 $genres->register();
 ```
 

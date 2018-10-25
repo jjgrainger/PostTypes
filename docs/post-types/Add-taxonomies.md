@@ -1,6 +1,6 @@
 # Add Taxonomies
 
-You can add new and existing Taxonomies to a PostType by passing the taxonomy name to the `taxonomy()` method.
+You can add new and existing taxonomies to a post type by passing the taxonomy name to the `taxonomy()` method.
 
 ```php
 // Create a books post type
@@ -16,6 +16,6 @@ $books->taxonomy('category');
 $books->register();
 ```
 
-This method only attaches the taxonomy to the PostType, to _create_ a taxonomy see the [documentation](../taxonomies/Create-a-taxonomy.md) on creating a new Taxonomy.
+This method only attaches the taxonomy to the post type, to _create_ a taxonomy see the [documentation](../taxonomies/Create-a-taxonomy.md) on creating a new taxonomy.
 
-Taxonomies and PostTypes can be created in any order.
+Taxonomies and post types can be created in any order.

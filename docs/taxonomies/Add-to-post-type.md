@@ -1,9 +1,9 @@
-## Add to PostType
+## Add to post type
 
 You can add a taxonomy to any post type by passing the post type name to the `posttype()` method.
 
 ```php
-// Create the genre Taxonomy.
+// Create the genre taxonomy.
 $genres = new Taxonomy('genre');
 
 // Attach to the books post type
@@ -13,4 +13,4 @@ $genres->posttype('books');
 $genres->register();
 ```
 
-Alternatively, you can attach a taxonomy to a post type when creating a PostType using its [`taxonomy()`](../post-types/Add-taxonomies.md) method.
+Alternatively, you can attach a taxonomy to a post type when creating a post type using its [`taxonomy()`](../post-types/Add-taxonomies.md) method.
