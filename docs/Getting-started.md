@@ -16,7 +16,7 @@ Run the following in your terminal to install PostTypes with [Composer](https://
 $ composer require jjgrainger/posttypes
 ```
 
-PostTypes uses [PSR-4](http://www.php-fig.org/psr/psr-4/) autoloading and cand be used with Composers autoloader. Below is a basic example of getting started, though your setup maybe different depending on how you are using Composer.
+PostTypes uses [PSR-4](http://www.php-fig.org/psr/psr-4/) autoloading and cand be used with Composer's autoloader. Below is a basic example of getting started, though your setup maybe different depending on how you are using Composer.
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -26,7 +26,7 @@ use PostTypes\PostType;
 $books = new PostType('book');
 ```
 
-See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working Composer and autoloading.
+See Composer's [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working with Composer and autoloading.
 
 ## Basic Usage
 

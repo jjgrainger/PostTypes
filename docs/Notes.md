@@ -25,4 +25,4 @@ The class has no methods for making custom fields for post types, use [Advanced 
 
 ## Examples
 
-The books example used in the README.md can be found in the [examples/books.php](https://github.com/jjgrainger/posttypes/blob/master/examples/books.php).
+The books example used in the README.md can be found in [examples/books.php](https://github.com/jjgrainger/posttypes/blob/master/examples/books.php).
