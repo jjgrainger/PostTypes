@@ -90,7 +90,7 @@ Alternatively, you can use the `labels()` method to set the labels for the post 
 $genres = new Taxonomy('genre');
 
 $genres->labels([
-    'add_new_item' => __('Add new Genre')
+    'add_new_item' => __('Add new Genre'),
 ]);
 
 $genres->register();

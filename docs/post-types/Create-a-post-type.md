@@ -26,10 +26,10 @@ The post type labels and slugs are automatically generated from the post type na
 
 ```php
 $names = [
-    'name' => 'book',
+    'name'     => 'book',
     'singular' => 'Book',
-    'plural' => 'Books',
-    'slug' => 'books'
+    'plural'   => 'Books',
+    'slug'     => 'books',
 ];
 
 $books = new PostType($names);
@@ -54,7 +54,7 @@ Options for the post type are set by passing an array as the second argument in 
 
 ```php
 $options = [
-    'has_archive' => false
+    'has_archive' => false,
 ];
 
 $books = new PostType('book', $options);
@@ -68,7 +68,7 @@ Alternatively, you can set options using the `options()` method.
 $books = new PostType('book');
 
 $books->options([
-    'has_archive' => false
+    'has_archive' => false,
 ]);
 
 $books->register();
@@ -82,7 +82,7 @@ You can set the labels for the post type by passing an array as the third argume
 
 ```php
 $labels = [
-    'featured_image' => __( 'Book Cover Image' ),
+    'add_new_item' => __('Add new Book'),
 ];
 
 $books = new PostType('book', $options, $labels);
@@ -96,7 +96,7 @@ Alternatively, you can use the `labels()` method to set the labels for the post 
 $books = new PostType('books');
 
 $books->labels([
-    'add_new_item' => __('Add new Book')
+    'add_new_item' => __('Add new Book'),
 ]);
 
 $books->register();

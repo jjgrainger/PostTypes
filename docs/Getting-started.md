@@ -24,6 +24,8 @@ require __DIR__ . '/vendor/autoload.php';
 use PostTypes\PostType;
 
 $books = new PostType('book');
+
+$books->register();
 ```
 
 See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working Composer and autoloading.
