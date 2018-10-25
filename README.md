@@ -45,7 +45,7 @@ require __DIR__ . '/vendor/autoload.php';
 // Import PostTypes
 use PostTypes\PostType;
 
-// Create a books post type
+// Create a book post type
 $books = new PostType('book');
 
 // Attach the genre taxonomy, this is created below

@@ -30,7 +30,7 @@ See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autolo
 
 ## Basic Usage
 
-Below is a basic example of setting up a simple books post type.
+Below is a basic example of setting up a simple book post type.
 
 ```php
 // Require the Composer autoloader
@@ -39,7 +39,7 @@ require __DIR__ . '/vendor/autoload.php';
 // Import PostTypes
 use PostTypes\PostType;
 
-// Create a books post type
+// Create a book post type
 $books = new PostType('book');
 
 // Hide the date and author columns

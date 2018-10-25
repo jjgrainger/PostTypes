@@ -3,7 +3,7 @@
 You can add new and existing taxonomies to a post type by passing the taxonomy name to the `taxonomy()` method.
 
 ```php
-// Create a books post type
+// Create a book post type
 $books = new PostType('book');
 
 // Add the genre taxonomy to the book post type

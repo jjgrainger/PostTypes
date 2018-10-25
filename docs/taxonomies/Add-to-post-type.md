@@ -6,7 +6,7 @@ You can add a taxonomy to any post type by passing the post type name to the `po
 // Create the genre taxonomy.
 $genres = new Taxonomy('genre');
 
-// Attach to the books post type
+// Attach to the book post type
 $genres->posttype('books');
 
 // Register changes to WordPress.
