@@ -21,7 +21,7 @@ $books->labels([
 
 ## Custom Fields
 
-The class has no methods for making custom fields for post types, use [Advanced Custom Fields](http://advancedcustomfields.com).
+The class has no methods for making custom fields for post types, use [Advanced Custom Fields](https://advancedcustomfields.com).
 
 ## Examples
 
