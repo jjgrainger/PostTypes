@@ -20,7 +20,7 @@ Run the following in your terminal to install PostTypes with [Composer](https://
 $ composer require jjgrainger/posttypes
 ```
 
-PostTypes uses [PSR-4](http://www.php-fig.org/psr/psr-4/) autoloading and cand be used with Composer's autoloader. Below is a basic example of getting started, though your setup maybe different depending on how you are using Composer.
+PostTypes uses [PSR-4](http://www.php-fig.org/psr/psr-4/) autoloading and can be used with Composers autoloader. Below is a basic example of getting started, though your setup may be different depending on how you are using Composer.
 
 ```php
 require __DIR__ . '/vendor/autoload.php';

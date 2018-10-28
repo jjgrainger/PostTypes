@@ -26,7 +26,7 @@ Please keep this in mind when contributing to the project.
 
 ## Create an Issue
 
-If you would like to report a bug, feture request, documentation improvement or question please [create an issue](https://github.com/jjgrainger/PostTypes/issues/new). Before creating a new issue please check it has not already been raised by searching [issues](https://github.com/jjgrainger/PostTypes/issues) on GitHub.
+If you would like to report a bug, feature request, documentation improvement or question please [create an issue](https://github.com/jjgrainger/PostTypes/issues/new). Before creating a new issue please check it has not already been raised by searching [issues](https://github.com/jjgrainger/PostTypes/issues) on GitHub.
 
 When creating an issue it is best to provide as much information as possible in order to help the discussion move quickly and efficiently.
 
@@ -39,7 +39,7 @@ When creating an issue it is best to provide as much information as possible in 
 
 ### 🐛 Bug Report
 
-Bug reports highlight an an error or unexpected behaviour when using the code. In order to resolve the issue, enough detail must be provided in order to recreate the problem so it can be investigated and fixed.
+Bug reports highlight an error or unexpected behaviour when using the code. In order to resolve the issue, enough detail must be provided in order to recreate the problem so it can be investigated and fixed.
 
 **Tips on creating bug reports:**
 
@@ -57,7 +57,7 @@ Feature requests suggest an idea for an improvement or additional functionality.
 * Provide a description of the change you want to make.
 * Highlight the problem it attempts to solve.
 * Offer examples of how it would be used.
-* Provide links to WordPress documentation were relevant.
+* Provide links to WordPress documentation where relevant.
 
 ### 📖 Documentation Improvements
 

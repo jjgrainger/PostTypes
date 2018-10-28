@@ -1,6 +1,6 @@
 # Taxonomies
 
-Taxonomies are created using the `Taxonomy` class. This works indetically to the `PostType` class and holds similar methods.
+Taxonomies are created using the `Taxonomy` class. This works identically to the `PostType` class and holds similar methods.
 
 ## Create a new taxonomy
 
@@ -37,10 +37,10 @@ The following names are accepted.
 
 | Key | Description | Example |
 | --- | --- | --- |
-| `name` | is the post type name | *required*, singular, lowercase, underscores |
-| `singular` | is the singular label for the post type | e.g 'Genre', 'Category' |
-| `plural` | is the plural label for the post type | e.g 'Genres', 'Categories' |
-| `slug` | is the post type slug used in the permalinks | plural, lowercase, hyphens |
+| `name` | is the taxonomy name | *required*, singular, lowercase, underscores |
+| `singular` | is the singular label for the taxonomy | e.g 'Genre', 'Category' |
+| `plural` | is the plural label for the taxonomy | e.g 'Genres', 'Categories' |
+| `slug` | is the taxonomy slug used in the permalinks | plural, lowercase, hyphens |
 
 #### Add options
 
@@ -68,7 +68,7 @@ $genres->options([
 $genres->register();
 ```
 
-The options match the arguements passed to the `register_taxonomy()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
+The options match the arguments passed to the `register_taxonomy()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy#Arguments).
 
 #### Add labels
 
@@ -84,7 +84,7 @@ $genres = new Taxonomy('genres', $options, $labels);
 $genres->register();
 ```
 
-Alternatively, you can use the `labels()` method to set the labels for the post type.
+Alternatively, you can use the `labels()` method to set the labels for the taxonomy.
 
 ```php
 $genres = new Taxonomy('genre');
@@ -98,7 +98,7 @@ $genres->register();
 
 All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_taxonomy)
 
-## Work with exisiting Taxonomies
+## Work with existing Taxonomies
 
 You can work with existing taxonomies by passing the taxonomy name to the Taxonoy constructor. Once you have made your changes you need to register them to WordPress using the `register()` method.
 

@@ -37,7 +37,7 @@ $books->columns()->order([
 
 #### Set Columns
 
-To set all columns to display pass an array of the column slugs and labels to the `set()` method. This overides any other configuration set by the methods above.
+To set all columns to display pass an array of the column slugs and labels to the `set()` method. This overrides any other configuration set by the methods above.
 
 ```php
 $books->columns()->set([
@@ -63,9 +63,9 @@ $books->columns()->populate('rating', function ($column, $post_id) {
 
 To define which custom columns are sortable use the `sortable()` method. This method accepts an array of column slugs and an array of sorting options.
 
-The first option is the `meta_key` to sort the colums by.
+The first option is the `meta_key` to sort the columns by.
 
-The second option is how the items are orders, either numerically (`true`) or alphabetically (`false`) by default.
+The second option is how the items are ordered, either numerically (`true`) or alphabetically (`false`) by default.
 
 ```php
 // will make both the price and rating columns sortable and ordered numerically

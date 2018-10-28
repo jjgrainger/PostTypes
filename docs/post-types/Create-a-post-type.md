@@ -1,6 +1,6 @@
 # Create a PostType
 
-You can use PostTypes to create a new post type, or work with an [existing post type](#work-with-exisiting-posttypes). PostTypes can be included in your theme or plugins.
+You can use PostTypes to create a new post type, or work with an [existing post type](#work-with-existing-posttypes). PostTypes can be included in your theme or plugins.
 
 ## Create a new PostType
 
@@ -74,7 +74,7 @@ $books->options([
 $books->register();
 ```
 
-The options match the arguements passed to the `register_post_type()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#Parameters)
+The options match the arguments passed to the `register_post_type()` WordPress function. All available options are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#Parameters)
 
 ### Set labels
 
@@ -105,9 +105,9 @@ $books->register();
 All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#labels)
 
 
-## Work with exisiting PostTypes
+## Work with existing PostTypes
 
-To work with exisiting post types pass the post type name into the comstructor. Be careful and avoid using global variables (e.g `$post`) which can lead to unwanted results.
+To work with existing post types pass the post type name into the constructor. Be careful and avoid using global variables (e.g `$post`) which can lead to unwanted results.
 
 ```php
 // Create a PostType object for an existing post type in WordPress
