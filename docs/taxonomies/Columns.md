@@ -1,6 +1,6 @@
 ## Columns
 
-You can now modify a `Taxonomy` columns using the same methods as you would for a `PostType`. For example:
+You can now modify `Taxonomy` columns using the same methods as you would for a `PostType`. For example:
 
 ```php
 // Create a taxonomy

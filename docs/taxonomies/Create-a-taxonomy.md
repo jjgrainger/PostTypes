@@ -44,7 +44,7 @@ The following names are accepted.
 
 #### Add options
 
-You can further customise taxonomies by passing an array of options as the second argument to the method.
+You can further customise taxonomies by passing an array of options as the second argument in the constructor.
 
 ```php
 $options = [

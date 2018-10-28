@@ -2,7 +2,7 @@
 
 First, thank you for taking the time to contribute to [PostTypes](https://github.com/jjgrainger/PostTypes), you're amazing! 🎉 👏 🙌
 
-All contributions are welcome and appreciated. It is recommend you read through this document before making your first contribution.
+All contributions are welcome and appreciated. It is recommended that you read through this document before making your first contribution.
 
 The following instructions are recommended as _guidelines_ and not strict rules. However, following this guide will make it easier for both you and the maintainers when working on the project.
 
@@ -16,11 +16,11 @@ The following instructions are recommended as _guidelines_ and not strict rules.
 
 PostTypes mission is to _create advanced WordPress custom post types easily_.
 
-It's focus is on the creation of custom post types, specifically around the admin interface, providing methods to create advanced post tables, columns, filters and more.
+Its focus is on the creation of custom post types, specifically around the admin interface, providing methods to create advanced post tables, columns, filters and more.
 
 It also makes it easy to create taxonomies and assign them to post types.
 
-Although its focus is on the admin interface, PostTypes **is not for custom fields**. There a plenty of solutions for creating custom fields in WordPress. PostTypes has no intention of being one.
+Although its focus is on the admin interface, PostTypes **is not for custom fields**. There are plenty of solutions for creating custom fields in WordPress. PostTypes has no intention of being one.
 
 Please keep this in mind when contributing to the project.
 
@@ -50,7 +50,7 @@ Bug reports highlight an error or unexpected behaviour when using the code. In o
 
 ### 🚀 Feature Request
 
-Feature request suggest an idea for an improvement or additional functionality. Feature requests should be raised **before submitting a [pull request](#submit-a-pull-request)**. This provides an opportunity for discussion and help prevent unescessary work from being carried out.
+Feature requests suggest an idea for an improvement or additional functionality. Feature requests should be raised **before submitting a [pull request](#submit-a-pull-request)**. This provides an opportunity for discussion and help prevent unnecessary work from being carried out.
 
 **Tips on creating feature requests:**
 
@@ -107,7 +107,7 @@ This is not an exhaustive list. Labels may be changed and new ones created over 
 1. Create a branch with one of the relevant [branch prefixes](#branch-prefixes).
 1. Commit work to your branch.
 1. Push your branch to your fork on GitHub.
-1. Create a [pull request](https://github.com/jjgrainger/PostTypes/compare) comparing your forks branch against the main repositories `master`.
+1. Create a [pull request](https://github.com/jjgrainger/PostTypes/compare) comparing your forks branch against the main repository's `master`.
 
 **Tips on creating pull requests:**
 
@@ -130,13 +130,13 @@ Branch prefixes are used to help categorise the working branches by type.
 
 The `release/` prefix is to be used by **maintainers only**.
 
-The `docs/` prefix is used in alongside [Gitbook](https://www.gitbook.com/) where the docs are hosted. Branches with this prefix will be automatically generated and available as a version on the [documentation site](https://posttypes.jjgrainger.co.uk). This provides an opportunity to preview changes and approve them before being merged.
+The `docs/` prefix is used alongside [Gitbook](https://www.gitbook.com/) where the docs are hosted. Branches with this prefix will be automatically generated and made available as a version on the [documentation site](https://posttypes.jjgrainger.co.uk). This provides an opportunity to preview changes and approve them before being merged.
 
 ## Show Support
 
 PostTypes is open source and free to use. It was created to solve a problem while giving something back to the community. There are many ways to show your support, some ideas include:
 
-* Creating a [issue](https://github.com/jjgrainger/PostTypes/issues/new) and [pull requests](https://github.com/jjgrainger/PostTypes/compare).
+* Creating an [issue](https://github.com/jjgrainger/PostTypes/issues/new) and [pull requests](https://github.com/jjgrainger/PostTypes/compare).
 * [Staring](https://github.com/jjgrainger/PostTypes/stargazers) the project on GitHub.
 * Saying "thank you" over on [Twitter](https://twitter.com/jjgrainger)
 * Spread the word and let others know.

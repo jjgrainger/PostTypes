@@ -32,7 +32,7 @@ $books = new PostType('book');
 $books->register();
 ```
 
-See Composers [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working Composer and autoloading.
+See Composer's [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working with Composer and autoloading.
 
 ## Basic Usage
 
@@ -76,7 +76,7 @@ $genres->register();
 
 * The full documentation can be found online at [posttypes.jjgrainger.co.uk](https://posttypes.jjgrainger.co.uk)
 * The class has no methods for making custom fields for post types, use [Advanced Custom Fields](http://advancedcustomfields.com)
-* The books example used in the README.md can be found in the [examples/books.php](examples/books.php)
+* The books example used in the README.md can be found in [examples/books.php](examples/books.php)
 * Licensed under the [MIT License](https://github.com/jjgrainger/wp-posttypes/blob/master/LICENSE)
 * Maintained under the [Semantic Versioning Guide](http://semver.org)
 

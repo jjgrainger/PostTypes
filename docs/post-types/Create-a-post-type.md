@@ -22,7 +22,7 @@ The `register()` method hooks into WordPress and sets up the different actions a
 
 ### Set names
 
-The post type labels and slugs are automatically generated from the post type name, however, if you can set these manually by passing an array of names to the post types constructor.
+The post type labels and slugs are automatically generated from the post type name, however, you can set these manually by passing an array of names to the class constructor.
 
 ```php
 $names = [
@@ -46,7 +46,7 @@ The following names are accepted.
 | `plural` | is the plural label for the post type | e.g 'Books', 'People' |
 | `slug` | is the post type slug used in the permalinks | plural, lowercase, hyphens |
 
-The only required name is the post types `name`, all others are optional.
+The only required field is the post type's `name`, all others are optional.
 
 ### Set options
 

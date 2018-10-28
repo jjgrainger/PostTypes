@@ -1,6 +1,6 @@
 # Columns
 
-To modify a PostTypes admin columns use the `column()` manager. It has a variety of methods to help fine tune admin table columns.
+To modify a PostType's admin columns use the `column()` manager. It has a variety of methods to help fine tune admin table columns.
 
 #### Add Columns
 
@@ -51,7 +51,7 @@ $books->columns()->set([
 
 #### Populate Columns
 
-To populate any column use the `populate()` method. and passing the column slug and function.
+To populate any column use the `populate()` method, by passing the column slug and a callback function.
 
 ```php
 $books->columns()->populate('rating', function ($column, $post_id) {
