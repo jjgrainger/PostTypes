@@ -87,11 +87,11 @@ $genres->register();
 Alternatively, you can use the `labels()` method to set the labels for the taxonomy.
 
 ```php
-$genres = new Taxonomy('genre');
+$genres = new Taxonomy( 'genre' );
 
-$genres->labels([
-    'add_new_item' => __('Add new Genre'),
-]);
+$genres->labels( [
+	'add_new_item' => __( 'Add new Genre' ),
+] );
 
 $genres->register();
 ```
@@ -103,11 +103,11 @@ All available labels are on the [WordPress Codex](https://codex.wordpress.org/Fu
 You can work with existing taxonomies by passing the taxonomy name to the Taxonoy constructor. Once you have made your changes you need to register them to WordPress using the `register()` method.
 
 ```php
-// Create a new Taxonomy object for an existing taxonomy
-$tags = new Taxonomy('post_tag');
+// Create a new Taxonomy object for an existing taxonomy.
+$tags = new Taxonomy( 'post_tag' );
 
 // Modify the taxonomy...
 
-// Regsiter changes to WordPress
+// Regsiter changes to WordPress.
 $tags->register();
 ```

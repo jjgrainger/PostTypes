@@ -39,36 +39,36 @@ See Composer's [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autol
 Below is a basic example of setting up a simple book post type with a genre taxonomy. For more information, check out the [online documentation here](https://posttypes.jjgrainger.co.uk).
 
 ```php
-// Require the Composer autoloader
+// Require the Composer autoloader.
 require __DIR__ . '/vendor/autoload.php';
 
-// Import PostTypes
+// Import PostTypes.
 use PostTypes\PostType;
 
-// Create a book post type
-$books = new PostType('book');
+// Create a book post type.
+$books = new PostType( 'book' );
 
-// Attach the genre taxonomy (which is created below)
-$books->taxonomy('genre');
+// Attach the genre taxonomy (which is created below).
+$books->taxonomy( 'genre' );
 
-// Hide the date and author columns
-$books->columns()->hide(['date', 'author']);
+// Hide the date and author columns.
+$books->columns()->hide( [ 'date', 'author' ] );
 
-// Set the Books menu icon
-$books->icon('dashicons-book-alt');
+// Set the Books menu icon.
+$books->icon( 'dashicons-book-alt' );
 
-// Register the post type to WordPress
+// Register the post type to WordPress.
 $books->register();
 
-// Create a genre taxonomy
-$genres = new Taxonomy('genre');
+// Create a genre taxonomy.
+$genres = new Taxonomy( 'genre' );
 
-// Set options for the taxonomy
-$genres->options([
-    'hierarchical' => false,
-]);
+// Set options for the taxonomy.
+$genres->options( [
+	'hierarchical' => false,
+] );
 
-// Register the taxonomy to WordPress
+// Register the taxonomy to WordPress.
 $genres->register();
 ```
 
