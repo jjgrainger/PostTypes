@@ -7,11 +7,11 @@ namespace PostTypes;
  *
  * Used to help manage a post types columns in the admin table
  *
- * @link http://github.com/jjgrainger/PostTypes/
+ * @link    https://github.com/jjgrainger/PostTypes/
  * @author  jjgrainger
- * @link    http://jjgrainger.co.uk
+ * @link    https://jjgrainger.co.uk
  * @version 2.0
- * @license http://www.opensource.org/licenses/mit-license.html MIT License
+ * @license https://opensource.org/licenses/mit-license.html MIT License
  */
 class Columns
 {

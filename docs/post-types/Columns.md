@@ -1,6 +1,6 @@
 # Columns
 
-To modify a PostType's admin columns use the `column()` manager. It has a variety of methods to help fine tune admin table columns.
+To modify a post types admin columns use the `column()` manager. It has a variety of methods to help fine tune admin table columns.
 
 #### Add Columns
 
