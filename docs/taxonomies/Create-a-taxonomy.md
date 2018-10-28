@@ -37,10 +37,10 @@ The following names are accepted.
 
 | Key | Description | Example |
 | --- | --- | --- |
-| `name` | is the post type name | *required*, singular, lowercase, underscores |
-| `singular` | is the singular label for the post type | e.g 'Genre', 'Category' |
-| `plural` | is the plural label for the post type | e.g 'Genres', 'Categories' |
-| `slug` | is the post type slug used in the permalinks | plural, lowercase, hyphens |
+| `name` | is the taxonomy name | *required*, singular, lowercase, underscores |
+| `singular` | is the singular label for the taxonomy | e.g 'Genre', 'Category' |
+| `plural` | is the plural label for the taxonomy | e.g 'Genres', 'Categories' |
+| `slug` | is the taxonomy slug used in the permalinks | plural, lowercase, hyphens |
 
 #### Add options
 
@@ -84,7 +84,7 @@ $genres = new Taxonomy('genres', $options, $labels);
 $genres->register();
 ```
 
-Alternatively, you can use the `labels()` method to set the labels for the post type.
+Alternatively, you can use the `labels()` method to set the labels for the taxonomy.
 
 ```php
 $genres = new Taxonomy('genre');
