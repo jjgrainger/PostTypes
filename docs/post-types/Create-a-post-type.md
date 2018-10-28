@@ -104,7 +104,7 @@ $books->register();
 
 All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#labels)
 
-## Work with exisiting Post Types
+## Work with existing Post Types
 
 To work with existing post types pass the post type name into the constructor. Be careful and avoid using global variables (e.g `$post`) which can lead to unwanted results.
 

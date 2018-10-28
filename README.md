@@ -20,7 +20,7 @@ Run the following in your terminal to install PostTypes with [Composer](https://
 $ composer require jjgrainger/posttypes
 ```
 
-PostTypes uses [PSR-4](https://www.php-fig.org/psr/psr-4/) autoloading and can be used with Composers autoloader. Below is a basic example of getting started, though your setup may be different depending on how you are using Composer.
+PostTypes uses [PSR-4](https://www.php-fig.org/psr/psr-4/) autoloading and can be used with Composer's autoloader. Below is a basic example of getting started, though your setup may be different depending on how you are using Composer.
 
 ```php
 require __DIR__ . '/vendor/autoload.php';
@@ -76,7 +76,7 @@ $genres->register();
 
 * The full documentation can be found online at [posttypes.jjgrainger.co.uk](https://posttypes.jjgrainger.co.uk)
 * The class has no methods for making custom fields for post types, use [Advanced Custom Fields](https://advancedcustomfields.com)
-* The books example used in the README.md can be found in the [examples/books.php](examples/books.php)
+* The books example used in the README.md can be found in [examples/books.php](examples/books.php)
 * Licensed under the [MIT License](https://github.com/jjgrainger/wp-posttypes/blob/master/LICENSE)
 * Maintained under the [Semantic Versioning Guide](https://semver.org)
 
