@@ -7,10 +7,10 @@ Since 2.0 the `translation()` method has been removed. You can translate any lab
 ```php
 // Translating the post types plural and singular names
 $books = new PostType([
-    'name' => 'book',
+    'name'     => 'book',
     'singular' => __('Book', 'YOUR_TEXTDOMAIN'),
-    'plural' => __('Books', 'YOUR_TEXTDOMAIN'),
-    'slug' => 'books'
+    'plural'   => __('Books', 'YOUR_TEXTDOMAIN'),
+    'slug'     => 'books',
 ]);
 
 // Translating labels
@@ -25,4 +25,4 @@ The class has no methods for making custom fields for post types, use [Advanced 
 
 ## Examples
 
-The books example used in the README.md can be found in the [examples/books.php](https://github.com/jjgrainger/posttypes/blob/master/examples/books.php).
+The books example used in the README.md can be found in [examples/books.php](https://github.com/jjgrainger/posttypes/blob/master/examples/books.php).

@@ -7,10 +7,10 @@ To modify a post types admin columns use the `column()` manager. It has a variet
 To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
 
 ```php
-// add multiple columns and set their labels
+// Add multiple columns and set their labels
 $books->columns()->add([
     'rating' => __('Rating'),
-    'price' => __('Price')
+    'price'  => __('Price'),
 ]);
 ```
 
@@ -31,27 +31,27 @@ To rearrange columns pass an array of column slugs and position to the `order()`
 ```php
 $books->columns()->order([
     'rating' => 2,
-    'genre' => 4
+    'genre'  => 4,
 ]);
 ```
 
 #### Set Columns
 
-To set all columns to display pass an array of the column slugs and labels to the `set()` method. This overides any other configuration set by the methods above.
+To set all columns to display pass an array of the column slugs and labels to the `set()` method. This overrides any other configuration set by the methods above.
 
 ```php
 $books->columns()->set([
-    'cb' => '<input type="checkbox" />',
-    'title' => __("Title"),
-    'genre' => __("Genres"),
-    'rating' => __("Rating"),
-    'date' => __("Date")
+    'cb'     => '<input type="checkbox" />',
+    'title'  => __('Title'),
+    'genre'  => __('Genres'),
+    'rating' => __('Rating'),
+    'date'   => __('Date'),
 ]);
 ```
 
 #### Populate Columns
 
-To populate any column use the `populate()` method. and passing the column slug and function.
+To populate any column use the `populate()` method, by passing the column slug and a callback function.
 
 ```php
 $books->columns()->populate('rating', function ($column, $post_id) {
@@ -63,14 +63,14 @@ $books->columns()->populate('rating', function ($column, $post_id) {
 
 To define which custom columns are sortable use the `sortable()` method. This method accepts an array of column slugs and an array of sorting options.
 
-The first option is the `meta_key` to sort the colums by.
+The first option is the `meta_key` to sort the columns by.
 
-The second option is how the items are orders, either numerically (`true`) or alphabetically (`false`) by default.
+The second option is how the items are ordered, either numerically (`true`) or alphabetically (`false`) by default.
 
 ```php
-// will make both the price and rating columns sortable and ordered numerically
+// Make both the price and rating columns sortable and ordered numerically
 $books->columns()->sortable([
-    'price' => ['price', true],
-    'rating' => ['rating', true]
+    'price'  => ['price', true],
+    'rating' => ['rating', true],
 ]);
 ```

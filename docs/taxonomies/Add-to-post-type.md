@@ -9,7 +9,7 @@ $genres = new Taxonomy('genre');
 // Attach to the book post type
 $genres->posttype('books');
 
-// Register changes to WordPress.
+// Register changes to WordPress
 $genres->register();
 ```
 

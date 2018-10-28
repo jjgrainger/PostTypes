@@ -9,7 +9,7 @@ $books->filters(['genre', 'category']);
 The order the filters appear are set by the order of the items in the array.
 
 ```php
-// Display the category dropdown first.
+// Display the category dropdown first
 $books->filters(['category', 'genre']);
 ```
 
