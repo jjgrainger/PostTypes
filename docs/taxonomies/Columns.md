@@ -8,7 +8,7 @@ $genres = new Taxonomy('genre');
 
 // Add a column to the taxonomy admin table
 $genres->columns()->add([
-    'popularity' => __('Popularity')
+    'popularity' => __('Popularity'),
 ]);
 
 // Register the taxonomy to WordPress

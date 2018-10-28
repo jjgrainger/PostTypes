@@ -7,10 +7,10 @@ To modify a PostType's admin columns use the `column()` manager. It has a variet
 To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
 
 ```php
-// add multiple columns and set their labels
+// Add multiple columns and set their labels
 $books->columns()->add([
     'rating' => __('Rating'),
-    'price' => __('Price')
+    'price'  => __('Price'),
 ]);
 ```
 
@@ -31,7 +31,7 @@ To rearrange columns pass an array of column slugs and position to the `order()`
 ```php
 $books->columns()->order([
     'rating' => 2,
-    'genre' => 4
+    'genre'  => 4,
 ]);
 ```
 
@@ -41,11 +41,11 @@ To set all columns to display pass an array of the column slugs and labels to th
 
 ```php
 $books->columns()->set([
-    'cb' => '<input type="checkbox" />',
-    'title' => __("Title"),
-    'genre' => __("Genres"),
-    'rating' => __("Rating"),
-    'date' => __("Date")
+    'cb'     => '<input type="checkbox" />',
+    'title'  => __('Title'),
+    'genre'  => __('Genres'),
+    'rating' => __('Rating'),
+    'date'   => __('Date'),
 ]);
 ```
 
@@ -68,9 +68,9 @@ The first option is the `meta_key` to sort the columns by.
 The second option is how the items are ordered, either numerically (`true`) or alphabetically (`false`) by default.
 
 ```php
-// will make both the price and rating columns sortable and ordered numerically
+// Make both the price and rating columns sortable and ordered numerically
 $books->columns()->sortable([
-    'price' => ['price', true],
-    'rating' => ['rating', true]
+    'price'  => ['price', true],
+    'rating' => ['rating', true],
 ]);
 ```

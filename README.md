@@ -48,7 +48,7 @@ use PostTypes\PostType;
 // Create a books PostType
 $books = new PostType('book');
 
-// Attach the genre taxonomy, this is created below
+// Attach the genre taxonomy (which is created below)
 $books->taxonomy('genre');
 
 // Hide the date and author columns
