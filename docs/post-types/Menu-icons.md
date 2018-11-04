@@ -5,6 +5,6 @@ WordPress 3.8 has [Dashicons](https://developer.wordpress.org/resource/dashicons
 To set the post type icon pass the dashicon icon slug to the `icon()` method.
 
 ```php
-$books->icon('dashicons-book-alt');
+$books->icon( 'dashicons-book-alt' );
 ```
 A list of available icons can be found on the [WordPress codex](https://developer.wordpress.org/resource/dashicons/)

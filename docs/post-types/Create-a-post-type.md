@@ -9,10 +9,10 @@ To create a new post type pass the post types name to the class constructor. In 
 ```php
 use PostTypes\PostType;
 
-// Create a book post type
-$books = new PostType('book');
+// Create a book post type.
+$books = new PostType( 'book' );
 
-// Register the post type to WordPress
+// Register the post type to WordPress.
 $books->register();
 ```
 
@@ -26,13 +26,13 @@ The post type labels and slugs are automatically generated from the post type na
 
 ```php
 $names = [
-    'name'     => 'book',
-    'singular' => 'Book',
-    'plural'   => 'Books',
-    'slug'     => 'books',
+	'name'     => 'book',
+	'singular' => 'Book',
+	'plural'   => 'Books',
+	'slug'     => 'books',
 ];
 
-$books = new PostType($names);
+$books = new PostType( $names );
 
 $books->register();
 ```
@@ -54,10 +54,10 @@ Options for the post type are set by passing an array as the second argument in 
 
 ```php
 $options = [
-    'has_archive' => false,
+	'has_archive' => false,
 ];
 
-$books = new PostType('book', $options);
+$books = new PostType( 'book', $options );
 
 $books->register();
 ```
@@ -65,11 +65,11 @@ $books->register();
 Alternatively, you can set options using the `options()` method.
 
 ```php
-$books = new PostType('book');
+$books = new PostType( 'book' );
 
-$books->options([
-    'has_archive' => false,
-]);
+$books->options( [
+	'has_archive' => false,
+] );
 
 $books->register();
 ```
@@ -82,10 +82,10 @@ You can set the labels for the post type by passing an array as the third argume
 
 ```php
 $labels = [
-    'add_new_item' => __('Add new Book'),
+	'add_new_item' => __( 'Add new Book' ),
 ];
 
-$books = new PostType('book', $options, $labels);
+$books = new PostType( 'book', $options, $labels );
 
 $books->register();
 ```
@@ -93,27 +93,27 @@ $books->register();
 Alternatively, you can use the `labels()` method to set the labels for the post type.
 
 ```php
-$books = new PostType('books');
+$books = new PostType( 'books' );
 
-$books->labels([
-    'add_new_item' => __('Add new Book'),
-]);
+$books->labels( [
+	'add_new_item' => __( 'Add new Book' ),
+] );
 
 $books->register();
 ```
 
 All available labels are on the [WordPress Codex](https://codex.wordpress.org/Function_Reference/register_post_type#labels)
 
-## Work with exisiting Post Types
+## Work with existing Post Types
 
 To work with existing post types pass the post type name into the constructor. Be careful and avoid using global variables (e.g `$post`) which can lead to unwanted results.
 
 ```php
-// Create a PostType object for an existing post type in WordPress
-$blog = new PostType('post');
+// Create a PostType object for an existing post type in WordPress.
+$blog = new PostType( 'post' );
 
 // Make changes to the post type...
 
-// You still need to register the changes to WordPress
+// You still need to register the changes to WordPress.
 $blog->register();
 ```
