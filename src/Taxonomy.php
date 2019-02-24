@@ -160,23 +160,23 @@ class Taxonomy
     {
         // register the taxonomy, set priority to 9
         // so taxonomies are registered before PostTypes
-        add_action('init', [&$this, 'registerTaxonomy'], 9);
+        add_action('init', [$this, 'registerTaxonomy'], 9);
 
         // assign taxonomy to post type objects
-        add_action('init', [&$this, 'registerTaxonomyToObjects']);
+        add_action('init', [$this, 'registerTaxonomyToObjects']);
 
         if (isset($this->columns)) {
             // modify the columns for the Taxonomy
-            add_filter("manage_edit-{$this->name}_columns", [&$this, 'modifyColumns']);
+            add_filter("manage_edit-{$this->name}_columns", [$this, 'modifyColumns']);
 
             // populate the columns for the Taxonomy
-            add_filter("manage_{$this->name}_custom_column", [&$this, 'populateColumns'], 10, 3);
+            add_filter("manage_{$this->name}_custom_column", [$this, 'populateColumns'], 10, 3);
 
             // set custom sortable columns
-            add_filter("manage_edit-{$this->name}_sortable_columns", [&$this, 'setSortableColumns']);
+            add_filter("manage_edit-{$this->name}_sortable_columns", [$this, 'setSortableColumns']);
 
             // run action that sorts columns on request
-            add_action('parse_term_query', [&$this, 'sortSortableColumns']);
+            add_action('parse_term_query', [$this, 'sortSortableColumns']);
         }
     }
 
