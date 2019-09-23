@@ -150,21 +150,22 @@ class Columns
      * Check if an orderby field is a custom sort option.
      * @param  string  $orderby  the orderby value from query params
      */
-    public function is_sortable($orderby) {
-      if ( array_key_exists($orderby, $this->sortable) ) {
-        return true;
-      }
+    public function is_sortable($orderby)
+    {
+       if ( array_key_exists($orderby, $this->sortable) ) {
+           return true;
+       }
 
-      foreach ($this->sortable as $column => $options) {
-        if ( is_string($options) && $options === $orderby ) {
-          return true;
-        }
-        if ( is_array($options) && isset($options[0]) && $options[0] === $orderby ) {
-          return true;
-        }
-      }
+       foreach ($this->sortable as $column => $options) {
+           if ( is_string($options) && $options === $orderby ) {
+               return true;
+           }
+           if ( is_array($options) && isset($options[0]) && $options[0] === $orderby ) {
+               return true;
+           }
+       }
 
-      return false;
+       return false;
     }
 
     /**
