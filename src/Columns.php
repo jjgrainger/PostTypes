@@ -150,39 +150,39 @@ class Columns
      * Check if an orderby field is a custom sort option.
      * @param  string  $orderby  the orderby value from query params
      */
-    public function is_sortable($orderby)
+    public function isSortable($orderby)
     {
-       if ( array_key_exists($orderby, $this->sortable) ) {
-           return true;
-       }
+        if (array_key_exists($orderby, $this->sortable)) {
+            return true;
+        }
 
-       foreach ($this->sortable as $column => $options) {
-           if ( is_string($options) && $options === $orderby ) {
-               return true;
-           }
-           if ( is_array($options) && isset($options[0]) && $options[0] === $orderby ) {
-               return true;
-           }
-       }
+        foreach ($this->sortable as $column => $options) {
+            if (is_string($options) && $options === $orderby) {
+                return true;
+            }
+            if (is_array($options) && isset($options[0]) && $options[0] === $orderby) {
+                return true;
+            }
+        }
 
-       return false;
+        return false;
     }
 
     /**
      * Get meta key for an orderby.
      * @param  string  $orderby  the orderby value from query params
      */
-    public function sortable_meta($orderby)
+    public function sortableMeta($orderby)
     {
-        if ( array_key_exists($orderby, $this->sortable) ) {
+        if (array_key_exists($orderby, $this->sortable)) {
             return $this->sortable[$orderby];
         }
 
         foreach ($this->sortable as $column => $options) {
-            if ( is_string($options) && $options === $orderby ) {
+            if (is_string($options) && $options === $orderby) {
                 return $options;
             }
-            if ( is_array($options) && isset($options[0]) && $options[0] === $orderby ) {
+            if (is_array($options) && isset($options[0]) && $options[0] === $orderby) {
                 return $options;
             }
         }
