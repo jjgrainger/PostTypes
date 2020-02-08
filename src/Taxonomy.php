@@ -158,6 +158,11 @@ class Taxonomy
      */
     public function register()
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('add_action') || !function_exists('add_filter')) {
+            return;
+        }
+
         // register the taxonomy, set priority to 9
         // so taxonomies are registered before PostTypes
         add_action('init', [&$this, 'registerTaxonomy'], 9);
@@ -186,6 +191,11 @@ class Taxonomy
      */
     public function registerTaxonomy()
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('taxonomy_exists') || !function_exists('register_taxonomy')) {
+            return;
+        }
+
         if (!taxonomy_exists($this->name)) {
             // create options for the Taxonomy
             $options = $this->createOptions();
@@ -201,6 +211,11 @@ class Taxonomy
      */
     public function registerTaxonomyToObjects()
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('register_taxonomy_for_object_type')) {
+            return;
+        }
+
         // register Taxonomy to each of the PostTypes assigned
         if (!empty($this->posttypes)) {
             foreach ($this->posttypes as $posttype) {

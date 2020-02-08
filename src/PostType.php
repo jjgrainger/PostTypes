@@ -189,6 +189,11 @@ class PostType
      */
     public function flush($hard = true)
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('flush_rewrite_rules')) {
+            return;
+        }
+
         flush_rewrite_rules($hard);
     }
 
@@ -211,6 +216,11 @@ class PostType
      */
     public function register()
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('add_action') || !function_exists('add_filter')) {
+            return;
+        }
+
         // register the PostType
         add_action('init', [&$this, 'registerPostType']);
 
@@ -241,6 +251,10 @@ class PostType
      */
     public function registerPostType()
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('post_type_exists') || !function_exists('register_post_type')) {
+            return;
+        }
         // create options for the PostType
         $options = $this->createOptions();
 
@@ -355,6 +369,11 @@ class PostType
      */
     public function registerTaxonomies()
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('register_taxonomy_for_object_type')) {
+            return;
+        }
+
         if (!empty($this->taxonomies)) {
             foreach ($this->taxonomies as $taxonomy) {
                 register_taxonomy_for_object_type($taxonomy, $this->name);
@@ -369,6 +388,15 @@ class PostType
      */
     public function modifyFilters($posttype)
     {
+        // if wp not loaded, don't do anything
+        if (!function_exists('taxonomy_exists')
+            || !function_exists('get_taxonomy')
+            || !function_exists('get_terms')
+            || !function_exists('sanitize_title')
+            || !function_exists('wp_dropdown_categories')) {
+            return;
+        }
+
         // first check we are working with the this PostType
         if ($posttype === $this->name) {
             // calculate what filters to add
