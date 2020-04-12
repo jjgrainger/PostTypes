@@ -6,9 +6,9 @@
 
 ## Requirements
 
-* PHP >=5.6
+* PHP >=7.2
 * [Composer](https://getcomposer.org/)
-* [WordPress](https://wordpress.org) >=3.8
+* [WordPress](https://wordpress.org) >=5.1
 
 ## Installation
 
