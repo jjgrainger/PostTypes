@@ -129,12 +129,16 @@ class Taxonomy
 
     /**
      * Assign a PostType to register the Taxonomy to
-     * @param  string $posttype
+     * @param  mixed $posttypes
      * @return $this
      */
-    public function posttype($posttype)
+    public function posttype($posttypes)
     {
-        $this->posttypes[] = $posttype;
+        $posttypes = is_string($posttypes) ? [$posttypes] : $posttypes;
+
+        foreach ($posttypes as $posttype) {
+            $this->posttypes[] = $posttype;
+        }
 
         return $this;
     }
