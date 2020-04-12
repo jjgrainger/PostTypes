@@ -6,7 +6,8 @@ use PostTypes\Columns;
 
 class PostTypeTest extends TestCase
 {
-    public function setUp() {
+    protected function setUp(): void
+    {
         // setup basic PostType
         $this->books = new PostType('book');
     }
