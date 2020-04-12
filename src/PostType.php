@@ -147,12 +147,16 @@ class PostType
 
     /**
      * Add a Taxonomy to the PostType
-     * @param  string $taxonomy The Taxonomy name to add
+     * @param  mixed $taxonomies The Taxonomy name(s) to add
      * @return $this
      */
-    public function taxonomy($taxonomy)
+    public function taxonomy($taxonomies)
     {
-        $this->taxonomies[] = $taxonomy;
+        $taxonomies = is_string($taxonomies) ? [$taxonomies] : $taxonomies;
+
+        foreach ($taxonomies as $taxonomy) {
+            $this->taxonomies[] = $taxonomy;
+        }
 
         return $this;
     }
