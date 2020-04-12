@@ -20,7 +20,7 @@ $genres->register();
 To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
 
 ```php
-// Add multiple columns and set their labels.
+// Add columns and set their labels.
 $genres->columns()->add( [
     'popularity' => __( 'Popularity' ),
 ] );
@@ -74,7 +74,7 @@ $genres->columns()->populate( 'popularity', function ( $content, $column, $term_
 
 To define which custom columns are sortable use the `sortable()` method. This method accepts an array of column slugs and an array of sorting options.
 
-The first option is the `meta_key` to sort the columns by.
+The first option is the term `meta_key` to sort the columns by.
 
 The second option is how the items are ordered, either numerically (`true`) or alphabetically (`false`) by default.
 
