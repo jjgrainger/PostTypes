@@ -152,7 +152,7 @@ class Columns
      */
     public function isSortable($orderby)
     {
-        if (array_key_exists($orderby, $this->sortable)) {
+        if (is_string($orderby) && array_key_exists($orderby, $this->sortable)) {
             return true;
         }
 
