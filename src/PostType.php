@@ -25,25 +25,25 @@ class PostType
 
     /**
      * The name for the PostType
-     * @var array
+     * @var string
      */
     public $name;
 
     /**
      * The singular for the PostType
-     * @var array
+     * @var string
      */
     public $singular;
 
     /**
      * The plural name for the PostType
-     * @var array
+     * @var string
      */
     public $plural;
 
     /**
      * The slug for the PostType
-     * @var array
+     * @var string
      */
     public $slug;
 
