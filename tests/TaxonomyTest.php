@@ -92,6 +92,16 @@ class TaxonomyTest extends TestCase
     }
 
     /** @test */
+    public function canAddMultiplePostTypes()
+    {
+        $genres = new Taxonomy('genre');
+
+        $genres->posttype(['books', 'films']);
+
+        $this->assertEquals($genres->posttypes, ['books', 'films']);
+    }
+
+    /** @test */
     public function namesCreatedFromName()
     {
         $this->genres->createNames();

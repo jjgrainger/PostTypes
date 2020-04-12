@@ -92,6 +92,16 @@ class PostTypeTest extends TestCase
     }
 
     /** @test */
+    public function canAddMultipleTaxonomies()
+    {
+        $books = $this->books;
+
+        $books->taxonomy(['genre', 'publisher']);
+
+        $this->assertEquals($books->taxonomies, ['genre', 'publisher']);
+    }
+
+    /** @test */
     public function filtersNullOnInstantiation()
     {
         $this->assertNull($this->books->filters);
