@@ -496,9 +496,9 @@ class PostType
         $orderby = $query->get('orderby');
 
         // if the sorting a custom column
-        if (array_key_exists($orderby, $this->columns()->sortable)) {
+        if ($this->columns()->isSortable($orderby)) {
             // get the custom column options
-            $meta = $this->columns()->sortable[$orderby];
+            $meta = $this->columns()->sortableMeta($orderby);
 
             // determine type of ordering
             if (is_string($meta)) {
