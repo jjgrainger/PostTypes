@@ -5,7 +5,7 @@ use PostTypes\Columns;
 
 class ColumnsTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         $this->columns = new Columns;
     }

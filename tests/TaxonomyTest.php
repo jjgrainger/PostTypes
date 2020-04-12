@@ -6,7 +6,7 @@ use PostTypes\Columns;
 
 class TaxonomyTest extends TestCase
 {
-    public function setUp()
+    protected function setUp(): void
     {
         $this->genres = new Taxonomy('genre');
     }
