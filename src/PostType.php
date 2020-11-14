@@ -230,6 +230,7 @@ class PostType
 
             // populate custom columns
             add_filter("manage_{$this->name}_posts_custom_column", [$this, 'populateColumns'], 10, 2);
+            add_filter("manage_{$this->name}_posts_custom_column", [$this, 'populateColumnsDefault'], 10, 2);
 
             // run filter to make columns sortable.
             add_filter('manage_edit-'.$this->name.'_sortable_columns', [$this, 'setSortableColumns']);
