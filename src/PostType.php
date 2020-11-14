@@ -463,13 +463,30 @@ class PostType
 
     /**
      * Populate custom columns for the PostType
-     * @param  string $column   The column slug
-     * @param  int    $post_id  The post ID
+     *
+     * @param string $column  The column slug
+     * @param int    $post_id The post ID
+     */
+    public function populateColumnsDefault($column, $post_id)
+    {
+        foreach ($this->columns->add as $index => $label) {
+            if ($column === $index) {
+                call_user_func_array($this->columns()->populateDefault, [$index, $post_id]);
+            }
+        }
+    }
+
+    /**
+     * Populate custom columns for the PostType
+     *
+     * @param string $column  The column slug
+     * @param int    $post_id The post ID
      */
     public function populateColumns($column, $post_id)
     {
-        if (isset($this->columns->populate[$column])) {
-            call_user_func_array($this->columns()->populate[$column], [$column, $post_id]);
+        if (isset($this->columns->populate[ $column ])) {
+            call_user_func_array($this->columns()->populate[ $column ], [$column, $post_id]);
+            unset($this->columns->add[ $column ]);
         }
     }
 

@@ -50,6 +50,8 @@ class Columns
      */
     public $populate = [];
 
+    public $populateDefault = null;
+
     /**
      * An array of columns that are sortable.
      *
@@ -102,6 +104,18 @@ class Columns
         foreach ($columns as $column) {
             $this->hide[] = $column;
         }
+
+        return $this;
+    }
+
+
+    /**
+     * Set a custom callback to populate a column
+     * @param  mixed  $callback callback function
+     */
+    public function populateDefault($callback)
+    {
+        $this->populateDefault = $callback;
 
         return $this;
     }
