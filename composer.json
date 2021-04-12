@@ -1,6 +1,6 @@
 {
     "name": "wenprise/posttypes",
-    "version": "2.2",
+    "version": "2.2.1",
     "description": "Simple WordPress custom post types.",
     "homepage": "https://github.com/jjgrainger/posttype",
     "license": "MIT",
