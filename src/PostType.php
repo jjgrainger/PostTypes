@@ -289,7 +289,11 @@ class PostType
 
             // if is plural or slug, append an 's'
             if (in_array($key, ['plural', 'slug'])) {
-                $name .= 's';
+                if (substr($name, strlen($name) - 1, 1) == "y") {
+                    $name = substr($name, 0, strlen($name) - 1) . "ies";
+                } else {
+                    $name .= 's';
+                }
             }
 
             // asign the name to the PostType property
