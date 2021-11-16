@@ -505,7 +505,7 @@ class PostType
             $meta = $this->columns()->sortableMeta($orderby);
 
             // determine type of ordering
-            if (is_string($meta)) {
+            if (is_string($meta) or !$meta[1]) {
                 $meta_key = $meta;
                 $meta_value = 'meta_value';
             } else {
