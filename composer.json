@@ -1,17 +1,19 @@
 {
     "name": "jjgrainger/posttypes",
-    "version": "2.1",
     "description": "Simple WordPress custom post types.",
-    "homepage": "https://github.com/jjgrainger/posttype",
+    "keywords": ["wordpress", "post-types"],
     "license": "MIT",
+    "homepage": "https://posttypes.jjgrainger.co.uk",
+    "support": {
+        "issues": "https://github.com/jjgrainger/posttypes/issues",
+        "source": "https://github.com/jjgrainger/posttypes"
+    },
     "authors": [
         {
             "name": "Joe Grainger",
-            "email": "hello@jjgrainger.co.uk",
             "homepage": "https://jjgrainger.co.uk"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=7.2"
     },
@@ -20,12 +22,16 @@
         "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
-        "psr-4": { "PostTypes\\": "src/" }
+        "psr-4": {
+            "PostTypes\\": "src/"
+        }
     },
     "scripts": {
         "test": [
             "./vendor/bin/phpcs --standard=psr2 src",
-            "./vendor/bin/phpunit"
+            "./vendor/bin/phpunit --coverage-clover=coverage.xml"
         ]
-    }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
