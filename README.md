@@ -27,7 +27,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 use PostTypes\PostType;
 
-$books = new PostType('book');
+$books = new PostType( 'book' );
 
 $books->register();
 ```
@@ -44,6 +44,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 // Import PostTypes.
 use PostTypes\PostType;
+use PostTypes\Taxonomy;
 
 // Create a book post type.
 $books = new PostType( 'book' );

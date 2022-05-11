@@ -10,7 +10,7 @@ To create a new taxonomy pass the taxonomy name to the class constructor. Labels
 use PostTypes\Taxonomy;
 
 // Create a new taxonomy
-$genres = new Taxonomy('genre');
+$genres = new Taxonomy( 'genre' );
 
 // Register the taxonomy to WordPress
 $genres->register();
@@ -28,7 +28,7 @@ $names = [
     'slug' => 'genres'
 ];
 
-$genres = new Taxonomy($names);
+$genres = new Taxonomy( $names );
 
 $genres->register();
 ```
@@ -51,7 +51,7 @@ $options = [
     'hierarchical' => false,
 ];
 
-$genres = new Taxonomy('genre', $options);
+$genres = new Taxonomy( 'genre', $options );
 
 $genres->register();
 ```
@@ -59,11 +59,11 @@ $genres->register();
 Alternatively, you can set options using the `options()` method.
 
 ```php
-$genres = new Taxonomy('genre');
+$genres = new Taxonomy( 'genre' );
 
-$genres->options([
+$genres->options( [
     'hierarchical' => false,
-]);
+] );
 
 $genres->register();
 ```
@@ -76,10 +76,10 @@ You can define the labels for a taxonomy by passing an array as the third argume
 
 ```php
 $labels = [
-    'add_new_item' => __('Add new Genre'),
+    'add_new_item' => __( 'Add new Genre' ),
 ];
 
-$genres = new Taxonomy('genres', $options, $labels);
+$genres = new Taxonomy( 'genres', $options, $labels );
 
 $genres->register();
 ```

@@ -3,6 +3,8 @@
 You can now modify `Taxonomy` columns using the same methods as you would for a `PostType`. For example:
 
 ```php
+use PostTypes\Taxonomy;
+
 // Create a taxonomy.
 $genres = new Taxonomy( 'genre' );
 
