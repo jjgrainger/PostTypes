@@ -219,7 +219,7 @@ class PostType
         if (!post_type_exists($this->name)) {
             add_action('init', [$this, 'registerPostType']);
         } else {
-            add_filter( 'register_post_type_args', [$this, 'modifyPostType'], 10, 2);
+            add_filter('register_post_type_args', [$this, 'modifyPostType'], 10, 2);
         }
 
         // register Taxonomies to the PostType
