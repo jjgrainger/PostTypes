@@ -216,7 +216,11 @@ class PostType
     public function register()
     {
         // register the PostType
-        add_action('init', [$this, 'registerPostType']);
+        if (!post_type_exists($this->name)) {
+            add_action('init', [$this, 'registerPostType']);
+        } else {
+            add_filter( 'register_post_type_args', [$this, 'modifyPostType'], 10, 2);
+        }
 
         // register Taxonomies to the PostType
         add_action('init', [$this, 'registerTaxonomies']);
@@ -253,6 +257,25 @@ class PostType
             // register the post type
             register_post_type($this->name, $options);
         }
+    }
+
+    /**
+     * Modify the existing Post Type.
+     *
+     * @return array
+     */
+    public function modifyPostType(array $args, string $posttype)
+    {
+        if ($posttype !== $this->name) {
+            return $args;
+        }
+
+        // create options for the PostType
+        $options = $this->createOptions();
+
+        $args = array_replace_recursive($args, $options);
+
+        return $args;
     }
 
     /**
