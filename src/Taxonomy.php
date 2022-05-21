@@ -190,13 +190,14 @@ class Taxonomy
      */
     public function registerTaxonomy()
     {
-        if (!taxonomy_exists($this->name)) {
-            // create options for the Taxonomy
-            $options = $this->createOptions();
+        // Get the existing taxonomy options if it exists.
+        $options = (taxonomy_exists($this->name)) ? (array) get_taxonomy($this->name) : [];
 
-            // register the Taxonomy with WordPress
-            register_taxonomy($this->name, null, $options);
-        }
+        // create options for the Taxonomy.
+        $options = array_replace_recursive($options, $this->createOptions());
+
+        // register the Taxonomy with WordPress.
+        register_taxonomy($this->name, null, $options);
     }
 
     /**
