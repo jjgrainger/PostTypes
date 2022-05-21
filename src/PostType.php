@@ -411,20 +411,13 @@ class PostType
                     continue;
                 }
 
-                // get the taxonomy object
-                $tax = get_taxonomy($taxonomy);
-
-                // get the terms for the taxonomy
-                $terms = get_terms([
-                    'taxonomy' => $taxonomy,
-                    'orderby' => 'name',
-                    'hide_empty' => false,
-                ]);
-
-                // if there are no terms in the taxonomy, ignore it
-                if (empty($terms)) {
+                // If the taxonomy is not registered to the post type, continue.
+                if (!is_object_in_taxonomy($this->name, $taxonomy)) {
                     continue;
                 }
+
+                // get the taxonomy object
+                $tax = get_taxonomy($taxonomy);
 
                 // start the html for the filter dropdown
                 $selected = null;
@@ -434,19 +427,21 @@ class PostType
                 }
 
                 $dropdown_args = [
-                    'option_none_value' => '',
-                    'hide_empty'        => 0,
-                    'hide_if_empty'     => false,
-                    'show_count'        => true,
-                    'taxonomy'          => $tax->name,
-                    'name'              => $taxonomy,
-                    'orderby'           => 'name',
-                    'hierarchical'      => true,
-                    'show_option_none'  => "Show all {$tax->label}",
-                    'value_field'       => 'slug',
-                    'selected'          => $selected
+                    'name'            => $taxonomy,
+                    'value_field'     => 'slug',
+                    'taxonomy'        => $tax->name,
+                    'show_option_all' => $tax->labels->all_items,
+                    'hierarchical'    => $tax->hierarchical,
+                    'selected'        => $selected,
+                    'orderby'         => 'name',
+                    'hide_empty'      => 0,
+                    'show_count'      => 0,
                 ];
 
+                // Output screen reader label.
+                echo '<label class="screen-reader-text" for="cat">' . $tax->labels->filter_by_item . '</label>';
+
+                // Output dropdown for taxonomy.
                 wp_dropdown_categories($dropdown_args);
             }
         }
