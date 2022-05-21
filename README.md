@@ -1,4 +1,4 @@
-# PostTypes v2.1
+# PostTypes v2.2
 
 [![tests](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml/badge.svg)](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jjgrainger/PostTypes/branch/master/graph/badge.svg?token=SGrK2xDF46)](https://codecov.io/gh/jjgrainger/PostTypes) [![Latest Stable Version](https://flat.badgen.net/github/release/jjgrainger/PostTypes/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![Total Downloads](https://flat.badgen.net/packagist/dt/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://flat.badgen.net/github/license/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes)
 
@@ -78,7 +78,7 @@ $genres->register();
 * The full documentation can be found online at [posttypes.jjgrainger.co.uk](https://posttypes.jjgrainger.co.uk)
 * The class has no methods for making custom fields for post types, use [Advanced Custom Fields](https://advancedcustomfields.com)
 * The book's example used in the README.md can be found in [examples/books.php](examples/books.php)
-* Licensed under the [MIT License](https://github.com/jjgrainger/wp-posttypes/blob/master/LICENSE)
+* Licensed under the [MIT License](https://github.com/jjgrainger/PostTypes/blob/master/LICENSE)
 * Maintained under the [Semantic Versioning Guide](https://semver.org)
 
 ## Author
