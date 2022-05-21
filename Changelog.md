@@ -1,5 +1,14 @@
 # Changelog
 
+##### v2.2
+* merge [pull requests #81](https://github.com/jjgrainger/PostTypes/pull/81): Fix Taxonomy dropdown filter
+* merge [pull requests #80](https://github.com/jjgrainger/PostTypes/pull/80): Fix Modify Existing Objects
+* merge [pull requests #72](https://github.com/jjgrainger/PostTypes/pull/72): fix issue 71
+* merge [pull requests #74](https://github.com/jjgrainger/PostTypes/pull/74): Allow setting false to sort by alphabetical
+* merge [pull requests #79](https://github.com/jjgrainger/PostTypes/pull/79): Update docs and README examples
+* merge [pull requests #78](https://github.com/jjgrainger/PostTypes/pull/78): Maintenance
+
+
 ##### v2.1
 * merge [pull reqeuest #45](https://github.com/jjgrainger/PostTypes/pull/45): add PHP 7.2 Compatibility
 * merge [pull reqeuest #46](https://github.com/jjgrainger/PostTypes/pull/46): Make sure the "orderby" query var is a string when sorting by columns.
