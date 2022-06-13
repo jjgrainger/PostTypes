@@ -115,12 +115,7 @@ class PostType implements PostTypeContract
     public function names($names)
     {
         // If only the post type name is passed.
-        if (is_string($names)) {
-            $names = ['name' => $names];
-        }
-
-        // Set the names array.
-        $this->names = $names;
+        $this->names = is_string($names) ? ['name' => $names] : $names;
 
         return $this;
     }
