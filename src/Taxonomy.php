@@ -94,7 +94,7 @@ class Taxonomy implements TaxonomyContract
      *
      * @param  mixed $names The name(s) for the Taxonomy.
      *
-     * @return $this
+     * @return PostType\Taxonomy
      */
     public function names($names)
     {
@@ -108,7 +108,7 @@ class Taxonomy implements TaxonomyContract
      *
      * @param  array $options An array of Taxonomy options.
      *
-     * @return $this
+     * @return PostType\Taxonomy
      */
     public function options(array $options = [])
     {
@@ -122,7 +122,7 @@ class Taxonomy implements TaxonomyContract
      *
      * @param  array  $labels The Taxonomy labels.
      *
-     * @return $this
+     * @return PostType\Taxonomy
      */
     public function labels(array $labels = [])
     {
@@ -136,7 +136,7 @@ class Taxonomy implements TaxonomyContract
      *
      * @param  mixed $posttypes An array of post types names.
      *
-     * @return $this
+     * @return PostType\Taxonomy
      */
     public function posttype($posttypes)
     {

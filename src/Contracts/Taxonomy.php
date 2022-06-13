@@ -36,7 +36,7 @@ interface Taxonomy
      *
      * @param array $posttypes An array of post types to register to the taxonomy.
      *
-     * @return PostType\Taxonomy
+     * @return PostTypes\Taxonomy
      */
     public function posttype(array $posttypes);
 

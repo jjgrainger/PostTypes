@@ -207,7 +207,10 @@ class TaxonomyRegistrar
     public function populateColumns($content, $column, $term_id)
     {
         if (isset($this->taxonomy->columns->populate[$column])) {
-            $content = call_user_func_array($this->taxonomy->columns()->populate[$column], [$content, $column, $term_id]);
+            $content = call_user_func_array(
+                $this->taxonomy->columns()->populate[$column],
+                [$content, $column, $term_id]
+            );
         }
 
         return $content;

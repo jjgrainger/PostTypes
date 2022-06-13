@@ -371,5 +371,4 @@ class PostTypeRegistrar
             $query->set('orderby', $meta_value);
         }
     }
-
 }

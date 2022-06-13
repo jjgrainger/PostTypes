@@ -110,7 +110,7 @@ class PostType implements PostTypeContract
      *
      * @param  mixed $names A string for the name, or an array of names.
      *
-     * @return $this
+     * @return PostTypes\PostType
      */
     public function names($names)
     {
@@ -125,7 +125,7 @@ class PostType implements PostTypeContract
      *
      * @param  array $options An array of options for the PostType.
      *
-     * @return $this
+     * @return PostTypes\PostType
      */
     public function options(array $options)
     {
@@ -139,7 +139,7 @@ class PostType implements PostTypeContract
      *
      * @param  array $labels An array of labels for the PostType.
      *
-     * @return $this
+     * @return PostTypes\PostType
      */
     public function labels(array $labels)
     {
@@ -153,7 +153,7 @@ class PostType implements PostTypeContract
      *
      * @param  mixed $taxonomies The Taxonomy name(s) to add.
      *
-     * @return $this
+     * @return PostTypes\PostType
      */
     public function taxonomy($taxonomies)
     {
@@ -167,7 +167,7 @@ class PostType implements PostTypeContract
      *
      * @param  array $filters An array of Taxonomy filters.
      *
-     * @return $this
+     * @return PostTypes\PostType
      */
     public function filters(array $filters)
     {
@@ -177,9 +177,11 @@ class PostType implements PostTypeContract
     }
 
     /**
-     * Set the menu icon for the PostType
-     * @param  string $icon A dashicon class for the menu icon
-     * @return $this
+     * Set the menu icon for the PostType.
+     *
+     * @param  string $icon A dashicon class for the menu icon.
+     *
+     * @return PostTypes\PostType
      */
     public function icon($icon)
     {
