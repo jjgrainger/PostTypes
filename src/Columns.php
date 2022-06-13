@@ -58,8 +58,9 @@ class Columns
     public $sortable = [];
 
     /**
-     * Set the all columns
-     * @param array $columns an array of all the columns to replace
+     * Set the all columns.
+     *
+     * @param array $columns an array of all the columns to replace.
      */
     public function set($columns)
     {
@@ -67,9 +68,12 @@ class Columns
     }
 
     /**
-     * Add a new column
-     * @param string  $column   the slug of the column
-     * @param string  $label    the label for the column
+     * Add a new column.
+     *
+     * @param string  $column   the slug of the column.
+     * @param string  $label    the label for the column.
+     *
+     * @return PostType\Columns
      */
     public function add($columns, $label = null)
     {
@@ -90,8 +94,11 @@ class Columns
     }
 
     /**
-     * Add a column to hide
-     * @param  string $column the slug of the column to hdie
+     * Add a column to hide.
+     *
+     * @param  string $column the slug of the column to hide.
+     *
+     * @return PostType\Columns
      */
     public function hide($columns)
     {
@@ -107,9 +114,12 @@ class Columns
     }
 
     /**
-     * Set a custom callback to populate a column
-     * @param  string $column   the column slug
-     * @param  mixed  $callback callback function
+     * Set a custom callback to populate a column.
+     *
+     * @param  string $column   the column slug.
+     * @param  mixed  $callback callback function.
+     *
+     * @return PostType\Columns
      */
     public function populate($column, $callback)
     {
@@ -119,8 +129,11 @@ class Columns
     }
 
     /**
-     * Define the postion for a columns
+     * Define the postion for a columns.
+     *
      * @param  string  $columns  an array of columns
+     *
+     * @return PostType\Columns
      */
     public function order($columns)
     {
@@ -132,10 +145,13 @@ class Columns
     }
 
     /**
-     * Set columns that are sortable
+     * Set columns that are sortable.
+     *
      * @param  string  $column     the slug of the column
      * @param  string  $meta_value the meta_value to orderby
      * @param  boolean $is_num     whether to order by string/number
+     *
+     * @return PostType\Columns
      */
     public function sortable($sortable)
     {
@@ -148,7 +164,10 @@ class Columns
 
     /**
      * Check if an orderby field is a custom sort option.
-     * @param  string  $orderby  the orderby value from query params
+     *
+     * @param  string  $orderby the orderby value from query params.
+     *
+     * @return boolean
      */
     public function isSortable($orderby)
     {
@@ -170,7 +189,10 @@ class Columns
 
     /**
      * Get meta key for an orderby.
-     * @param  string  $orderby  the orderby value from query params
+     *
+     * @param  string  $orderby the orderby value from query params
+     *
+     * @return mixed
      */
     public function sortableMeta($orderby)
     {
@@ -191,46 +213,48 @@ class Columns
     }
 
     /**
-     * Modify the columns for the object
+     * Modify the columns for the object.
+     *
      * @param  array  $columns WordPress default columns
-     * @return array           The modified columns
+     *
+     * @return array
      */
     public function modifyColumns($columns)
     {
-        // if user defined set columns, return those
+        // If user defined set columns, return those.
         if (!empty($this->items)) {
             return $this->items;
         }
 
-        // add additional columns
+        // Add additional columns.
         if (!empty($this->add)) {
             foreach ($this->add as $key => $label) {
                 $columns[$key] = $label;
             }
         }
 
-        // unset hidden columns
+        // Unset hidden columns.
         if (!empty($this->hide)) {
             foreach ($this->hide as $key) {
                 unset($columns[$key]);
             }
         }
 
-        // if user has made added custom columns
+        // If user has made added custom columns.
         if (!empty($this->positions)) {
             foreach ($this->positions as $key => $position) {
-                // find index of the element in the array
+                // Find index of the element in the array.
                 $index = array_search($key, array_keys($columns));
-                // retrieve the element in the array of columns
+                // Retrieve the element in the array of columns.
                 $item = array_slice($columns, $index, 1);
-                // remove item from the array
+                // Remove item from the array.
                 unset($columns[$key]);
 
-                // split columns array into two at the desired position
+                // Split columns array into two at the desired position.
                 $start = array_slice($columns, 0, $position, true);
                 $end = array_slice($columns, $position, count($columns) - 1, true);
 
-                // insert column into position
+                // Insert column into position.
                 $columns = $start + $item + $end;
             }
         }
