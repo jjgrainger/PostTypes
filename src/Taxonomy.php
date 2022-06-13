@@ -3,77 +3,81 @@
 namespace PostTypes;
 
 use PostTypes\Columns;
+use PostTypes\Contracts\Taxonomy as TaxonomyContract;
 
-/**
- * Taxonomy
- *
- * Create WordPress Taxonomies easily
- *
- * @link    https://github.com/jjgrainger/PostTypes/
- * @author  jjgrainger
- * @link    https://jjgrainger.co.uk
- * @version 2.0
- * @license https://opensource.org/licenses/mit-license.html MIT License
- */
-class Taxonomy
+class Taxonomy implements TaxonomyContract
 {
     /**
-     * The names passed to the Taxonomy
+     * The names passed to the Taxonomy.
+     *
      * @var mixed
      */
     public $names;
 
     /**
-     * The Taxonomy name
+     * The Taxonomy name.
+     *
      * @var string
      */
     public $name;
 
     /**
-     * The singular label for the Taxonomy
+     * The singular label for the Taxonomy.
+     *
      * @var string
      */
     public $singular;
 
     /**
-     * The plural label for the Taxonomy
+     * The plural label for the Taxonomy.
+     *
      * @var string
      */
     public $plural;
 
     /**
-     * The Taxonomy slug
+     * The Taxonomy slug.
+     *
      * @var string
      */
     public $slug;
 
     /**
-     * Custom options for the Taxonomy
+     * Custom options for the Taxonomy.
+     *
      * @var array
      */
     public $options;
 
     /**
-     * Custom labels for the Taxonomy
+     * Custom labels for the Taxonomy.
+     *
      * @var array
      */
     public $labels;
 
     /**
-     * PostTypes to register the Taxonomy to
+     * Post types to register the Taxonomy to.
+     *
      * @var array
      */
     public $posttypes = [];
 
     /**
-     * The column manager for the Taxonomy
+     * The column manager for the Taxonomy.
+     *
      * @var mixed
      */
     public $columns;
 
     /**
-     * Create a Taxonomy
-     * @param mixed $names The name(s) for the Taxonomy
+     * Create a Taxonomy.
+     *
+     * @param mixed $names   The name(s) for the Taxonomy.
+     * @param array $options The Taxonomy options.
+     * @param array $labels  The Taxonomy labels
+     *
+     * @return void
      */
     public function __construct($names, $options = [], $labels = [])
     {
@@ -85,8 +89,10 @@ class Taxonomy
     }
 
     /**
-     * Set the names for the Taxonomy
-     * @param  mixed $names The name(s) for the Taxonomy
+     * Set the names for the Taxonomy.
+     *
+     * @param  mixed $names The name(s) for the Taxonomy.
+     *
      * @return $this
      */
     public function names($names)
@@ -97,15 +103,17 @@ class Taxonomy
 
         $this->names = $names;
 
-        // create names for the Taxonomy
+        // Create names for the Taxonomy.
         $this->createNames();
 
         return $this;
     }
 
     /**
-     * Set options for the Taxonomy
-     * @param  array $options
+     * Set options for the Taxonomy.
+     *
+     * @param  array $options An array of Taxonomy options.
+     *
      * @return $this
      */
     public function options(array $options = [])
@@ -116,8 +124,10 @@ class Taxonomy
     }
 
     /**
-     * Set the Taxonomy labels
-     * @param  array  $labels
+     * Set the Taxonomy labels.
+     *
+     * @param  array  $labels The Taxonomy labels.
+     *
      * @return $this
      */
     public function labels(array $labels = [])
@@ -128,8 +138,10 @@ class Taxonomy
     }
 
     /**
-     * Assign a PostType to register the Taxonomy to
-     * @param  mixed $posttypes
+     * Register post types to the taxonomy.
+     *
+     * @param  mixed $posttypes An array of post types names.
+     *
      * @return $this
      */
     public function posttype($posttypes)
@@ -144,7 +156,8 @@ class Taxonomy
     }
 
     /**
-     * Get the Column Manager for the Taxonomy
+     * Get the Column Manager for the Taxonomy.
+     *
      * @return Columns
      */
     public function columns()
@@ -157,7 +170,8 @@ class Taxonomy
     }
 
     /**
-     * Register the Taxonomy to WordPress
+     * Register the Taxonomy to WordPress.
+     *
      * @return void
      */
     public function register()
