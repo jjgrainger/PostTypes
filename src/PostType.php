@@ -3,6 +3,7 @@
 namespace PostTypes;
 
 use PostTypes\Columns;
+use PostTypes\Contracts\PostType as PostTypeContract;
 
 /**
  * PostType
@@ -15,7 +16,7 @@ use PostTypes\Columns;
  * @version 2.0
  * @license https://opensource.org/licenses/mit-license.html MIT License
  */
-class PostType
+class PostType implements PostTypeContract
 {
     /**
      * The names passed to the PostType
