@@ -61,17 +61,17 @@ class Columns
      * Set the all columns
      * @param array $columns an array of all the columns to replace
      */
-    public function set($columns)
+    public function set(array $columns)
     {
         $this->items = $columns;
     }
 
     /**
      * Add a new column
-     * @param string  $column   the slug of the column
-     * @param string  $label    the label for the column
+     * @param string|array  $columns   the slug of the column
+     * @param string|null $label    the label for the column
      */
-    public function add($columns, $label = null)
+    public function add($columns, string $label = null)
     {
 
         if (!is_array($columns)) {
@@ -91,10 +91,9 @@ class Columns
 
     /**
      * Add a column to hide
-     * @param  string $column the slug of the column to hdie
+     * @param  string|array $columns the slug of the column to hdie
      */
-    public function hide($columns)
-    {
+    public function hide($columns): Columns {
         if (!is_array($columns)) {
             $columns = [$columns];
         }
@@ -111,8 +110,7 @@ class Columns
      * @param  string $column   the column slug
      * @param  mixed  $callback callback function
      */
-    public function populate($column, $callback)
-    {
+    public function populate($column, $callback): Columns {
         $this->populate[$column] = $callback;
 
         return $this;
@@ -120,10 +118,10 @@ class Columns
 
     /**
      * Define the postion for a columns
-     * @param  string  $columns  an array of columns
+     * @param array $columns an array of columns
+     * @return Columns
      */
-    public function order($columns)
-    {
+    public function order(array $columns): Columns {
         foreach ($columns as $column => $position) {
             $this->positions[$column] = $position;
         }
@@ -133,12 +131,10 @@ class Columns
 
     /**
      * Set columns that are sortable
-     * @param  string  $column     the slug of the column
-     * @param  string  $meta_value the meta_value to orderby
-     * @param  boolean $is_num     whether to order by string/number
+     * @param array $sortable 
+     * @return Columns
      */
-    public function sortable($sortable)
-    {
+    public function sortable(array $sortable): Columns {
         foreach ($sortable as $column => $options) {
             $this->sortable[$column] = $options;
         }
@@ -148,11 +144,10 @@ class Columns
 
     /**
      * Check if an orderby field is a custom sort option.
-     * @param  string  $orderby  the orderby value from query params
+     * @param string $orderby  the orderby value from query params
      */
-    public function isSortable($orderby)
-    {
-        if (is_string($orderby) && array_key_exists($orderby, $this->sortable)) {
+    public function isSortable(string $orderby): bool {
+        if (array_key_exists($orderby, $this->sortable)) {
             return true;
         }
 
@@ -170,9 +165,9 @@ class Columns
 
     /**
      * Get meta key for an orderby.
-     * @param  string  $orderby  the orderby value from query params
+     * @param string $orderby  the orderby value from query params
      */
-    public function sortableMeta($orderby)
+    public function sortableMeta(string $orderby)
     {
         if (array_key_exists($orderby, $this->sortable)) {
             return $this->sortable[$orderby];
@@ -192,11 +187,10 @@ class Columns
 
     /**
      * Modify the columns for the object
-     * @param  array  $columns WordPress default columns
+     * @param array $columns WordPress default columns
      * @return array           The modified columns
      */
-    public function modifyColumns($columns)
-    {
+    public function modifyColumns(array $columns): array {
         // if user defined set columns, return those
         if (!empty($this->items)) {
             return $this->items;
