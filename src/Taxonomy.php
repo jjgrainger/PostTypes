@@ -2,8 +2,6 @@
 
 namespace PostTypes;
 
-use PostTypes\Columns;
-
 /**
  * Taxonomy
  *
@@ -89,8 +87,7 @@ class Taxonomy
      * @param  mixed $names The name(s) for the Taxonomy
      * @return $this
      */
-    public function names($names)
-    {
+    public function names($names): Taxonomy {
         if (is_string($names)) {
             $names = ['name' => $names];
         }
@@ -108,8 +105,7 @@ class Taxonomy
      * @param  array $options
      * @return $this
      */
-    public function options(array $options = [])
-    {
+    public function options(array $options = []): Taxonomy {
         $this->options = $options;
 
         return $this;
@@ -120,8 +116,7 @@ class Taxonomy
      * @param  array  $labels
      * @return $this
      */
-    public function labels(array $labels = [])
-    {
+    public function labels(array $labels = []): Taxonomy {
         $this->labels = $labels;
 
         return $this;
@@ -132,8 +127,7 @@ class Taxonomy
      * @param  mixed $posttypes
      * @return $this
      */
-    public function posttype($posttypes)
-    {
+    public function posttype($posttypes): Taxonomy {
         $posttypes = is_string($posttypes) ? [$posttypes] : $posttypes;
 
         foreach ($posttypes as $posttype) {
@@ -147,8 +141,7 @@ class Taxonomy
      * Get the Column Manager for the Taxonomy
      * @return Columns
      */
-    public function columns()
-    {
+    public function columns(): Columns {
         if (!isset($this->columns)) {
             $this->columns = new Columns;
         }
@@ -259,8 +252,7 @@ class Taxonomy
      * Create options for Taxonomy
      * @return array Options to pass to register_taxonomy
      */
-    public function createOptions()
-    {
+    public function createOptions(): array {
         // default options
         $options = [
             'hierarchical' => true,
@@ -285,8 +277,7 @@ class Taxonomy
      * Create labels for the Taxonomy
      * @return array
      */
-    public function createLabels()
-    {
+    public function createLabels(): array {
         // default labels
         $labels = [
             'name' => $this->plural,
@@ -316,8 +307,7 @@ class Taxonomy
      * @param  array  $columns  The WordPress default columns
      * @return array
      */
-    public function modifyColumns($columns)
-    {
+    public function modifyColumns($columns): array {
         $columns = $this->columns->modifyColumns($columns);
 
         return $columns;
@@ -325,11 +315,12 @@ class Taxonomy
 
     /**
      * Populate custom columns for the Taxonomy
-     * @param  string $content
-     * @param  string $column
-     * @param  int    $term_id
+     * @param string $content
+     * @param string $column
+     * @param int $term_id
+     * @return mixed|string
      */
-    public function populateColumns($content, $column, $term_id)
+    public function populateColumns(string $content, string $column, int $term_id)
     {
         if (isset($this->columns->populate[$column])) {
             $content = call_user_func_array($this->columns()->populate[$column], [$content, $column, $term_id]);
@@ -342,8 +333,7 @@ class Taxonomy
      * Make custom columns sortable
      * @param array $columns Default WordPress sortable columns
      */
-    public function setSortableColumns($columns)
-    {
+    public function setSortableColumns(array $columns): array {
         if (!empty($this->columns()->sortable)) {
             $columns = array_merge($columns, $this->columns()->sortable);
         }
@@ -353,9 +343,9 @@ class Taxonomy
 
     /**
      * Set query to sort custom columns
-     * @param WP_Term_Query $query
+     * @param \WP_Term_Query $query
      */
-    public function sortSortableColumns($query)
+    public function sortSortableColumns(\WP_Term_Query $query)
     {
         // don't modify the query if we're not in the post type admin
         if (!is_admin() || !in_array($this->name, $query->query_vars['taxonomy'])) {
