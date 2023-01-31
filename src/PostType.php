@@ -2,8 +2,6 @@
 
 namespace PostTypes;
 
-use PostTypes\Columns;
-
 /**
  * PostType
  *
@@ -79,7 +77,7 @@ class PostType
 
     /**
      * The column manager for the PostType
-     * @var mixed
+     * @var Columns
      */
     public $columns;
 
@@ -87,8 +85,9 @@ class PostType
      * Create a PostType
      * @param mixed $names   A string for the name, or an array of names
      * @param array $options An array of options for the PostType
+     * @param array $labels An array of labels for the PostType
      */
-    public function __construct($names, $options = [], $labels = [])
+    public function __construct($names, array $options = [], array $labels = [])
     {
         // assign names to the PostType
         $this->names($names);
@@ -105,8 +104,7 @@ class PostType
      * @param  mixed $names A string for the name, or an array of names
      * @return $this
      */
-    public function names($names)
-    {
+    public function names($names): PostType {
         // only the post type name is passed
         if (is_string($names)) {
             $names = ['name' => $names];
@@ -126,8 +124,7 @@ class PostType
      * @param  array $options An array of options for the PostType
      * @return $this
      */
-    public function options(array $options)
-    {
+    public function options(array $options): PostType {
         $this->options = $options;
 
         return $this;
@@ -138,8 +135,7 @@ class PostType
      * @param  array $labels An array of labels for the PostType
      * @return $this
      */
-    public function labels(array $labels)
-    {
+    public function labels(array $labels): PostType {
         $this->labels = $labels;
 
         return $this;
@@ -150,8 +146,7 @@ class PostType
      * @param  mixed $taxonomies The Taxonomy name(s) to add
      * @return $this
      */
-    public function taxonomy($taxonomies)
-    {
+    public function taxonomy($taxonomies): PostType {
         $taxonomies = is_string($taxonomies) ? [$taxonomies] : $taxonomies;
 
         foreach ($taxonomies as $taxonomy) {
@@ -166,8 +161,7 @@ class PostType
      * @param  array $filters An array of Taxonomy filters
      * @return $this
      */
-    public function filters(array $filters)
-    {
+    public function filters(array $filters): PostType {
         $this->filters = $filters;
 
         return $this;
@@ -178,8 +172,7 @@ class PostType
      * @param  string $icon A dashicon class for the menu icon
      * @return $this
      */
-    public function icon($icon)
-    {
+    public function icon($icon): PostType {
         $this->icon = $icon;
 
         return $this;
@@ -188,20 +181,19 @@ class PostType
     /**
      * Flush rewrite rules
      * @link https://codex.wordpress.org/Function_Reference/flush_rewrite_rules
-     * @param  boolean $hard
+     * @param boolean $hard
      * @return void
      */
-    public function flush($hard = true)
+    public function flush(bool $hard = true)
     {
         flush_rewrite_rules($hard);
     }
 
     /**
      * Get the Column Manager for the PostType
-     * @return PostTypes\Columns
+     * @return Columns
      */
-    public function columns()
-    {
+    public function columns(): Columns {
         if (!isset($this->columns)) {
             $this->columns = new Columns;
         }
@@ -262,10 +254,11 @@ class PostType
     /**
      * Modify the existing Post Type.
      *
+     * @param array $args
+     * @param string $posttype
      * @return array
      */
-    public function modifyPostType(array $args, string $posttype)
-    {
+    public function modifyPostType(array $args, string $posttype): array {
         if ($posttype !== $this->name) {
             return $args;
         }
@@ -328,8 +321,7 @@ class PostType
      * Create options for PostType
      * @return array Options to pass to register_post_type
      */
-    public function createOptions()
-    {
+    public function createOptions(): array {
         // default options
         $options = [
             'public' => true,
@@ -358,8 +350,7 @@ class PostType
      * Create the labels for the PostType
      * @return array
      */
-    public function createLabels()
-    {
+    public function createLabels(): array {
         // default labels
         $labels = [
             'name' => $this->plural,
@@ -395,10 +386,10 @@ class PostType
 
     /**
      * Modify and display filters on the admin edit screen
-     * @param  string $posttype The current screen post type
+     * @param string $posttype The current screen post type
      * @return void
      */
-    public function modifyFilters($posttype)
+    public function modifyFilters(string $posttype)
     {
         // first check we are working with the this PostType
         if ($posttype === $this->name) {
@@ -451,8 +442,7 @@ class PostType
      * Calculate the filters for the PostType
      * @return array
      */
-    public function getFilters()
-    {
+    public function getFilters(): array {
         // default filters are empty
         $filters = [];
 
@@ -463,7 +453,7 @@ class PostType
 
         // if no custom filters have been set, and there are
         // Taxonomies assigned to the PostType
-        if (is_null($this->filters) && !empty($this->taxonomies)) {
+        if (!empty($this->taxonomies)) {
             // create filters for each taxonomy assigned to the PostType
             return $this->taxonomies;
         }
@@ -473,11 +463,10 @@ class PostType
 
     /**
      * Modify the columns for the PostType
-     * @param  array  $columns  Default WordPress columns
+     * @param array $columns  Default WordPress columns
      * @return array            The modified columns
      */
-    public function modifyColumns($columns)
-    {
+    public function modifyColumns(array $columns): array {
         $columns = $this->columns->modifyColumns($columns);
 
         return $columns;
@@ -485,10 +474,10 @@ class PostType
 
     /**
      * Populate custom columns for the PostType
-     * @param  string $column   The column slug
-     * @param  int    $post_id  The post ID
+     * @param string $column   The column slug
+     * @param int $post_id  The post ID
      */
-    public function populateColumns($column, $post_id)
+    public function populateColumns(string $column, int $post_id)
     {
         if (isset($this->columns->populate[$column])) {
             call_user_func_array($this->columns()->populate[$column], [$column, $post_id]);
@@ -497,9 +486,9 @@ class PostType
 
     /**
      * Make custom columns sortable
-     * @param array  $columns  Default WordPress sortable columns
+     * @param array $columns  Default WordPress sortable columns
      */
-    public function setSortableColumns($columns)
+    public function setSortableColumns(array $columns)
     {
         if (!empty($this->columns()->sortable)) {
             $columns = array_merge($columns, $this->columns()->sortable);
@@ -510,9 +499,9 @@ class PostType
 
     /**
      * Set query to sort custom columns
-     * @param  WP_Query $query
+     * @param \WP_Query $query
      */
-    public function sortSortableColumns($query)
+    public function sortSortableColumns(\WP_Query $query)
     {
         // don't modify the query if we're not in the post type admin
         if (!is_admin() || $query->get('post_type') !== $this->name) {
