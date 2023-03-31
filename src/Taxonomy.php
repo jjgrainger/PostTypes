@@ -358,7 +358,7 @@ class Taxonomy
     public function sortSortableColumns($query)
     {
         // don't modify the query if we're not in the post type admin
-        if (!is_admin() || !in_array($this->name, $query->query_vars['taxonomy'])) {
+        if (!is_admin() || !in_array($this->name, $query->query_vars['taxonomy'] ?? [])) {
             return;
         }
 
