@@ -1,4 +1,4 @@
-# PostTypes v2.2
+# PostTypes v2.2.1
 
 [![tests](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml/badge.svg)](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jjgrainger/PostTypes/branch/master/graph/badge.svg?token=SGrK2xDF46)](https://codecov.io/gh/jjgrainger/PostTypes) [![Latest Stable Version](https://flat.badgen.net/github/release/jjgrainger/PostTypes/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![Total Downloads](https://flat.badgen.net/packagist/dt/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://flat.badgen.net/github/license/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes)
 

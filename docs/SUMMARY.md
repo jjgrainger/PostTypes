@@ -1,6 +1,6 @@
 # Table of Contents
 
-* [PostTypes v2.2](../README.md)
+* [PostTypes v2.2.1](../README.md)
 * [Getting Started](Getting-started.md)
 * [PostTypes](post-types/README.md)
     * [Create a Post Type](post-types/Create-a-post-type.md)

@@ -1,5 +1,10 @@
 # Changelog
 
+##### v2.2.1
+* merge [pull requests #95](https://github.com/jjgrainger/PostTypes/pull/95): Update tests
+* merge [pull requests #93](https://github.com/jjgrainger/PostTypes/pull/93): Fix empty array if taxonomy query var is null
+* merge [pull requests #88](https://github.com/jjgrainger/PostTypes/pull/88): Fix docblock definition
+
 ##### v2.2
 * merge [pull requests #81](https://github.com/jjgrainger/PostTypes/pull/81): Fix Taxonomy dropdown filter
 * merge [pull requests #80](https://github.com/jjgrainger/PostTypes/pull/80): Fix Modify Existing Objects
