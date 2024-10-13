@@ -6,6 +6,8 @@ use PostTypes\Columns;
 
 class PostTypeTest extends TestCase
 {
+    protected $books;
+
     protected function setUp(): void
     {
         // setup basic PostType
