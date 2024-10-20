@@ -242,7 +242,7 @@ class TaxonomyRegistrar
     public function sortSortableColumns($query)
     {
         // Don't modify the query if we're not in the post type admin.
-        if (!is_admin() || !in_array($this->taxonomy->name, $query->query_vars['taxonomy'])) {
+        if (!is_admin() || !in_array($this->taxonomy->name, $query->query_vars['taxonomy'] ?? [])) {
             return;
         }
 

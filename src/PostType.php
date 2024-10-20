@@ -218,7 +218,7 @@ class PostType implements PostTypeContract
     /**
      * Get the Column Manager for the PostType.
      *
-     * @return PostTypes\Columns
+     * @return Columns
      */
     public function columns()
     {
