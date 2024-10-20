@@ -6,6 +6,17 @@ use PostTypes\Columns;
 use PostTypes\Registrars\PostTypeRegistrar;
 use PostTypes\Contracts\PostType as PostTypeContract;
 
+/**
+ * PostType
+ *
+ * Create WordPress custom post types easily
+ *
+ * @link    https://github.com/jjgrainger/PostTypes/
+ * @author  jjgrainger
+ * @link    https://jjgrainger.co.uk
+ * @version 2.2.1
+ * @license https://opensource.org/licenses/mit-license.html MIT License
+ */
 class PostType implements PostTypeContract
 {
     /**

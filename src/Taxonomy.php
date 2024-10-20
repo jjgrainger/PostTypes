@@ -6,6 +6,17 @@ use PostTypes\Columns;
 use PostTypes\Registrars\TaxonomyRegistrar;
 use PostTypes\Contracts\Taxonomy as TaxonomyContract;
 
+/**
+ * Taxonomy
+ *
+ * Create WordPress Taxonomies easily
+ *
+ * @link    https://github.com/jjgrainger/PostTypes/
+ * @author  jjgrainger
+ * @link    https://jjgrainger.co.uk
+ * @version 2.2.1
+ * @license https://opensource.org/licenses/mit-license.html MIT License
+ */
 class Taxonomy implements TaxonomyContract
 {
     /**

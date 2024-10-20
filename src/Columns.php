@@ -10,7 +10,7 @@ namespace PostTypes;
  * @link    https://github.com/jjgrainger/PostTypes/
  * @author  jjgrainger
  * @link    https://jjgrainger.co.uk
- * @version 2.0
+ * @version 2.2.1
  * @license https://opensource.org/licenses/mit-license.html MIT License
  */
 class Columns
