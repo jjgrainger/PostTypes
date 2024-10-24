@@ -31,7 +31,7 @@ class PostTypeRegistrar
         // modify filters on the admin edit screen
         add_action('restrict_manage_posts', [$this, 'modifyFilters'], 10, 1);
 
-        if (isset($this->columns)) {
+        if (isset($this->posttype->columns)) {
             // modify the admin edit columns.
             add_filter('manage_' . $name . '_posts_columns', [$this, 'modifyColumns'], 10, 1);
 
@@ -85,7 +85,7 @@ class PostTypeRegistrar
      */
     public function registerTaxonomies()
     {
-        if (empty($this->taxonomies)) {
+        if (empty($this->posttype->taxonomies)) {
             return;
         }
 
@@ -168,7 +168,7 @@ class PostTypeRegistrar
      */
     public function populateColumns($column, $post_id)
     {
-        if (isset($this->columns->populate[$column])) {
+        if (isset($this->posttype->columns->populate[$column])) {
             call_user_func_array($this->posttype->columns()->populate[$column], [$column, $post_id]);
         }
     }
