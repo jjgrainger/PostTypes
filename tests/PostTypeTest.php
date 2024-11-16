@@ -160,6 +160,17 @@ class PostTypeTest extends TestCase
     }
 
     /** @test */
+    public function smartNamesCreatedFromName()
+    {
+        $story = new PostType('story');
+
+        $this->assertEquals($story->name, 'story');
+        $this->assertEquals($story->singular, 'Story');
+        $this->assertEquals($story->plural, 'Stories');
+        $this->assertEquals($story->slug, 'stories');
+    }
+
+    /** @test */
     public function passedNamesAreUsed()
     {
         $names = [
@@ -195,6 +206,33 @@ class PostTypeTest extends TestCase
         ];
 
         $this->assertEquals($options, $defaults);
+    }
+
+    /** @test */
+    public function optionsGeneratedCorrectly()
+    {
+        // Set custom options
+        $this->books->options([
+            'public' => false,
+        ]);
+
+        // Set option with helper method
+        $this->books->icon('dashicon-book-alt');
+
+        // generated options
+        $options = $this->books->createOptions();
+
+        // expected options
+        $expected = [
+            'public' => false,
+            'labels' => $this->books->createLabels(),
+            'menu_icon' => $this->books->icon,
+            'rewrite' => [
+                'slug' => $this->books->slug
+            ]
+        ];
+
+        $this->assertEquals($options, $expected);
     }
 
     /** @test */

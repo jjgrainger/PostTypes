@@ -32,15 +32,31 @@ class ColumnsTest extends TestCase
     }
 
     /** @test */
-    public function canAddColumns()
+    public function canAddColumnsWithArray()
     {
         $columns = [
-            'genre' => 'Genre'
+            'genre' => 'Genre',
         ];
 
         $this->columns->add($columns);
 
         $this->assertEquals($this->columns->add, $columns);
+    }
+
+    /** @test */
+    public function canAddColumnsWithArgs()
+    {
+        $this->columns->add('genre', 'Genre');
+
+        // Auto generated label1
+        $this->columns->add('price');
+
+        $expected = [
+            'genre' => 'Genre',
+            'price' => 'Price',
+        ];
+
+        $this->assertEquals($this->columns->add, $expected);
     }
 
     /** @test */
@@ -208,5 +224,39 @@ class ColumnsTest extends TestCase
         $output = $this->columns->modifyColumns($defaults);
 
         $this->assertEquals($output, $expected);
+    }
+
+    /** @test  */
+    public function canIdentifySortableColumns()
+    {
+        $columns = [
+            'rating' => ['_rating', true],
+            'price' => '_price',
+            'sortable' => ['sortable'],
+        ];
+
+        $this->columns->sortable($columns);
+
+        $this->assertTrue($this->columns->isSortable('_rating'));
+        $this->assertTrue($this->columns->isSortable('_price'));
+        $this->assertTrue($this->columns->isSortable('sortable'));
+        $this->assertFalse($this->columns->isSortable('not_a_column'));
+    }
+
+    /** @test  */
+    public function returnsCorrectSortableMetaKey()
+    {
+        $columns = [
+            'rating' => ['_rating', true],
+            'price' => '_price',
+            'column' => ['sortable'],
+        ];
+
+        $this->columns->sortable($columns);
+
+        $this->assertEquals($this->columns->sortableMeta('rating'), ['_rating', true]);
+        $this->assertEquals($this->columns->sortableMeta('_price'), '_price');
+        $this->assertEquals($this->columns->sortableMeta('sortable'), ['sortable']);
+        $this->assertEquals($this->columns->sortableMeta('not_a_column'), '');
     }
 }
