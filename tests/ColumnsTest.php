@@ -94,6 +94,26 @@ class ColumnsTest extends TestCase
         $this->assertEquals(['column' => 1, 'column_2' => 3], $columns->order);
     }
 
+    public function test_can_order_column_with_column_class()
+    {
+        $columns = new Columns;
+
+        $stub = $this->createMock(Column::class);
+
+        $stub->expects($this->any())
+            ->method('name')
+            ->will($this->returnValue('column'));
+
+        $stub->expects($this->any())
+            ->method('order')
+            ->will($this->returnValue(1));
+
+
+        $columns->column($stub);
+
+        $this->assertEquals(['column' => 1], $columns->order);
+    }
+
     public function test_can_set_sortable_column()
     {
         $columns = new Columns;
@@ -135,6 +155,25 @@ class ColumnsTest extends TestCase
         $this->assertSame($expected, $modified);
     }
 
+    public function test_can_populate_column()
+    {
+        $columns = new Columns;
+
+        $stub = $this->createMock(Column::class);
+
+        $stub->expects($this->any())
+            ->method('name')
+            ->will($this->returnValue('column'));
+
+        $stub->expects($this->once())
+            ->method('populate')
+            ->with($this->greaterThan(0));
+
+        $columns->column($stub);
+
+        $columns->populateColumn('column', [1]);
+    }
+
     public function test_can_add_sortable_columns_to_sortable_list()
     {
         $columns = new Columns;
@@ -153,5 +192,28 @@ class ColumnsTest extends TestCase
         ];
 
         $this->assertSame($expected, $sortable);
+    }
+
+    public function test_can_sort_column()
+    {
+        $columns = new Columns;
+
+        $stub = $this->createMock(Column::class);
+
+        $stub->expects($this->any())
+            ->method('name')
+            ->will($this->returnValue('column'));
+
+        $stub->expects($this->once())
+            ->method('isSortable')
+            ->will($this->returnValue(true));
+
+        $stub->expects($this->once())
+            ->method('sort')
+            ->with($this->greaterThan(0));
+
+        $columns->column($stub);
+
+        $columns->sortColumn('column', 1);
     }
 }
