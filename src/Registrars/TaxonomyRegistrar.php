@@ -40,13 +40,15 @@ class TaxonomyRegistrar
      */
     public function register()
     {
+        $name = $this->taxonomy->name();
+
         add_action('init', [$this, 'registerTaxonomy'], 9);
         add_action('init', [$this, 'registerTaxonomyToPostTypes'], 10);
 
         // Handle Taxonomy columns.
-        add_filter("manage_edit-{$this->taxonomy->name()}_columns", [$this, 'modifyColumns'], 10, 1);
-        add_filter("manage_{$this->taxonomy->name()}_custom_column", [$this, 'populateColumns'], 10, 3);
-        add_filter("manage_edit-{$this->taxonomy->name()}_sortable_columns", [$this, 'setSortableColumns'], 10, 1);
+        add_filter('manage_edit-' . $name . '_columns', [$this, 'modifyColumns'], 10, 1);
+        add_filter('manage_' . $name . '_custom_column', [$this, 'populateColumns'], 10, 3);
+        add_filter('manage_edit-' . $name . '_sortable_columns', [$this, 'setSortableColumns'], 10, 1);
         add_action('parse_term_query', [$this, 'sortSortableColumns'], 10, 1);
     }
 
