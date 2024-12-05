@@ -47,12 +47,4 @@ interface ColumnContract
      * @return boolean
      */
     public function isSortable(): bool;
-
-    /**
-     * Check the current column name matches this column.
-     *
-     * @param string $name
-     * @return boolean
-     */
-    public function isColumn(string $name): bool;
 }

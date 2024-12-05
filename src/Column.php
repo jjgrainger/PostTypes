@@ -64,15 +64,4 @@ abstract class Column implements ColumnContract
     {
         return false;
     }
-
-    /**
-     * Check the current column name matches this column.
-     *
-     * @param string $name
-     * @return boolean
-     */
-    public function isColumn(string $name): bool
-    {
-        return $name === $this->name();
-    }
 }
