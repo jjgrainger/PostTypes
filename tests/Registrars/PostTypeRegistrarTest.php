@@ -6,19 +6,66 @@ use PostTypes\Registrars\PostTypeRegistrar;
 
 class PostTypeRegistrarTest extends TestCase
 {
-    /** @test */
-    public function canModifyPostType()
+    public function test_can_create_registrar()
     {
-        $posttype = new PostType('post', [
+        $stub = $this->getMockForAbstractClass(PostType::class);
+
+        $stub->expects($this->any())
+            ->method('name')
+            ->will($this->returnValue('book'));
+
+        $registrar = new PostTypeRegistrar($stub);
+
+        $this->assertInstanceOf(PostTypeRegistrar::class, $registrar);
+    }
+
+    public function test_will_modify_post_type()
+    {
+        $stub = $this->getMockForAbstractClass(PostType::class);
+
+        $stub->expects($this->any())
+            ->method('name')
+            ->will($this->returnValue('book'));
+
+        $registrar = new PostTypeRegistrar($stub);
+
+        $args = [
             'public' => false,
-        ]);
+        ];
 
-        $registrar = new PostTypeRegistrar($posttype);
+        $options = $registrar->modifyPostType($args, 'book');
 
-        $options = $registrar->modifyPostType([
-            'public' => true,
-        ], 'post');
+        $expected = [
+            'public'       => true,
+            'show_in_rest' => true,
+            'labels'       => [],
+            'taxonomies'   => [],
+            'supports'     => ['title', 'editor'],
+            'menu_icon'    => null,
+            'rewrite'      => [
+                'slug' => 'book',
+            ],
+        ];
 
-        $this->assertEquals(false, $options['public']);
+        $this->assertEquals($expected, $options);
+    }
+
+    public function test_will_not_modify_post_type_if_name_does_not_match()
+    {
+        $stub = $this->getMockForAbstractClass(PostType::class);
+
+        $stub->expects($this->any())
+            ->method('name')
+            ->will($this->returnValue('book'));
+
+        $registrar = new PostTypeRegistrar($stub);
+
+        $args = [
+            'public' => false,
+        ];
+
+        $options = $registrar->modifyPostType($args, 'post');
+
+        $this->assertEquals($args, $options);
     }
 }
