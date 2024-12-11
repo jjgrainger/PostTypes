@@ -2,7 +2,7 @@
 
 To modify a post types admin columns use the `column()` method. This method accepts the `PostTypes\Columns` manager which has a variety of methods to help fine tune admin table columns.
 
-#### Adding Columns
+## Adding Columns
 
 To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
 
@@ -40,7 +40,7 @@ class Books extends PostType
 }
 ```
 
-#### Populate Columns
+## Populate Columns
 
 To populate any column use the `populate()` method, by passing the column slug and a callback function.
 
@@ -68,7 +68,7 @@ class Books extends PostType
 }
 ```
 
-#### Sortable Columns
+## Sortable Columns
 
 To define which custom columns are sortable use the `sort()` method.
 
@@ -98,7 +98,7 @@ class Books extends PostType
 }
 ```
 
-#### Hide Columns
+## Hide Columns
 
 To hide columns pass the column slug to the `hide()` method. For multiple columns pass an array of column slugs.
 
@@ -125,7 +125,7 @@ class Books extends PostType
 }
 ```
 
-#### Column Order
+## Column Order
 
 To rearrange columns pass an array of column slugs and position to the `order()` method. Only olumns you want to reorder need to be set, not all columns.
 
