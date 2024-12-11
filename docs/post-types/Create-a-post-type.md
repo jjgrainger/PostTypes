@@ -18,6 +18,7 @@ class Books extends PostType
     }
 }
 ```
+
 ## Register PostType to WordPress
 
 Once your PostType class is created the new post type can be registered to WordPress by instantiating the class and calling the `register()` method in your plugin or theme.

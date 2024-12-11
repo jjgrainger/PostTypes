@@ -70,7 +70,7 @@ class Books extends PostType
 
 ## Sortable Columns
 
-To define which custom columns are sortable use the `sort()` method.
+To define which custom columns are sortable use the `sortable()` method.
 
 ```php
 use PostTypes\PostType;
