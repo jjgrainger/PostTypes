@@ -27,8 +27,24 @@ require __DIR__ . '/vendor/autoload.php';
 
 use PostTypes\PostType;
 
-$books = new PostType( 'book' );
+// Create a Books PostType.
+class Books extends PostType
+{
+    /**
+     * Returns the post type name to register to WordPress.
+     *
+     * @return string
+     */
+    public function name(): string
+    {
+        return 'book';
+    }
+}
 
+// Instantiate the Books PostType class.
+$books = new Books;
+
+// Register the books PostType to WordPress.
 $books->register();
 ```
 
