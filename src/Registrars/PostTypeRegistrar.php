@@ -29,8 +29,6 @@ class PostTypeRegistrar
     public function __construct(PostTypeContract $posttype)
     {
         $this->posttype = $posttype;
-
-        $this->columns = $posttype->columns(new Columns());
     }
 
     /**
@@ -42,13 +40,9 @@ class PostTypeRegistrar
     {
         $name = $this->posttype->name();
 
-        if (post_type_exists($name)) {
-            // Modify the existing PostType if it exists.
-            add_filter('register_post_type_args', [$this, 'modifyPostType'], 10, 2);
-        } else {
-            // Register the new PostType to WordPress.
-            add_action('init', [$this, 'registerPostType'], 10, 0);
-        }
+        // Initialize the post type.
+        add_action('init', [$this, 'createColumns'], 10, 0);
+        add_action('init', [$this, 'initialize'], 10, 0);
 
         // Handle PostType filters.
         add_action('restrict_manage_posts', [$this, 'modifyFilters'], 10, 2);
@@ -64,12 +58,30 @@ class PostTypeRegistrar
     }
 
     /**
-     * Register the PostType.
+     * Create Columns.
      *
      * @return void
      */
-    public function registerPostType()
+    public function createColumns()
     {
+        $this->columns = $this->posttype->columns(new Columns());
+    }
+
+    /**
+     * Register Post Type.
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        // Modify the existing PostType if it exists.
+        if (post_type_exists($this->posttype->name())) {
+            add_filter('register_post_type_args', [$this, 'modifyPostType'], 10, 2);
+
+            return;
+        }
+
+        // Register the new PostType to WordPress.
         register_post_type($this->posttype->name(), $this->generateOptions());
     }
 
@@ -86,10 +98,7 @@ class PostTypeRegistrar
             return $args;
         }
 
-        // create options for the PostType.
-        $options = $this->generateOptions();
-
-        return array_replace_recursive($args, $options);
+        return array_replace_recursive($args, $this->generateOptions());
     }
 
     /**

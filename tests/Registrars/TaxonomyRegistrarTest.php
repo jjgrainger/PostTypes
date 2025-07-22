@@ -82,6 +82,7 @@ class TaxonomyRegistrarTest extends TestCase
             ->will($this->returnValue($columns));
 
         $registrar = new TaxonomyRegistrar($stub);
+        $registrar->createColumns();
         $output = $registrar->modifyColumns($defaults);
 
         $expected = [
@@ -121,6 +122,7 @@ class TaxonomyRegistrarTest extends TestCase
             ->will($this->returnValue($columns));
 
         $registrar = new TaxonomyRegistrar($stub);
+        $registrar->createColumns();
         $registrar->populateColumns('', 'column', 1);
     }
 
@@ -145,6 +147,7 @@ class TaxonomyRegistrarTest extends TestCase
             ->will($this->returnValue($columns));
 
         $registrar = new TaxonomyRegistrar($stub);
+        $registrar->createColumns();
         $output = $registrar->setSortableColumns($sortable);
 
         $expected = [

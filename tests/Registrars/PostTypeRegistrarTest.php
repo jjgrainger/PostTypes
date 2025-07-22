@@ -94,6 +94,7 @@ class PostTypeRegistrarTest extends TestCase
             ->will($this->returnValue($columns));
 
         $registrar = new PostTypeRegistrar($stub);
+        $registrar->createColumns();
         $output = $registrar->modifyColumns($defaults);
 
         $expected = [
@@ -134,6 +135,7 @@ class PostTypeRegistrarTest extends TestCase
             ->will($this->returnValue($columns));
 
         $registrar = new PostTypeRegistrar($stub);
+        $registrar->createColumns();
         $registrar->populateColumns('column', 1);
     }
 
@@ -158,6 +160,7 @@ class PostTypeRegistrarTest extends TestCase
             ->will($this->returnValue($columns));
 
         $registrar = new PostTypeRegistrar($stub);
+        $registrar->createColumns();
         $output = $registrar->setSortableColumns($sortable);
 
         $expected = [
