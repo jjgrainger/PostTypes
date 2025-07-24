@@ -19,6 +19,5 @@
     * [Defining Post Types](taxonomies/Defining-post-types.md)
     * [Modifying Columns](taxonomies/Modifying-columns.md)
     * [Defining Hooks](taxonomies/Defining-hooks.md)
-* [Notes](Notes.md)
 * [Contributing](../CONTRIBUTING.md)
 * [Changelog](../Changelog.md)
