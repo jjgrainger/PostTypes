@@ -1,59 +1,93 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
-
 use PostTypes\PostType;
-use PostTypes\Taxonomy;
+use PostTypes\Columns;
 
-// Create a books Post Type
-$books = new PostType( 'book' );
+class Books extends PostType {
 
-// Add the Genre Taxonomy
-$books->taxonomy( 'genre' );
+    public function name(): string {
+        return 'book';
+    }
 
-// Hide the date and author columns
-$books->columns()->hide( [ 'date', 'author' ] );
+    public function slug(): string {
+        return 'books';
+    }
 
-// add a price and rating column
-$books->columns()->add( [
-    'rating' => __( 'Rating' ),
-    'price' => __( 'Price' )
-] );
+    public function labels(): array {
+        return [
+            'name'               => __( 'Book', 'post-types' ),
+            'singular_name'      => __( 'Book', 'post-types' ),
+            'menu_name'          => __( 'Books', 'post-types' ),
+            'all_items'          => __( 'Books', 'post-types' ),
+            'add_new'            => __( 'Add New', 'post-types' ),
+            'add_new_item'       => __( 'Add New Book', 'post-types' ),
+            'edit_item'          => __( 'Edit Book', 'post-types' ),
+            'new_item'           => __( 'New Book', 'post-types' ),
+            'view_item'          => __( 'View Book', 'post-types' ),
+            'search_items'       => __( 'Search Books', 'post-types' ),
+            'not_found'          => __( 'No Books found', 'post-types' ),
+            'not_found_in_trash' => __( 'No Books found in Trash', 'post-types'),
+            'parent_item_colon'  => __( 'Parent Book', 'post-types' ),
+        ];
+    }
 
-// Populate the custom column
-$books->columns()->populate( 'rating', function( $column, $post_id ) {
-    echo get_post_meta( $post_id, 'rating' ) . '/10';
-} );
+    public function taxonomies(): array {
+        return [
+            'post_tag',
+            'genre',
+        ];
+    }
 
-// Populate the custom column
-$books->columns()->populate( 'price', function( $column, $post_id ) {
-    echo '&pound;' . get_post_meta( $post_id, 'price' );
-} );
+    public function supports(): array {
+        return [
+            'title',
+            'editor',
+            'author',
+            'custom-fields',
+        ];
+    }
 
-// Set sortable columns
-$books->columns()->sortable( [
-    'price' => [ 'price', true ],
-    'rating' => [ 'rating', true ]
-] );
+    public function options(): array {
+        return [
+            'show_in_rest' => false,
+        ];
+    }
 
-// Set the Books menu icon
-$books->icon( 'dashicons-book-alt' );
+    public function icon(): string {
+        return 'dashicons-book';
+    }
 
-// Register the PostType to WordPress
-$books->register();
+    public function filters(): array {
+        return [
+            'genre',
+            'post_tag',
+        ];
+    }
 
-// Create the genre Taxonomy
-$genres = new Taxonomy( 'genre' );
+    public function columns( Columns $columns ): Columns {
 
-// Add a popularity column to the genre taxonomy
-$genres->columns()->add( [
-    'popularity' => 'Popularity'
-] );
+        $columns->remove( [ 'author', 'date' ] );
 
-// Populate the new column
-$genres->columns()->populate( 'popularity', function( $content, $column, $term_id ) {
-    return get_term_meta( $term_id, 'popularity', true );
-} );
+        $columns->column( new Price );
 
-// Register the taxonomy to WordPress
-$genres->register();
+        $columns->add( 'rating', __( 'Rating', 'post-types' ) );
+
+        $columns->populate( 'rating', function( $post_id ) {
+            echo get_post_meta( $post_id, 'rating', true );
+        } );
+
+        $columns->sortable( 'rating', function( $query ) {
+            $query->set('orderby', 'meta_value_num');
+            $query->set('meta_key', 'rating');
+        } );
+
+        $columns->order( [
+            'price'          => 4,
+            'rating'         => 5,
+            'taxonomy-genre' => 2,
+            'tags'           => 3,
+        ] );
+
+        return $columns;
+    }
+}
