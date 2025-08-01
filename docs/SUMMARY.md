@@ -11,6 +11,7 @@
     * [Defining an icon](post-types/Defining-an-icon.md)
     * [Defining filters](post-types/Defining-filters.md)
     * [Modifying columns](post-types/Modifying-columns.md)
+    * [Creating columns](post-types/Creating-columns.md)
     * [Defining hooks](post-types/Defining-hooks.md)
 * [Taxonomies](taxonomies/README.md)
     * [Create a Taxonomy](taxonomies/Create-a-taxonomy.md)
