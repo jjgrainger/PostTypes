@@ -10,4 +10,5 @@ The following section contains information on creating and working with post typ
 * [Defining an icon](Defining-an-icon.md)
 * [Defining filters](Defining-filters.md)
 * [Modifying columns](Modifying-columns.md)
+* [Creating columns](Creating-columns.md)
 * [Defining hooks](Defining-hooks.md)
