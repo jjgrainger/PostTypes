@@ -3,5 +3,8 @@
 The following section contains information on creating and working with taxonomies.
 
 * [Create a Taxonomy](Create-a-taxonomy.md)
-* [Add to Post Type](Add-to-post-type.md)
-* [Columns](Columns.md)
+* [Defining Labels](Defining-labels.md)
+* [Defining Options](Defining-options.md)
+* [Defining Post Types](Defining-post-types.md)
+* [Modifying Columns](Modifying-columns.md)
+* [Defining Hooks](Defining-hooks.md)
