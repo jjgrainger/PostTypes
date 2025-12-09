@@ -1,15 +1,14 @@
-name: tests
+name: Tests
 
 on:
   push:
     branches:
-     - master
+      - main
   pull_request:
-    branches:
-     - master
 
 jobs:
-  build:
+  phpcs:
+    name: Coding Standards (PHPCS)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,20 +21,45 @@ jobs:
       - name: Validate composer.json and composer.lock
         run: composer validate --strict
 
-      - name: Cache Composer packages
-        id: composer-cache
-        uses: actions/cache@v4
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: PHPCS
+        run: composer phpcs
+
+  phpstan:
+    name: Static Analysis (PHPStan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
         with:
-          path: vendor
-          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-php-
+          php-version: '8.3'
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run test suite
-        run: composer run-script test
+      - name: PHPStan
+        run: composer phpstan
+
+  phpunit:
+    name: Unit Tests (PHPUnit)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
+      - name: PHPUnit
+        run: composer phpunit
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v4

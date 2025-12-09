@@ -30,10 +30,8 @@
         }
     },
     "scripts": {
-        "test": [
-            "./vendor/bin/phpcs --standard=psr2 src",
-            "./vendor/bin/phpunit --coverage-clover=coverage.xml"
-        ],
+        "phpcs": "phpcs --standard=psr2 src",
+        "phpunit": "phpunit --coverage-clover=coverage.xml",
         "phpstan": "phpstan analyse --memory-limit=512M"
     },
     "minimum-stability": "dev",
