@@ -70,7 +70,7 @@ class Columns
      * @param callable|null $callback
      * @return void
      */
-    public function add(string $key, string $label, callable $callback = null)
+    public function add(string $key, string $label, ?callable $callback = null)
     {
         $this->add[$key] = $label;
 
@@ -129,7 +129,7 @@ class Columns
      * Apply columns.
      *
      * @param array $columns
-     * @return void
+     * @return array
      */
     public function applyColumns(array $columns)
     {
