@@ -27,11 +27,11 @@ interface ColumnContract
     public function populate(int $objectId): void;
 
     /**
-     * Set the column order.
+     * Set the column position.
      *
-     * @return integer|null
+     * @return array|null
      */
-    public function order(): ?int;
+    public function position(): ?array;
 
     /**
      * Handle sorting the column.
@@ -39,7 +39,7 @@ interface ColumnContract
      * @param \WP_Query|\WP_Term_Query $query
      * @return void
      */
-    public function sort($query);
+    public function sort($query): void;
 
     /**
      * Can the column be sorted.

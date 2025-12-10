@@ -16,7 +16,7 @@ class ColumnTest extends TestCase
         $this->assertEquals('price', $stub->name());
         $this->assertEquals('Price', $stub->label());
         $this->assertEquals(null, $stub->populate(1));
-        $this->assertEquals(null, $stub->order());
+        $this->assertEquals(null, $stub->position());
         $this->assertEquals(null, $stub->sort(true));
         $this->assertEquals(false, $stub->isSortable());
     }

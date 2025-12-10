@@ -2,6 +2,7 @@
 
 namespace PostTypes;
 
+use InvalidArgumentException;
 use PostTypes\Contracts\ColumnContract;
 
 class Columns
@@ -11,35 +12,42 @@ class Columns
      *
      * @var array
      */
-    public $add = [];
-
-    /**
-     * Column populate callbacks.
-     *
-     * @var array
-     */
-    public $populate = [];
+    protected $columns = [];
 
     /**
      * Columns to remove.
      *
      * @var array
      */
-    public $remove = [];
+    protected $remove = [];
 
     /**
-     * Columns order.
+     * Columns to set.
      *
      * @var array
      */
-    public $order = [];
+    protected $only = [];
+
+    /**
+     * Column positions.
+     *
+     * @var array
+     */
+    protected $positions = [];
+
+    /**
+     * Column populate callbacks.
+     *
+     * @var array
+     */
+    protected $populateCallbacks = [];
 
     /**
      * Sortable columns and sort callbacks.
      *
      * @var array
      */
-    public $sortable = [];
+    protected $sortCallbacks = [];
 
     /**
      * Add a column object.
@@ -47,19 +55,43 @@ class Columns
      * @param ColumnContract $column
      * @return void
      */
-    public function column(ColumnContract $column)
+    public function column(ColumnContract $column): void
     {
         $this->add($column->name(), $column->label());
 
         $this->populate($column->name(), [$column, 'populate']);
 
-        if (!is_null($column->order())) {
-            $this->order[$column->name()] = $column->order();
+        if (!is_null($column->position())) {
+            [$direction, $reference] = $column->position();
+
+            $this->position($column->name(), $direction, $reference);
         }
 
         if ($column->isSortable()) {
-            $this->sortable($column->name(), [$column, 'sort']);
+            $this->sort($column->name(), [$column, 'sort']);
         }
+    }
+
+    /**
+     * Create a new Column.
+     *
+     * @param string $key
+     * @return ColumnBuilder
+     */
+    public function create(string $key): ColumnBuilder
+    {
+        return new ColumnBuilder($this, $key);
+    }
+
+    /**
+     * Modify an existing column.
+     *
+     * @param string $key
+     * @return ColumnBuilder
+     */
+    public function modify(string $key): ColumnBuilder
+    {
+        return $this->create($key);
     }
 
     /**
@@ -67,16 +99,51 @@ class Columns
      *
      * @param string $key
      * @param string $label
-     * @param callable|null $callback
      * @return void
      */
-    public function add(string $key, string $label, callable $callback = null)
+    public function add(string $key, string $label): void
     {
-        $this->add[$key] = $label;
+        $this->columns[$key] = $label;
+    }
 
-        if (is_callable($callback)) {
-            $this->populate($key, $callback);
+    /**
+     * Remove columns.
+     *
+     * @param array $keys
+     * @return void
+     */
+    public function remove(array $keys): void
+    {
+        $this->remove = array_merge($this->remove, $keys);
+    }
+
+    /**
+     * Set columns.
+     *
+     * @param array $keys
+     * @return void
+     */
+    public function only(array $keys): void
+    {
+        $this->only = array_merge($this->only, $keys);
+    }
+
+    /**
+     * Set column position.
+     *
+     * @param string $key
+     * @param string $direction
+     * @param string $reference
+     * @return void
+     * @throws InvalidArgumentException
+     */
+    public function position(string $key, string $direction, string $reference): void
+    {
+        if (!in_array($direction, ['before', 'after'], true)) {
+            throw new InvalidArgumentException("Invalid position direction '{$direction}'");
         }
+
+        $this->positions[$key] = [$direction, $reference];
     }
 
     /**
@@ -86,31 +153,9 @@ class Columns
      * @param callable $callback
      * @return void
      */
-    public function populate(string $key, callable $callback)
+    public function populate(string $key, callable $callback): void
     {
-        $this->populate[$key] = $callback;
-    }
-
-    /**
-     * Remove columns.
-     *
-     * @param array $keys
-     * @return void
-     */
-    public function remove(array $keys)
-    {
-        $this->remove = array_merge($this->remove, $keys);
-    }
-
-    /**
-     * Set columns order
-     *
-     * @param array $order
-     * @return void
-     */
-    public function order(array $order)
-    {
-        $this->order = array_merge($this->order, $order);
+        $this->populateCallbacks[$key] = $callback;
     }
 
     /**
@@ -120,92 +165,80 @@ class Columns
      * @param callable $callback
      * @return void
      */
-    public function sortable(string $key, callable $callback)
+    public function sort(string $key, callable $callback): void
     {
-        $this->sortable[$key] = $callback;
+        $this->sortCallbacks[$key] = $callback;
     }
 
     /**
-     * Apply columns.
+     * Get columns to add.
      *
-     * @param array $columns
-     * @return void
-     */
-    public function applyColumns(array $columns)
-    {
-        if (!empty($this->add)) {
-            $columns = array_merge($columns, $this->add);
-        }
-
-        if (!empty($this->remove)) {
-            $columns = array_diff_key($columns, array_flip($this->remove));
-        }
-
-        if (!empty($this->order)) {
-            $order = $this->order;
-
-            // Sort the order array.
-            asort($order);
-
-            // Flip order so the index is the position.
-            $order = array_flip($order);
-
-            // Create the current order array.
-            $current = array_keys($columns);
-
-            // Loop over the order.
-            foreach ($order as $index => $key) {
-                array_splice($current, $index, 0, $key);
-            }
-
-            $new = array_flip(array_unique($current));
-
-            $columns = array_merge($new, $columns);
-        }
-
-        return $columns;
-    }
-
-    /**
-     * Populate a column.
-     *
-     * @param string $column
-     * @param array $params
-     * @return void
-     */
-    public function populateColumn(string $column, array $params)
-    {
-        if (isset($this->populate[$column]) && is_callable($this->populate[$column])) {
-            call_user_func_array($this->populate[$column], $params);
-        }
-    }
-
-    /**
-     * Set sortable columns
-     *
-     * @param array $columns
      * @return array
      */
-    public function setSortable(array $columns): array
+    public function getColumns(): array
     {
-        foreach (array_keys($this->sortable) as $key) {
-            $columns[$key] = $key;
-        }
-
-        return $columns;
+        return $this->columns;
     }
 
     /**
-     * Sort a column.
+     * Get removed columns.
      *
-     * @param string $column
-     * @param \WP_Query|\WP_Term_Query $query
-     * @return void
+     * @return array
      */
-    public function sortColumn(string $column, $query)
+    public function getRemoved(): array
     {
-        if (isset($this->sortable[$column]) && is_callable($this->sortable[$column])) {
-            call_user_func_array($this->sortable[$column], [$query]);
-        }
+        return $this->remove;
+    }
+
+    /**
+     * Get only columns.
+     *
+     * @return array
+     */
+    public function getOnly(): array
+    {
+        return $this->only;
+    }
+
+    /**
+     * Get column positions.
+     *
+     * @return array
+     */
+    public function getPositions(): array
+    {
+        return $this->positions;
+    }
+
+    /**
+     * Get a column populate callback.
+     *
+     * @param string $key
+     * @return callable|null
+     */
+    public function getPopulateCallback(string $key): ?callable
+    {
+        return $this->populateCallbacks[$key] ?? null;
+    }
+
+    /**
+     * Get sortable columns.
+     *
+     * @return array
+     */
+    public function getSortableColumns(): array
+    {
+        return array_combine(array_keys($this->sortCallbacks), array_keys($this->sortCallbacks));
+    }
+
+    /**
+     * Get column sort callback.
+     *
+     * @param string $key
+     * @return callable|null
+     */
+    public function getSortCallback(string $key): ?callable
+    {
+        return $this->sortCallbacks[$key] ?? null;
     }
 }

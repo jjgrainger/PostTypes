@@ -37,9 +37,9 @@ abstract class Column implements ColumnContract
     /**
      * Set the column order.
      *
-     * @return integer|null
+     * @return array|null
      */
-    public function order(): ?int
+    public function position(): ?array
     {
         return null;
     }
@@ -50,7 +50,7 @@ abstract class Column implements ColumnContract
      * @param \WP_Query|\WP_Term_Query $query
      * @return void
      */
-    public function sort($query)
+    public function sort($query): void
     {
         return;
     }
