@@ -129,7 +129,7 @@ class TaxonomyRegistrarTest extends TestCase
     public function test_can_set_sortable_columns()
     {
         $columns = new Columns;
-        $columns->sortable('column', function() {});
+        $columns->sort('column', function() {});
 
         $sortable = [
             'title' => 'title',

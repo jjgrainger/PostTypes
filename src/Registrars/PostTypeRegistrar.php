@@ -45,11 +45,11 @@ class PostTypeRegistrar
         add_action('init', [$this, 'initialize'], 10, 0);
 
         // Handle PostType filters.
-        add_action('restrict_manage_posts', [$this, 'modifyFilters'], 10, 2);
+        add_action('restrict_manage_posts', [$this, 'modifyFilters'], 10, 1);
 
         // Handle PostType columns.
         add_filter('manage_' . $name . '_posts_columns', [$this, 'modifyColumns'], 10, 1);
-        add_filter('manage_' . $name . '_posts_custom_column', [$this, 'populateColumns'], 10, 2);
+        add_action('manage_' . $name . '_posts_custom_column', [$this, 'populateColumns'], 10, 2);
         add_filter('manage_edit-' . $name . '_sortable_columns', [$this, 'setSortableColumns'], 10, 1);
         add_action('pre_get_posts', [$this, 'sortSortableColumns'], 10, 1);
 
@@ -171,7 +171,43 @@ class PostTypeRegistrar
      */
     public function modifyColumns(array $columns)
     {
-        return $this->columns->applyColumns($columns);
+        foreach ($this->columns->getColumns() as $key => $label) {
+            $columns[$key] = $label;
+        }
+
+        if ($remove = $this->columns->getRemoved()) {
+            $columns = array_diff_key($columns, array_flip($remove));
+        }
+
+        if ($only = $this->columns->getOnly()) {
+            $columns = array_intersect_key($columns, array_flip($only));
+        }
+
+        foreach ($this->columns->getPositions() as $key => $position) {
+            [$direction, $reference] = $position;
+
+            if (!isset($direction) || !isset($reference)) {
+                continue;
+            }
+
+            $new = [];
+
+            foreach ($columns as $k => $label) {
+                if ('before' === $direction && $k === $reference) {
+                    $new[$key] = $columns[$key];
+                }
+
+                $new[$k] = $label;
+
+                if ('after' === $direction && $k === $reference) {
+                    $new[$key] = $columns[$key];
+                }
+            }
+
+            $columns = $new;
+        }
+
+        return $columns;
     }
 
     /**
@@ -183,7 +219,11 @@ class PostTypeRegistrar
      */
     public function populateColumns($column, $post_id)
     {
-        $this->columns->populateColumn($column, [$post_id]);
+        $callback = $this->columns->getPopulateCallback($column);
+
+        if ($callback) {
+            call_user_func_array($callback, [$post_id]);
+        }
     }
 
     /**
@@ -194,7 +234,9 @@ class PostTypeRegistrar
      */
     public function setSortableColumns($columns)
     {
-        return $this->columns->setSortable($columns);
+        $sortable = $this->columns->getSortableColumns();
+
+        return array_merge($columns, $sortable);
     }
 
     /**
@@ -210,7 +252,10 @@ class PostTypeRegistrar
         }
 
         $column = $query->get('orderby');
+        $callback = $this->columns->getSortCallback($column);
 
-        $this->columns->sortColumn($column, $query);
+        if ($callback) {
+            call_user_func_array($callback, [$query]);
+        }
     }
 }
