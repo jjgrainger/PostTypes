@@ -45,11 +45,11 @@ class PostTypeRegistrar
         add_action('init', [$this, 'initialize'], 10, 0);
 
         // Handle PostType filters.
-        add_action('restrict_manage_posts', [$this, 'modifyFilters'], 10, 2);
+        add_action('restrict_manage_posts', [$this, 'modifyFilters'], 10, 1);
 
         // Handle PostType columns.
         add_filter('manage_' . $name . '_posts_columns', [$this, 'modifyColumns'], 10, 1);
-        add_filter('manage_' . $name . '_posts_custom_column', [$this, 'populateColumns'], 10, 2);
+        add_action('manage_' . $name . '_posts_custom_column', [$this, 'populateColumns'], 10, 2);
         add_filter('manage_edit-' . $name . '_sortable_columns', [$this, 'setSortableColumns'], 10, 1);
         add_action('pre_get_posts', [$this, 'sortSortableColumns'], 10, 1);
 
