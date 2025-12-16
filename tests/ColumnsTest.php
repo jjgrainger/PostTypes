@@ -26,14 +26,15 @@ class ColumnsTest extends TestCase
         $stub->method('name')->willReturn('column');
         $stub->method('label')->willReturn('Column');
         $stub->method('position')->willReturn(['after', 'title']);
-        $stub->method('isSortable')->willReturn(true);
-        $stub->method('sort')->willReturnCallback(function () {});
+        $stub->method('populate')->willReturn(function () {});
+        $stub->method('sort')->willReturn(function () {});
 
         $columns = new Columns;
         $columns->column($stub);
 
         $output = $columns->getColumns();
         $positions = $columns->getPositions();
+        $populate = $columns->getPopulateCallback('column');
         $sortable = $columns->getSortCallback('column');
 
         $this->assertArrayHasKey('column', $output);
@@ -42,6 +43,7 @@ class ColumnsTest extends TestCase
         $this->assertArrayHasKey('column', $positions);
         $this->assertSame(['after', 'title'], $positions['column']);
 
+        $this->assertIsCallable($populate);
         $this->assertIsCallable($sortable);
     }
 

@@ -26,12 +26,11 @@ abstract class Column implements ColumnContract
     /**
      * Populate the column.
      *
-     * @param integer $objectId
-     * @return void
+     * @return callable|bull
      */
-    public function populate(int $objectId): void
+    public function populate(): ?callable
     {
-        return;
+        return null;
     }
 
     /**
@@ -45,23 +44,34 @@ abstract class Column implements ColumnContract
     }
 
     /**
-     * Handle sorting the column.
+     * Return the sort callback for the column.
      *
-     * @param \WP_Query|\WP_Term_Query $query
-     * @return void
+     * @return callable|null
      */
-    public function sort($query): void
+    public function sort(): ?callable
     {
-        return;
+        return null;
     }
 
     /**
-     * Can the column be sorted.
+     * Return the before position array structure.
      *
-     * @return boolean
+     * @param string $reference
+     * @return array
      */
-    public function isSortable(): bool
+    protected function before(string $reference): array
     {
-        return false;
+        return ['before', $reference];
+    }
+
+    /**
+     * Return the after position array structure.
+     *
+     * @param string $reference
+     * @return array
+     */
+    protected function after(string $reference): array
+    {
+        return ['after', $reference];
     }
 }

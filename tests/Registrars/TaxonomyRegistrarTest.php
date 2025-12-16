@@ -106,7 +106,7 @@ class TaxonomyRegistrarTest extends TestCase
 
         $stub->expects($this->once())
             ->method('populate')
-            ->will($this->returnValue(true));
+            ->willReturnCallback(function() {});
 
         $columns->column($stub);
 

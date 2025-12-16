@@ -81,16 +81,18 @@ class Columns
     {
         $this->label($column->name(), $column->label());
 
-        $this->populate($column->name(), [$column, 'populate']);
-
         if (!is_null($column->position())) {
             [$direction, $reference] = $column->position();
 
             $this->position($column->name(), $direction, $reference);
         }
 
-        if ($column->isSortable()) {
-            $this->sort($column->name(), [$column, 'sort']);
+        if ($callback = $column->populate()) {
+            $this->populate($column->name(), $callback);
+        }
+
+        if ($callback = $column->sort()) {
+            $this->sort($column->name(), $callback);
         }
     }
 

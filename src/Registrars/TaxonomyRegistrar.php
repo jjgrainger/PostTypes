@@ -127,7 +127,6 @@ class TaxonomyRegistrar
             $columns = array_intersect_key($columns, array_flip($only));
         }
 
-
         foreach ($this->columns->getPositions() as $key => $position) {
             [$direction, $reference] = $position;
 
