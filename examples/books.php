@@ -72,6 +72,8 @@ class Books extends PostType {
 
         $columns->label( 'rating', __( 'Rating', 'post-types' ) );
 
+        $columns->position( 'rating', 'after', 'price' );
+
         $columns->populate( 'rating', function( $post_id ) {
             echo get_post_meta( $post_id, 'rating', true );
         } );
