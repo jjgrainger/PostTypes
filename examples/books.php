@@ -70,23 +70,27 @@ class Books extends PostType {
 
         $columns->column( new Price );
 
-        $columns->add( 'rating', __( 'Rating', 'post-types' ) );
+        $columns->label( 'rating', __( 'Rating', 'post-types' ) );
 
         $columns->populate( 'rating', function( $post_id ) {
             echo get_post_meta( $post_id, 'rating', true );
         } );
 
-        $columns->sortable( 'rating', function( $query ) {
+        $columns->sort( 'rating', function( $query ) {
             $query->set('orderby', 'meta_value_num');
             $query->set('meta_key', 'rating');
         } );
 
-        $columns->order( [
-            'price'          => 4,
-            'rating'         => 5,
-            'taxonomy-genre' => 2,
-            'tags'           => 3,
-        ] );
+        $columns->add( 'rating' )
+            ->after( 'price' )
+            ->label( __( 'Rating', 'post-types' ) )
+            ->populate( function( $post_id ) {
+                echo get_post_meta( $post_id, 'rating', true );
+            } )
+            ->sort( function( $query ) {
+                $query->set('orderby', 'meta_value_num');
+                $query->set('meta_key', 'rating');
+            } );
 
         return $columns;
     }
