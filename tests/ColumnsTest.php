@@ -7,11 +7,11 @@ use PostTypes\Contracts\ColumnContract;
 
 class ColumnsTest extends TestCase
 {
-    public function test_can_add_column()
+    public function test_can_label_column()
     {
         $columns = new Columns;
 
-        $columns->add('column', 'Test Column');
+        $columns->label('column', 'Test Column');
 
         $output = $columns->getColumns();
 
@@ -45,11 +45,11 @@ class ColumnsTest extends TestCase
         $this->assertIsCallable($sortable);
     }
 
-    public function test_create_returns_column_builder()
+    public function test_add_returns_column_builder()
     {
         $columns = new Columns;
 
-        $builder = $columns->create('new_column');
+        $builder = $columns->add('new_column');
 
         $this->assertInstanceOf(ColumnBuilder::class, $builder);
     }

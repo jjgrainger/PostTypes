@@ -8,11 +8,11 @@ use PostTypes\Contracts\ColumnContract;
 class Columns
 {
     /**
-     * Columns to add.
+     * Columns keys and labels.
      *
      * @var array
      */
-    protected $columns = [];
+    protected $labels = [];
 
     /**
      * Columns to remove.
@@ -22,7 +22,7 @@ class Columns
     protected $remove = [];
 
     /**
-     * Columns to set.
+     * Columns whitelist.
      *
      * @var array
      */
@@ -50,35 +50,12 @@ class Columns
     protected $sortCallbacks = [];
 
     /**
-     * Add a column object.
-     *
-     * @param ColumnContract $column
-     * @return void
-     */
-    public function column(ColumnContract $column): void
-    {
-        $this->add($column->name(), $column->label());
-
-        $this->populate($column->name(), [$column, 'populate']);
-
-        if (!is_null($column->position())) {
-            [$direction, $reference] = $column->position();
-
-            $this->position($column->name(), $direction, $reference);
-        }
-
-        if ($column->isSortable()) {
-            $this->sort($column->name(), [$column, 'sort']);
-        }
-    }
-
-    /**
      * Create a new Column.
      *
      * @param string $key
      * @return ColumnBuilder
      */
-    public function create(string $key): ColumnBuilder
+    public function add(string $key): ColumnBuilder
     {
         return new ColumnBuilder($this, $key);
     }
@@ -91,19 +68,30 @@ class Columns
      */
     public function modify(string $key): ColumnBuilder
     {
-        return $this->create($key);
+        return $this->add($key);
     }
 
     /**
-     * Add a column.
+     * Add a column object.
      *
-     * @param string $key
-     * @param string $label
+     * @param ColumnContract $column
      * @return void
      */
-    public function add(string $key, string $label): void
+    public function column(ColumnContract $column): void
     {
-        $this->columns[$key] = $label;
+        $this->label($column->name(), $column->label());
+
+        $this->populate($column->name(), [$column, 'populate']);
+
+        if (!is_null($column->position())) {
+            [$direction, $reference] = $column->position();
+
+            $this->position($column->name(), $direction, $reference);
+        }
+
+        if ($column->isSortable()) {
+            $this->sort($column->name(), [$column, 'sort']);
+        }
     }
 
     /**
@@ -126,6 +114,18 @@ class Columns
     public function only(array $keys): void
     {
         $this->only = array_merge($this->only, $keys);
+    }
+
+    /**
+     * Set the label for a column.
+     *
+     * @param string $key
+     * @param string $label
+     * @return void
+     */
+    public function label(string $key, string $label): void
+    {
+        $this->labels[$key] = $label;
     }
 
     /**
@@ -177,7 +177,7 @@ class Columns
      */
     public function getColumns(): array
     {
-        return $this->columns;
+        return $this->labels;
     }
 
     /**

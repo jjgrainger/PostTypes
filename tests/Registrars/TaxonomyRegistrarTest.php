@@ -68,7 +68,7 @@ class TaxonomyRegistrarTest extends TestCase
         ];
 
         $columns = new Columns;
-        $columns->add('popularity', 'Popularity', function() {});
+        $columns->label('popularity', 'Popularity');
 
         $stub = $this->getMockBuilder(Taxonomy::class)
             ->getMock();

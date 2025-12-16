@@ -80,7 +80,7 @@ class PostTypeRegistrarTest extends TestCase
         ];
 
         $columns = new Columns;
-        $columns->add('date', 'Date', function() {});
+        $columns->label('date', 'Date');
 
         $stub = $this->getMockBuilder(PostType::class)
             ->getMock();
