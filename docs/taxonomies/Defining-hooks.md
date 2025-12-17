@@ -12,11 +12,11 @@ class Genres extends Taxonomy
     //...
 
     /**
-     * Adds additional hooks for the post type.
+     * Adds additional hooks for the taxonomy.
      *
-     * @return array
+     * @return void
      */
-    public function hooks(): array
+    public function hooks(): void
     {
         add_action( 'saved_term', [ $this, 'onSave' ], 10, 5 );
     }

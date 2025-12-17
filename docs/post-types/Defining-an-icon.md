@@ -14,7 +14,7 @@ class Books extends PostType
     /**
      * Returns the admin menu icon for the Books post type.
      *
-     * @return array
+     * @return string
      */
     public function icon(): string
     {

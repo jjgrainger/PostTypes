@@ -58,7 +58,7 @@ class Book extends PostType {
             'view_item'          => __( 'View Book', 'text-domain' ),
             'search_items'       => __( 'Search Books', 'text-domain' ),
             'not_found'          => __( 'No Books found', 'text-domain' ),
-            'not_found_in_trash' => __( 'No Books found in Trash', 'text-domain'),
+            'not_found_in_trash' => __( 'No Books found in Trash', 'text-domain' ),
             'parent_item_colon'  => __( 'Parent Book', 'text-domain' ),
         ];
     }
@@ -98,7 +98,7 @@ class Book extends PostType {
     public function filters(): array {
         return [
             'genre',
-            'category'
+            'category',
         ];
     }
 
@@ -127,11 +127,11 @@ class Book extends PostType {
 Once the custom post type class is created it can be registered to WordPress by instantiating and call the register method.
 
 ```php
-// Instantiate the Books PostType class.
-$books = new Books;
+// Instantiate the Book PostType class.
+$book = new Book;
 
-// Register the books PostType to WordPress.
-$books->register();
+// Register the Book PostType to WordPress.
+$book->register();
 ```
 
 ## Notes

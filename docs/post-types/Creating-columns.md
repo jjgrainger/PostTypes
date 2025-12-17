@@ -78,10 +78,9 @@ class Book extends PostType
 {
     //...
 
-    public function columns( $columns ): void
+    public function columns( Columns $columns ): Columns
     {
-        $columns->column( new PriceColumn );
-
+        $columns->add( new PriceColumn );
         return $columns;
     }
 }

@@ -19,20 +19,20 @@ class Genres extends Taxonomy
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         // Add a new Popularity column.
         $columns->add( 'popularity', __( 'Popularity', 'my-text-domain' ) );
 
         // Populate the popularity column with term meta.
         $columns->populate( 'popularity', function( $term_id ) {
-            echo '$' . get_term_meta( $term_id, '_popularity', true );
+            echo get_term_meta( $term_id, '_popularity', true );
         } );
 
         // Make the popularity column sortable.
         $columns->sortable( 'popularity', function( WP_Term_Query $query ) {
-            $query->query_vars['orderby'] = 'meta_value_num';
             $query->query_vars['meta_key'] = 'popularity';
+            $query->query_vars['orderby'] = 'meta_value_num';
         } );
 
         return $columns;
@@ -57,12 +57,11 @@ class Genres extends Taxonomy
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         $columns->populate( 'popularity', function( $term_id ) {
-            echo '$' . get_term_meta( $term_id, '_popularity', true );
+            echo get_term_meta( $term_id, '_popularity', true );
         } );
-
 
         return $columns;
     }
@@ -87,14 +86,13 @@ class Genres extends Taxonomy
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         // Make the popularity column sortable.
         $columns->sortable( 'popularity', function( WP_Term_Query $query ) {
-            $query->query_vars['orderby'] = 'meta_value_num';
             $query->query_vars['meta_key'] = 'popularity';
+            $query->query_vars['orderby'] = 'meta_value_num';
         } );
-
         return $columns;
     }
 }
@@ -117,11 +115,10 @@ class Genres extends Taxonomy
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         // Hide the Description column.
         $columns->hide( [ 'description' ] );
-
         return $columns;
     }
 }
@@ -145,13 +142,18 @@ class Genres extends Taxonomy
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
+<<<<<<< Updated upstream
         // Order the new Popularity column.
         $columns->order( [
             'popularity' => 2,
         ] );
 
+=======
+        // Position the new Popularity column.
+        $columns->position( 'popularity', 'after', 'title' );
+>>>>>>> Stashed changes
         return $columns;
     }
 }

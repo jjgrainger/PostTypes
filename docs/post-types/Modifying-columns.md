@@ -19,7 +19,7 @@ class Books extends PostType
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         // Add a new price column.
         $columns->add( 'price', __( 'Price', 'my-text-domain' ) );
@@ -31,8 +31,8 @@ class Books extends PostType
 
         // Make the price column sortable.
         $columns->sortable( 'price', function( WP_Query $query ) {
-            $query->set( 'orderby', 'meta_value_num' );
             $query->set( 'meta_key', 'price' );
+            $query->set( 'orderby', 'meta_value_num' );
         } );
 
         return $columns;
@@ -57,12 +57,11 @@ class Books extends PostType
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         $columns->populate( 'rating', function( $post_id ) {
             echo get_post_meta( $post_id, 'rating', true ) . '/10';
         } );
-
         return $columns;
     }
 }
@@ -85,14 +84,13 @@ class Books extends PostType
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         // Make the rating column sortable.
         $columns->sortable( 'rating', function( WP_Query $query ) {
-            $query->set( 'orderby', 'meta_value_num' );
             $query->set( 'meta_key', 'rating' );
+            $query->set( 'orderby', 'meta_value_num' );
         } );
-
         return $columns;
     }
 }
@@ -115,11 +113,10 @@ class Books extends PostType
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
         // Hide the Author and Date columns
         $columns->hide( [ 'author', 'date' ] );
-
         return $columns;
     }
 }
@@ -143,14 +140,19 @@ class Books extends PostType
      *
      * @return array
      */
-    public function columns( Columns $column ): Columns
+    public function columns( Columns $columns ): Columns
     {
+<<<<<<< Updated upstream
         // Order the new Rating and Genre columns.
         $columns->order( [
             'rating' => 2,
             'genre'  => 4,
         ] );
 
+=======
+        // Position the rating column after the title column.
+        $columns->position( 'rating', 'after', 'title' );
+>>>>>>> Stashed changes
         return $columns;
     }
 }
