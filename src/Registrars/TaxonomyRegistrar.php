@@ -115,7 +115,43 @@ class TaxonomyRegistrar
      */
     public function modifyColumns(array $columns)
     {
-        return $this->columns->applyColumns($columns);
+        foreach ($this->columns->getColumns() as $key => $label) {
+            $columns[$key] = $label;
+        }
+
+        if ($remove = $this->columns->getRemoved()) {
+            $columns = array_diff_key($columns, array_flip($remove));
+        }
+
+        if ($only = $this->columns->getOnly()) {
+            $columns = array_intersect_key($columns, array_flip($only));
+        }
+
+        foreach ($this->columns->getPositions() as $key => $position) {
+            [$direction, $reference] = $position;
+
+            if (!isset($direction) || !isset($reference)) {
+                continue;
+            }
+
+            $new = [];
+
+            foreach ($columns as $k => $label) {
+                if ('before' === $direction && $k === $reference) {
+                    $new[$key] = $columns[$key];
+                }
+
+                $new[$k] = $label;
+
+                if ('after' === $direction && $k === $reference) {
+                    $new[$key] = $columns[$key];
+                }
+            }
+
+            $columns = $new;
+        }
+
+        return $columns;
     }
 
     /**
@@ -128,7 +164,11 @@ class TaxonomyRegistrar
      */
     public function populateColumns($content, $column, $term_id)
     {
-        $this->columns->populateColumn($column, [$term_id, $content]);
+        $callback = $this->columns->getPopulateCallback($column);
+
+        if ($callback) {
+            call_user_func_array($callback, [$term_id, $content]);
+        }
     }
 
     /**
@@ -139,7 +179,7 @@ class TaxonomyRegistrar
      */
     public function setSortableColumns($columns)
     {
-        return $this->columns->setSortable($columns);
+        return array_merge($columns, $this->columns->getSortableColumns());
     }
 
     /**
@@ -155,7 +195,10 @@ class TaxonomyRegistrar
         }
 
         $column = $query->query_vars['orderby'];
+        $callback = $this->columns->getSortCallback($column);
 
-        $this->columns->sortColumn($column, $query);
+        if ($callback) {
+            call_user_func_array($callback, [$query]);
+        }
     }
 }

@@ -34,35 +34,38 @@ class PriceColumn extends Column
     }
 
     /**
-     * Populate column callback.
+     * Position a column before/after another.
      *
-     * @return void
+     * @return array
      */
-    public function populate( int $post_id ): void
+    public function position(): array
     {
-        echo '$' . get_post_meta( $post_id, '_price', true );
+        return $this->after( 'title' );
     }
 
     /**
-     * Set the column can be sorted.
+     * Populate column callback.
      *
-     * @return boolean
+     * @return callable
      */
-    public function isSortable(): bool
+    public function populate(): callable
     {
-        return true;
+        return function( int $post_id ) {
+            echo '$' . get_post_meta( $post_id, '_price', true );
+        };
     }
 
     /**
      * Handle sorting the column by modifying the admin query.
      *
-     * @param $query \WP_Query
-     * @return void
+     * @return callable
      */
-    public function sort(\WP_Query $query): void
+    public function sort(): callable
     {
-        $query->set( 'meta_key', '_price' );
-        $query->set( 'orderby', 'meta_value_num' );
+        return function( \WP_Query $query ) {
+            $query->set( 'meta_key', '_price' );
+            $query->set( 'orderby', 'meta_value_num' );
+        };
     }
 }
 ```

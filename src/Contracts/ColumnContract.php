@@ -19,32 +19,23 @@ interface ColumnContract
     public function label(): string;
 
     /**
-     * Populate the column.
+     * Set the column position.
      *
-     * @param integer $objectId
-     * @return void
+     * @return array|null
      */
-    public function populate(int $objectId): void;
+    public function position(): ?array;
 
     /**
-     * Set the column order.
+     * Populate the column.
      *
-     * @return integer|null
+     * @return callable|null
      */
-    public function order(): ?int;
+    public function populate(): ?callable;
 
     /**
      * Handle sorting the column.
      *
-     * @param \WP_Query|\WP_Term_Query $query
-     * @return void
+     * @return callable|null
      */
-    public function sort($query);
-
-    /**
-     * Can the column be sorted.
-     *
-     * @return boolean
-     */
-    public function isSortable(): bool;
+    public function sort(): ?callable;
 }

@@ -4,7 +4,7 @@ To modify a post types admin columns use the `column()` method. This method acce
 
 ## Adding Columns
 
-To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
+To add a column to the admin edit screen pass a column ket and label to the `label()` method.
 
 ```php
 use PostTypes\PostType;
@@ -22,7 +22,7 @@ class Books extends PostType
     public function columns( Columns $column ): Columns
     {
         // Add a new price column.
-        $columns->add( 'price', __( 'Price', 'my-text-domain' ) );
+        $columns->label( 'price', __( 'Price', 'my-text-domain' ) );
 
         // Populate the price column with post meta.
         $columns->populate( 'price', function( $post_id ) {
@@ -125,9 +125,9 @@ class Books extends PostType
 }
 ```
 
-## Column Order
+## Column Positions
 
-To rearrange columns pass an array of column slugs and position to the `order()` method. Only olumns you want to reorder need to be set, not all columns.
+To rearrange columns pass an array of column slugs and position to the `position()` method. Only olumns you want to reorder need to be set, not all columns.
 
 
 ```php
@@ -145,11 +145,8 @@ class Books extends PostType
      */
     public function columns( Columns $column ): Columns
     {
-        // Order the new Rating and Genre columns.
-        $columns->order( [
-            'rating' => 2,
-            'genre'  => 4,
-        ] );
+        // Position the rating column after the title column.
+        $columns->position( 'rating', 'after', 'title' );
 
         return $columns;
     }
