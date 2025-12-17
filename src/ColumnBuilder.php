@@ -9,7 +9,7 @@ class ColumnBuilder
      *
      * @var Columns
      */
-    protected $manager;
+    protected $columns;
 
     /**
      * Column key.
@@ -21,12 +21,12 @@ class ColumnBuilder
     /**
      * Constructor.
      *
-     * @param Columns $manager
+     * @param Columns $columns
      * @param string $key
      */
-    public function __construct(Columns $manager, string $key)
+    public function __construct(Columns $columns, string $key)
     {
-        $this->manager = $manager;
+        $this->columns = $columns;
         $this->key = $key;
     }
 
@@ -38,7 +38,7 @@ class ColumnBuilder
      */
     public function label(string $label): ColumnBuilder
     {
-        $this->manager->add($this->key, $label);
+        $this->columns->label($this->key, $label);
 
         return $this;
     }
@@ -52,7 +52,7 @@ class ColumnBuilder
      */
     public function position(string $direction, string $reference): ColumnBuilder
     {
-        $this->manager->position($this->key, $direction, $reference);
+        $this->columns->position($this->key, $direction, $reference);
 
         return $this;
     }
@@ -87,7 +87,7 @@ class ColumnBuilder
      */
     public function populate(callable $callback): ColumnBuilder
     {
-        $this->manager->populate($this->key, $callback);
+        $this->columns->populate($this->key, $callback);
 
         return $this;
     }
@@ -100,7 +100,7 @@ class ColumnBuilder
      */
     public function sort(callable $callback): ColumnBuilder
     {
-        $this->manager->sort($this->key, $callback);
+        $this->columns->sort($this->key, $callback);
 
         return $this;
     }
