@@ -46,7 +46,7 @@ class TaxonomyRegistrar
 
         // Handle Taxonomy columns.
         add_filter('manage_edit-' . $name . '_columns', [$this, 'modifyColumns'], 10, 1);
-        add_filter('manage_' . $name . '_custom_column', [$this, 'populateColumns'], 10, 3);
+        add_action('manage_' . $name . '_custom_column', [$this, 'populateColumns'], 10, 3);
         add_filter('manage_edit-' . $name . '_sortable_columns', [$this, 'setSortableColumns'], 10, 1);
         add_action('parse_term_query', [$this, 'sortSortableColumns'], 10, 1);
 
@@ -71,7 +71,7 @@ class TaxonomyRegistrar
      */
     public function registerTaxonomy()
     {
-        register_taxonomy($this->taxonomy->name(), null, $this->generateOptions());
+        register_taxonomy($this->taxonomy->name(), [], $this->generateOptions());
     }
 
     /**

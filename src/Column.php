@@ -26,7 +26,7 @@ abstract class Column implements ColumnContract
     /**
      * Populate the column.
      *
-     * @return callable|bull
+     * @return callable|null
      */
     public function populate(): ?callable
     {
