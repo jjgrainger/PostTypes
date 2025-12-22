@@ -68,7 +68,7 @@ class TaxonomyRegistrarTest extends TestCase
         ];
 
         $columns = new Columns;
-        $columns->add('popularity', 'Popularity', function() {});
+        $columns->label('popularity', 'Popularity');
 
         $stub = $this->getMockBuilder(Taxonomy::class)
             ->getMock();
@@ -106,7 +106,7 @@ class TaxonomyRegistrarTest extends TestCase
 
         $stub->expects($this->once())
             ->method('populate')
-            ->will($this->returnValue(true));
+            ->willReturnCallback(function() {});
 
         $columns->column($stub);
 
@@ -129,7 +129,7 @@ class TaxonomyRegistrarTest extends TestCase
     public function test_can_set_sortable_columns()
     {
         $columns = new Columns;
-        $columns->sortable('column', function() {});
+        $columns->sort('column', function() {});
 
         $sortable = [
             'title' => 'title',

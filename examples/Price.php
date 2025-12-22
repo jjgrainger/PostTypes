@@ -12,20 +12,20 @@ class Price extends Column
         return __( 'Price', 'post-types' );
     }
 
-    public function order(): int {
-        return 2;
+    public function position(): array {
+        return $this->after( 'title' );
     }
 
-    public function populate( int $post_id ): void {
-        echo '£' . get_post_meta( $post_id, 'price', true );
+    public function populate(): callable {
+        return function( int $post_id ) {
+            echo '£' . get_post_meta( $post_id, 'price', true );
+        };
     }
 
-    public function isSortable(): bool {
-        return true;
-    }
-
-    public function sort( $query ): void {
-        $query->set('orderby', 'meta_value_num');
-        $query->set('meta_key', 'price');
+    public function sort(): callable {
+        return function( $query ) {
+            $query->set( 'orderby', 'meta_value_num' );
+            $query->set( 'meta_key', 'price' );
+        };
     }
 }

@@ -80,7 +80,7 @@ class PostTypeRegistrarTest extends TestCase
         ];
 
         $columns = new Columns;
-        $columns->add('date', 'Date', function() {});
+        $columns->label('date', 'Date');
 
         $stub = $this->getMockBuilder(PostType::class)
             ->getMock();
@@ -119,7 +119,7 @@ class PostTypeRegistrarTest extends TestCase
 
         $stub->expects($this->once())
             ->method('populate')
-            ->will($this->returnValue(true));
+            ->willReturnCallback(function() {});
 
         $columns->column($stub);
 
@@ -142,7 +142,7 @@ class PostTypeRegistrarTest extends TestCase
     public function test_can_set_sortable_columns()
     {
         $columns = new Columns;
-        $columns->sortable('column', function() {});
+        $columns->sort('column', function() {});
 
         $sortable = [
             'title' => 'title',

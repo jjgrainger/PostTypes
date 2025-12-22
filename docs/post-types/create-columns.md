@@ -34,6 +34,16 @@ class PriceColumn extends Column
     }
 
     /**
+     * Position a column before/after another.
+     *
+     * @return array
+     */
+    public function position(): array
+    {
+        return $this->after( 'title' );
+    }
+
+    /**
      * Populate column callback.
      *
      * @return callable
@@ -42,7 +52,7 @@ class PriceColumn extends Column
     {
         return function( int $post_id ) {
             echo '$' . get_post_meta( $post_id, '_price', true );
-        }
+        };
     }
 
     /**

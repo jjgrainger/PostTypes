@@ -1,57 +1,85 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PostTypes\Column;
 use PostTypes\Columns;
+use PostTypes\ColumnBuilder;
+use PostTypes\Contracts\ColumnContract;
 
 class ColumnsTest extends TestCase
 {
-    public function test_can_add_column()
+    public function test_can_label_column()
     {
         $columns = new Columns;
 
-        $columns->add('column', 'Test Column');
+        $columns->label('column', 'Test Column');
 
-        $this->assertArrayHasKey('column', $columns->add);
-        $this->assertSame('Test Column', $columns->add['column']);
+        $output = $columns->getColumns();
+
+        $this->assertArrayHasKey('column', $output);
+        $this->assertSame('Test Column', $output['column']);
     }
 
     public function test_can_add_column_with_column_class()
     {
-        $stub = $this->getMockForAbstractClass(Column::class);
+        $stub = $this->createMock(ColumnContract::class);
 
-        $stub->expects($this->any())
-             ->method('name')
-             ->will($this->returnValue('column'));
+        $stub->method('name')->willReturn('column');
+        $stub->method('label')->willReturn('Column');
+        $stub->method('position')->willReturn(['after', 'title']);
+        $stub->method('populate')->willReturn(function () {});
+        $stub->method('sort')->willReturn(function () {});
 
         $columns = new Columns;
         $columns->column($stub);
 
-        $this->assertArrayHasKey('column', $columns->add);
-        $this->assertSame('Column', $columns->add['column']);
+        $output = $columns->getColumns();
+        $positions = $columns->getPositions();
+        $populate = $columns->getPopulateCallback('column');
+        $sortable = $columns->getSortCallback('column');
 
-        $this->assertArrayHasKey('column', $columns->populate);
-        $this->assertIsCallable($columns->populate['column']);
+        $this->assertArrayHasKey('column', $output);
+        $this->assertSame('Column', $output['column']);
+
+        $this->assertArrayHasKey('column', $positions);
+        $this->assertSame(['after', 'title'], $positions['column']);
+
+        $this->assertIsCallable($populate);
+        $this->assertIsCallable($sortable);
     }
 
-    public function test_can_add_column_with_populate_callback()
+    public function test_add_returns_column_builder()
     {
         $columns = new Columns;
 
-        $columns->add('column', 'Test Column', function() {});
+        $builder = $columns->add('new_column');
 
-        $this->assertArrayHasKey('column', $columns->populate);
-        $this->assertIsCallable($columns->populate['column']);
+        $this->assertInstanceOf(ColumnBuilder::class, $builder);
+    }
+
+    public function test_modify_returns_column_builder()
+    {
+        $columns = new Columns;
+
+        $builder = $columns->modify('existing');
+
+        $this->assertInstanceOf(ColumnBuilder::class, $builder);
     }
 
     public function test_can_set_column_populate_callback()
     {
         $columns = new Columns;
 
-        $columns->populate('column', function() {});
+        $callback = function () {};
+        $columns->populate('column', $callback);
 
-        $this->assertArrayHasKey('column', $columns->populate);
-        $this->assertIsCallable($columns->populate['column']);
+        $this->assertSame($callback, $columns->getPopulateCallback('column'));
+    }
+
+    public function test_get_populate_callback_returns_null_for_missing_key()
+    {
+        $columns = new Columns;
+
+        $this->assertNull($columns->getPopulateCallback('missing'));
     }
 
     public function test_can_set_remove_column()
@@ -60,7 +88,7 @@ class ColumnsTest extends TestCase
 
         $columns->remove(['column']);
 
-        $this->assertEquals(['column'], $columns->remove);
+        $this->assertEquals(['column'], $columns->getRemoved());
     }
 
     public function test_can_set_remove_columns_with_multiple_calls()
@@ -70,150 +98,100 @@ class ColumnsTest extends TestCase
         $columns->remove(['column']);
         $columns->remove(['column_2']);
 
-        $this->assertEquals(['column', 'column_2'], $columns->remove);
+        $this->assertEquals(['column', 'column_2'], $columns->getRemoved());
     }
 
-    public function test_can_set_order_columns()
+    public function test_can_set_only_columns()
     {
         $columns = new Columns;
 
-        $columns->order([
-            'column' => 1,
-        ]);
+        $columns->only(['one']);
+        $columns->only(['two']);
 
-        $this->assertEquals(['column' => 1], $columns->order);
+        $this->assertEquals(['one', 'two'], $columns->getOnly());
     }
 
-    public function test_can_set_order_columns_with_multiple_calls()
+    public function test_can_set_position_after()
     {
         $columns = new Columns;
 
-        $columns->order(['column' => 1]);
-        $columns->order(['column_2' => 3]);
+        $columns->position('col', 'after', 'title');
 
-        $this->assertEquals(['column' => 1, 'column_2' => 3], $columns->order);
+        $this->assertSame(['after', 'title'], $columns->getPositions()['col']);
     }
 
-    public function test_can_order_column_with_column_class()
+    public function test_can_set_position_before()
     {
         $columns = new Columns;
 
-        $stub = $this->createMock(Column::class);
+        $columns->position('col', 'before', 'date');
 
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('column'));
+        $this->assertSame(['before', 'date'], $columns->getPositions()['col']);
+    }
 
-        $stub->expects($this->any())
-            ->method('order')
-            ->will($this->returnValue(1));
+    public function test_position_throws_exception_for_invalid_direction()
+    {
+        $this->expectException(InvalidArgumentException::class);
 
-
-        $columns->column($stub);
-
-        $this->assertEquals(['column' => 1], $columns->order);
+        $columns = new Columns;
+        $columns->position('col', 'sideways', 'title');
     }
 
     public function test_can_set_sortable_column()
     {
         $columns = new Columns;
 
-        $columns->sortable('column', function() {});
+        $callback = function () {};
+        $columns->sort('column', $callback);
 
-        $this->assertArrayHasKey('column', $columns->sortable);
-        $this->assertIsCallable($columns->sortable['column']);
+        $this->assertSame($callback, $columns->getSortCallback('column'));
     }
 
-    public function test_can_apply_columns()
+    public function test_get_sortable_columns_returns_keys_mapped_to_keys()
     {
         $columns = new Columns;
 
-        $columns->add('column_5', 'Column 5');
+        $columns->sort('a', function () {});
+        $columns->sort('b', function () {});
 
-        $columns->remove(['column_2']);
-
-        $columns->order([
-            'column_3' => 0,
-        ]);
-
-        $original = [
-            'column_1' => 'Column 1',
-            'column_2' => 'Column 2',
-            'column_3' => 'Column 3',
-            'column_4' => 'Column 4',
-        ];
-
-        $modified = $columns->applyColumns($original);
-
-        $expected = [
-            'column_3' => 'Column 3',
-            'column_1' => 'Column 1',
-            'column_4' => 'Column 4',
-            'column_5' => 'Column 5',
-        ];
-
-        $this->assertSame($expected, $modified);
+        $this->assertSame(['a' => 'a', 'b' => 'b'], $columns->getSortableColumns());
     }
 
-    public function test_can_populate_column()
+    public function test_get_sortable_callback_returns_null_for_missing_key()
     {
         $columns = new Columns;
 
-        $stub = $this->createMock(Column::class);
-
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('column'));
-
-        $stub->expects($this->once())
-            ->method('populate')
-            ->with($this->greaterThan(0));
-
-        $columns->column($stub);
-
-        $columns->populateColumn('column', [1]);
+        $this->assertNull($columns->getSortCallback('missing'));
     }
 
-    public function test_can_add_sortable_columns_to_sortable_list()
+    public function test_populate_does_not_affect_sort_callbacks()
     {
         $columns = new Columns;
 
-        $columns->sortable('column', function() {});
+        $columns->populate('col', function () {});
 
-        $sortable = [
-            'title' => 'title',
-        ];
-
-        $sortable = $columns->setSortable($sortable);
-
-        $expected = [
-            'title' => 'title',
-            'column' => 'column',
-        ];
-
-        $this->assertSame($expected, $sortable);
+        $this->assertNull($columns->getSortCallback('col'));
     }
 
-    public function test_can_sort_column()
+    public function test_sort_does_not_affect_populate_callbacks()
     {
         $columns = new Columns;
 
-        $stub = $this->createMock(Column::class);
+        $columns->sort('col', function () {});
 
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('column'));
+        $this->assertNull($columns->getPopulateCallback('col'));
+    }
 
-        $stub->expects($this->once())
-            ->method('isSortable')
-            ->will($this->returnValue(true));
+    public function test_add_does_not_overwrite_callback_data()
+    {
+        $columns = new Columns;
 
-        $stub->expects($this->once())
-            ->method('sort')
-            ->with($this->greaterThan(0));
+        $columns->populate('col', function () {});
+        $columns->sort('col', function () {});
+        $columns->add('col', 'Label');
 
-        $columns->column($stub);
-
-        $columns->sortColumn('column', 1);
+        // Callbacks remain unchanged
+        $this->assertIsCallable($columns->getPopulateCallback('col'));
+        $this->assertIsCallable($columns->getSortCallback('col'));
     }
 }

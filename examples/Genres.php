@@ -20,21 +20,15 @@ class Genres extends Taxonomy
     }
 
     public function columns( Columns $columns ): Columns {
-        $columns->remove(['posts']);
+        $columns->remove( [ 'posts' ] );
 
-        $columns->add(
-            'popularity',
-            __( 'Popularity', 'post-types' ),
-            function( $term_id ) {
-                echo get_term_meta( $term_id, 'popularity', true );
-            }
-        );
+        $columns->label( 'popularity', __( 'Popularity', 'post-types' ) );
 
-        $columns->order( [
-            'popularity' => 2,
-        ] );
+        $columns->populate( 'popularity', function( $term_id ) {
+            echo get_term_meta( $term_id, 'popularity', true );
+        } );
 
-        $columns->sortable( 'popularity', function( $query ) {
+        $columns->sort( 'popularity', function( $query ) {
             $query->query_vars['orderby'] = 'meta_value';
             $query->query_vars['meta_key'] = 'popularity';
         } );

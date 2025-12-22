@@ -22,7 +22,7 @@ class Genres extends Taxonomy
     public function columns( Columns $columns ): Columns
     {
         // Add a new Popularity column.
-        $columns->add( 'popularity', __( 'Popularity', 'my-text-domain' ) );
+        $columns->label( 'popularity', __( 'Popularity', 'my-text-domain' ) );
 
         // Populate the popularity column with term meta.
         $columns->populate( 'popularity', function( $term_id ) {
@@ -119,6 +119,7 @@ class Genres extends Taxonomy
     {
         // Hide the Description column.
         $columns->hide( [ 'description' ] );
+
         return $columns;
     }
 }
@@ -144,16 +145,9 @@ class Genres extends Taxonomy
      */
     public function columns( Columns $columns ): Columns
     {
-<<<<<<< Updated upstream
-        // Order the new Popularity column.
-        $columns->order( [
-            'popularity' => 2,
-        ] );
-
-=======
         // Position the new Popularity column.
         $columns->position( 'popularity', 'after', 'title' );
->>>>>>> Stashed changes
+
         return $columns;
     }
 }
