@@ -1,4 +1,4 @@
-# Defining Taxonomies
+# Define Taxonomies
 
 Taxonomies for a PostType can be definied using the `taxonomies()` method. This method should return an array of taxonomy slugs to associate with the post type.
 

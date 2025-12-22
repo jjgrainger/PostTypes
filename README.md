@@ -71,7 +71,7 @@ class Book extends PostType {
             'title',
             'editor',
             'thumbnail',
-            'custom-fields'
+            'custom-fields',
         ];
     }
 
@@ -80,7 +80,7 @@ class Book extends PostType {
      */
     public function taxonomies(): array {
         return [
-            'genre'
+            'genre',
             'category',
         ];
     }

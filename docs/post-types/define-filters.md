@@ -1,4 +1,4 @@
-# Defining filters
+# Define filters
 
 Filters that appear for the post type listing admin screen can be defined using the `filters()` method.
 

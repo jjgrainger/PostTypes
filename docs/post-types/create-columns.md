@@ -1,4 +1,4 @@
-# Custom Columns
+# Create Columns
 
 The `Column` class allows developers to create reusable, self-contained columns for the post listing table in the WordPress admin. These custom columns can display post meta, taxonomy values, or any custom data related to the post.
 
@@ -36,33 +36,26 @@ class PriceColumn extends Column
     /**
      * Populate column callback.
      *
-     * @return void
+     * @return callable
      */
-    public function populate( int $post_id ): void
+    public function populate(): callable
     {
-        echo '$' . get_post_meta( $post_id, '_price', true );
-    }
-
-    /**
-     * Set the column can be sorted.
-     *
-     * @return boolean
-     */
-    public function isSortable(): bool
-    {
-        return true;
+        return function( int $post_id ) {
+            echo '$' . get_post_meta( $post_id, '_price', true );
+        }
     }
 
     /**
      * Handle sorting the column by modifying the admin query.
      *
-     * @param $query \WP_Query
-     * @return void
+     * @return callable
      */
-    public function sort(\WP_Query $query): void
+    public function sort(): callable
     {
-        $query->set( 'meta_key', '_price' );
-        $query->set( 'orderby', 'meta_value_num' );
+        return function( \WP_Query $query ) {
+            $query->set( 'meta_key', '_price' );
+            $query->set( 'orderby', 'meta_value_num' );
+        };
     }
 }
 ```

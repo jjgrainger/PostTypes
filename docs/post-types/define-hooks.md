@@ -1,4 +1,4 @@
-# Defining hooks
+# Define hooks
 
 Additional hooks are supported with the `hooks()` method.
 

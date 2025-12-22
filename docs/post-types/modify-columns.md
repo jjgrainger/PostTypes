@@ -1,8 +1,8 @@
-# Modifying columns
+# Modify columns
 
 To modify a post types admin columns use the `column()` method. This method accepts the `PostTypes\Columns` manager which has a variety of methods to help fine tune admin table columns.
 
-## Adding Columns
+## Add Columns
 
 To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
 
@@ -62,6 +62,7 @@ class Books extends PostType
         $columns->populate( 'rating', function( $post_id ) {
             echo get_post_meta( $post_id, 'rating', true ) . '/10';
         } );
+
         return $columns;
     }
 }
@@ -91,6 +92,7 @@ class Books extends PostType
             $query->set( 'meta_key', 'rating' );
             $query->set( 'orderby', 'meta_value_num' );
         } );
+
         return $columns;
     }
 }
@@ -117,14 +119,15 @@ class Books extends PostType
     {
         // Hide the Author and Date columns
         $columns->hide( [ 'author', 'date' ] );
+
         return $columns;
     }
 }
 ```
 
-## Column Order
+## Position Columns
 
-To rearrange columns pass an array of column slugs and position to the `order()` method. Only olumns you want to reorder need to be set, not all columns.
+To rearrange columns use the `position` method to set a columns position before or after another.
 
 
 ```php
@@ -142,17 +145,9 @@ class Books extends PostType
      */
     public function columns( Columns $columns ): Columns
     {
-<<<<<<< Updated upstream
-        // Order the new Rating and Genre columns.
-        $columns->order( [
-            'rating' => 2,
-            'genre'  => 4,
-        ] );
-
-=======
         // Position the rating column after the title column.
         $columns->position( 'rating', 'after', 'title' );
->>>>>>> Stashed changes
+
         return $columns;
     }
 }

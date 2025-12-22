@@ -1,4 +1,4 @@
-# Defining options
+# Define options
 
 Options for a PostType are defined in the `options()` method and should return an array of valid [WordPress post type options](https://developer.wordpress.org/reference/functions/register_post_type/#parameters).
 

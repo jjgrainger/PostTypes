@@ -1,4 +1,4 @@
-# Defining labels
+# Define labels
 
 Labels for a PostType are defined in the `labels()` method and should return an array of labels.
 
