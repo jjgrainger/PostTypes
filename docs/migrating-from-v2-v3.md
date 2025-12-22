@@ -240,6 +240,9 @@ $genres->register();
 
 **v3.0:**
 ```php
+use PostTypes\PostType;
+use PostTypes\Taxonomy;
+
 class Book extends PostType {
     public function name(): string {
         return 'book';
@@ -261,7 +264,7 @@ class Book extends PostType {
 }
 
 
-class Genre extends PostType {
+class Genre extends Taxonomy {
     public function name(): string {
         return 'genre';
     }
@@ -275,7 +278,6 @@ class Genre extends PostType {
 
 (new Book)->register();
 (new Genre)->register();
-
 ```
 
 ---

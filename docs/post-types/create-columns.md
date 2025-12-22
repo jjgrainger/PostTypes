@@ -1,6 +1,6 @@
 # Create Columns
 
-The `Column` class allows developers to create reusable, self-contained columns for the post listing table in the WordPress admin. These custom columns can display post meta, taxonomy values, or any custom data related to the post.
+The `Column` class allows developers to create reusable, self-contained columns for the post listing table in the WordPress admin. These custom columns can display post meta, taxonomy values, or any custom data related to the post or taxonomy.
 
 Columns are defined by extending the abstract `PostTypes\Column` class and implementing the required `name()` method, along with any optional logic such as rendering, sorting, or changing the label.
 
@@ -62,7 +62,7 @@ class PriceColumn extends Column
 
 ## Adding the Column to a Post Type
 
-Once you’ve defined your custom column, you can add it to a PostType using the `$columns->column()` method inside your `PostType` class:
+Once you’ve defined your custom column, you can add it to a PostType using the `$columns->column()` method inside your `PostType` or `Taxonomy` class:
 
 ```php
 use PostTypes\PostType;
@@ -73,7 +73,8 @@ class Book extends PostType
 
     public function columns( Columns $columns ): Columns
     {
-        $columns->add( new PriceColumn );
+        $columns->column( new PriceColumn );
+
         return $columns;
     }
 }

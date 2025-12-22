@@ -26,6 +26,6 @@ class Books extends PostType
 }
 ```
 
-This method only attaches the taxonomy to the post type, to _create_ a taxonomy see the [documentation](../taxonomies/Create-a-taxonomy.md) on creating a new taxonomy.
+This method only attaches the taxonomy to the post type, to _create_ a taxonomy see the [documentation](../taxonomies/create-a-taxonomy.md) on creating a new taxonomy.
 
 Taxonomies and post types can be created and registered in any order.

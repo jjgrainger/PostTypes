@@ -1,10 +1,10 @@
 # Modify columns
 
-To modify a post types admin columns use the `column()` method. This method accepts the `PostTypes\Columns` manager which has a variety of methods to help fine tune admin table columns.
+To modify a post types admin columns use the `column()` method. This method accepts the `PostTypes\Columns` manager that has a variety of methods to help fine tune admin table columns.
 
 ## Add Columns
 
-To add columns to the admin edit screen pass an array of column slugs and labels to the `add()` method.
+Use the `add` method to create a column and initiate the fluent column builder API. The column builder provides useful methods for defining a number of column attributes.
 
 ```php
 use PostTypes\PostType;
@@ -22,27 +22,29 @@ class Books extends PostType
     public function columns( Columns $columns ): Columns
     {
         // Add a new price column.
-        $columns->add( 'price', __( 'Price', 'my-text-domain' ) );
-
-        // Populate the price column with post meta.
-        $columns->populate( 'price', function( $post_id ) {
-            echo '$' . get_post_meta( $post_id, '_price', true );
-        } );
-
-        // Make the price column sortable.
-        $columns->sortable( 'price', function( WP_Query $query ) {
-            $query->set( 'meta_key', 'price' );
-            $query->set( 'orderby', 'meta_value_num' );
-        } );
+        $columns->add( 'price' )
+            // Set the label.
+            ->label( __( 'Price', 'my-text-domain' ) )
+            // Position the column after the title column.
+            ->after( 'title' )
+            // Set the populate callback.
+            ->populate( function( $post_id ) {
+                echo '$' . get_post_meta( $post_id, '_price', true );
+            } )
+            // Set the sort callback.
+            ->sort( function( WP_Query $query ) {
+                $query->set( 'meta_key', 'price' );
+                $query->set( 'orderby', 'meta_value_num' );
+            } );
 
         return $columns;
     }
 }
 ```
 
-## Populate Columns
+## Modify a column
 
-To populate any column use the `populate()` method, by passing the column slug and a callback function.
+Any column can be modified using the `modify` method.
 
 ```php
 use PostTypes\PostType;
@@ -59,8 +61,64 @@ class Books extends PostType
      */
     public function columns( Columns $columns ): Columns
     {
-        $columns->populate( 'rating', function( $post_id ) {
-            echo get_post_meta( $post_id, 'rating', true ) . '/10';
+        // Update the WordPress author column label.
+        $columns->modify( 'author' )->label( __( 'Post Author', 'my-text-domain' ) );
+
+        return $columns;
+    }
+}
+```
+
+## Position Columns
+
+To rearrange columns use either the `before` or `after` methods to set a columns position before or after another.
+
+
+```php
+use PostTypes\PostType;
+use PostTypes\Columns;
+
+class Books extends PostType
+{
+    //...
+
+    /**
+     * Set the PostTypes admin columns.
+     *
+     * @return array
+     */
+    public function columns( Columns $columns ): Columns
+    {
+        // Position the price column after the title column.
+        $columns->add( 'price' )->after( 'title' );
+
+        return $columns;
+    }
+}
+```
+
+
+## Populate Columns
+
+To populate a column use the `populate()` method passing a callback function.
+
+```php
+use PostTypes\PostType;
+use PostTypes\Columns;
+
+class Books extends PostType
+{
+    //...
+
+    /**
+     * Set the PostTypes admin columns.
+     *
+     * @return array
+     */
+    public function columns( Columns $columns ): Columns
+    {
+        $columns->add( 'price' )->populate( function( $post_id ) {
+            echo '$' . get_post_meta( $post_id, '_price', true );
         } );
 
         return $columns;
@@ -70,7 +128,7 @@ class Books extends PostType
 
 ## Sortable Columns
 
-To define which custom columns are sortable use the `sortable()` method.
+To make a column sortable use the `sort()` method and pass the sorting callback.
 
 ```php
 use PostTypes\PostType;
@@ -88,8 +146,8 @@ class Books extends PostType
     public function columns( Columns $columns ): Columns
     {
         // Make the rating column sortable.
-        $columns->sortable( 'rating', function( WP_Query $query ) {
-            $query->set( 'meta_key', 'rating' );
+        $columns->add( 'price' )->sort( function( WP_Query $query ) {
+            $query->set( 'meta_key', 'price' );
             $query->set( 'orderby', 'meta_value_num' );
         } );
 
@@ -98,9 +156,9 @@ class Books extends PostType
 }
 ```
 
-## Hide Columns
+## Remove Columns
 
-To hide columns pass the column slug to the `hide()` method. For multiple columns pass an array of column slugs.
+To remove columns pass the column slug to the `remove()` method. For multiple columns pass an array of column slugs.
 
 ```php
 use PostTypes\PostType;
@@ -118,17 +176,16 @@ class Books extends PostType
     public function columns( Columns $columns ): Columns
     {
         // Hide the Author and Date columns
-        $columns->hide( [ 'author', 'date' ] );
+        $columns->remove( [ 'author', 'date' ] );
 
         return $columns;
     }
 }
 ```
 
-## Position Columns
+## Whitelist Columns
 
-To rearrange columns use the `position` method to set a columns position before or after another.
-
+Use the `only()` method to define what columns should appear by passing an array of column slugs.
 
 ```php
 use PostTypes\PostType;
@@ -145,12 +202,54 @@ class Books extends PostType
      */
     public function columns( Columns $columns ): Columns
     {
-        // Position the rating column after the title column.
-        $columns->position( 'rating', 'after', 'title' );
+        // Only show the checkbox, title and price columns.
+        $columns->only( [ 'cb', 'title', 'price' ] );
 
         return $columns;
     }
 }
 ```
 
+## Low-level API
+
+The Columns class has a low-level API that can continue to be used to make and modify columns, however it is recommended to use the column builder API shown above.
+
+Below is an example of how to use the low-level API to create the price column.
+
+```php
+use PostTypes\PostType;
+use PostTypes\Columns;
+
+class Books extends PostType
+{
+    //...
+
+    /**
+     * Set the PostTypes admin columns.
+     *
+     * @return array
+     */
+    public function columns( Columns $columns ): Columns
+    {
+        // Add a new price column.
+        $columns->label( 'price', __( 'Price', 'my-text-domain' ) );
+
+        // Position the column after the title column.
+        $columns->position( 'price', 'after', 'title' );
+
+        // Set the populate callback.
+        $columns->populate( 'price', function( $post_id ) {
+            echo '$' . get_post_meta( $post_id, '_price', true );
+        } );
+
+        // Set the sort callback.
+        $columns->sort( 'price', function( WP_Query $query ) {
+            $query->set( 'meta_key', 'price' );
+            $query->set( 'orderby', 'meta_value_num' );
+        } );
+
+        return $columns;
+    }
+}
+```
 

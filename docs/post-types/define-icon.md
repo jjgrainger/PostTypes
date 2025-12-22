@@ -1,6 +1,6 @@
 # Menu Icons
 
-WordPress has [Dashicons](https://developer.wordpress.org/resource/dashicons/), an icon font you can use with your custom post types.
+[Dashicons](https://developer.wordpress.org/resource/dashicons/) is an icon font you can use with your post types.
 
 To set the post type icon pass the dashicon icon slug in the `icon()` method.
 
