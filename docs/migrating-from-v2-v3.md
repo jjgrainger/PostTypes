@@ -1,27 +1,26 @@
 # Migrating from PostTypes v2.x to v3.0
 
-This guide highlights the key changes and migration steps for upgrading from PostTypes v2.x to v3.0. The v3.0 release introduces significant architectural improvements, stricter typing, and new extension points. Review and update your custom post types, taxonomies, and integrations as described below.
+This guide highlights the key changes and migration steps for upgrading from PostTypes v2 to v3. The v3 release introduces significant changes. Review and update your custom post types, taxonomies, and integrations as described below.
 
 v3.0 shifts PostTypes to a declarative, class-based architecture to improve readability, testability, and long-term extensibility.
 
-> **Important:** v3.0 is a breaking release. Existing v2.x post type and taxonomy definitions will not work without modification.
+> **Important:** v3.0 is a breaking release. Existing v2 post type and taxonomy definitions will not work without modification.
 
 ---
 
 ## Major Changes
 
 ### 1. **Abstract Base Classes & Contracts**
-- `PostType` and `Taxonomy` are now **abstract classes** and implement new PSR-4 contracts in `src/Contracts/`.
-- You must implement all required abstract methods (e.g., `name()`, `labels()`, `options()`, etc.) in your custom classes.
-- The base classes no longer provide magic property population or dynamic label/option generation.
+- `PostType` and `Taxonomy` are now **abstract classes** and implement new contracts in `src/Contracts/`.
+- You must implement the required `name()` abstract method in your custom classes.
+- All other methods (e.g `labels()`, `options()`, `taxonomies()`, `columns()` etc.) must be used to pass the correct definitions for your post types and taxonomies.
+- The base classes no longer provide magic property population or dynamic label/option generation. Post types and taxonomy properties must be explicitly defined.
 
 #### Previous PostTypes API
 
 Previously, post types were instantiated and the object methods used to configure the post type programatically.
 
 ```php
-<?php
-
 // Import PostTypes.
 use PostTypes\PostType;
 
@@ -42,31 +41,39 @@ $books->register();
 PostType is an abstract class and methods are used to configure the post type declaratively.
 
 ```php
-<?php
-
 namespace App\PostTypes;
 
 use PostTypes\PostType;
 use PostTypes\Columns;
 
 class Books extends PostType {
+
+    /**
+     * Set the post type name.
+     */
     public function name(): string {
         return 'book';
     }
 
+    /**
+     * Define post type columns.
+     */
     public function columns( Columns $columns ): Columns {
         $columns->remove( [ 'date', 'author' ] );
 
         return $columns;
     }
 
+    /**
+     * Set the post type menu icon.
+     */
     public function icon(): string {
         return 'dashicons-book-alt';
     }
 }
 ```
 
-Registration remains the same by instantiating class and calling the `register()` method.
+Registration remains the same by instantiating class and calling the `register()` method inside your theme functions.php or plugin file.
 
 ```php
 // inside functions.php or plugin file.
@@ -93,9 +100,8 @@ class Books extends PostType {
 
     public function labels(): array {
         return [
-            'name'          => __( 'Book', 'post-types' ),
+            'name'          => __( 'Books', 'post-types' ),
             'singular_name' => __( 'Book', 'post-types' ),
-            'plural_name'   => __( 'Book', 'post-types' ),
         ];
     }
 
@@ -156,7 +162,7 @@ class Books extends PostType {
 Some methods on the `Columns` have changed or been replaced.
 
 - `add` has been replaced with `label`.
-- add()` and `modify()` now return a Column Builder instance for fluent column configuration.
+- `add()` and `modify()` now return a Column Builder instance for fluent column configuration.
 - `order` has been removed and replaced with a `position` API.
 - A new `column` method allows passing `Column` classes for creating complex columns.
 
@@ -203,6 +209,7 @@ class Books extends PostType {
 ```php
 // Import PostTypes.
 use PostTypes\PostType;
+use PostTypes\Taxonomy;
 
 // Create a book post type.
 $books = new PostType( 'book' );
@@ -215,6 +222,20 @@ $books->columns()->hide( [ 'date', 'author' ] );
 
 // Set the Books menu icon.
 $books->icon( 'dashicons-book-alt' );
+
+// Register the post type to WordPress.
+$books->register();
+
+// Create a genre taxonomy.
+$genres = new Taxonomy( 'genre' );
+
+// Set options for the taxonomy.
+$genres->options( [
+    'hierarchical' => false,
+] );
+
+// Register the taxonomy to WordPress.
+$genres->register();
 ```
 
 **v3.0:**
@@ -238,6 +259,23 @@ class Book extends PostType {
         return 'dashicons-book-alt';
     }
 }
+
+
+class Genre extends PostType {
+    public function name(): string {
+        return 'genre';
+    }
+
+    public function options(): array {
+        return [
+            'hierarchical' => false,
+        ];
+    }
+}
+
+(new Book)->register();
+(new Genre)->register();
+
 ```
 
 ---
