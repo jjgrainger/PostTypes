@@ -1,6 +1,6 @@
 # Define labels
 
-Labels for a post type are defined in the `labels()` method and should return an array of labels.
+Labels for a post type are defined in the `labels()` method and must return an array of labels.
 
 By default, an empty array is returned and the WordPress default labels are used.
 
