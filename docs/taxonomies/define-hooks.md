@@ -2,7 +2,7 @@
 
 Additional hooks are supported with the `hooks()` method.
 
-Here you can register additional actions and filters to WordPress and allows you to keep logic associated with your post type in one class.
+Here you can register additional actions and filters to WordPress and allows you to keep logic associated with your taxonomy in one class.
 
 ```php
 use PostTypes\Taxonomy;

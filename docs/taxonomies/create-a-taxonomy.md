@@ -4,7 +4,7 @@ Taxonomies are created using the `Taxonomy` class. This works identically to the
 
 ## Create a new taxonomy
 
-To create a new taxonomy pass the taxonomy name to the class constructor. Labels and the slug are generated from the taxonomy name.
+Taxonomies are made by creating a new class that extends the `Taxonomy` abstract class. All Taxonomy classes require you to implement the `name()` method.
 
 ```php
 use PostTypes\Taxonomy;

@@ -1,10 +1,10 @@
-# Modifying columns
+# Modify columns
 
 To modify a taxonomies admin columns use the `column()` method. This method accepts the `PostTypes\Columns` manager which has a variety of methods to help fine tune admin table columns.
 
-## Adding Columns
+## Add Columns
 
-To add columns to the admin list table pass an array of column slugs and labels to the `add()` method.
+Use the `add` method to create a column and initiate the fluent column builder API. The column builder provides useful methods for defining a number of column attributes.
 
 ```php
 use PostTypes\Taxonomy;
@@ -17,23 +17,25 @@ class Genres extends Taxonomy
     /**
      * Set the Taxonomy admin columns.
      *
-     * @return array
+     * @return Columns
      */
     public function columns( Columns $columns ): Columns
     {
         // Add a new Popularity column.
-        $columns->label( 'popularity', __( 'Popularity', 'my-text-domain' ) );
-
-        // Populate the popularity column with term meta.
-        $columns->populate( 'popularity', function( $term_id ) {
-            echo get_term_meta( $term_id, '_popularity', true );
-        } );
-
-        // Make the popularity column sortable.
-        $columns->sortable( 'popularity', function( WP_Term_Query $query ) {
-            $query->query_vars['meta_key'] = 'popularity';
-            $query->query_vars['orderby'] = 'meta_value_num';
-        } );
+        $columns->add( 'popularity' )
+            // Set the label.
+            ->label( __( 'Popularity', 'my-text-domain' ) );
+            // Position the column after the title column.
+            ->after( 'title' )
+            // Populate the popularity column with term meta.
+            >populate( 'popularity', function( $term_id ) {
+                echo get_term_meta( $term_id, '_popularity', true );
+            } );
+            // Make the popularity column sortable.
+            ->sortable( 'popularity', function( WP_Term_Query $query ) {
+                $query->query_vars['meta_key'] = '_popularity';
+                $query->query_vars['orderby'] = 'meta_value_num';
+            } );
 
         return $columns;
     }
@@ -42,7 +44,7 @@ class Genres extends Taxonomy
 
 ## Populate Columns
 
-To populate any column use the `populate()` method, by passing the column slug and a callback function.
+To populate any column use the `populate()` method and passing a callback function.
 
 ```php
 use PostTypes\Taxonomy;
@@ -59,7 +61,7 @@ class Genres extends Taxonomy
      */
     public function columns( Columns $columns ): Columns
     {
-        $columns->populate( 'popularity', function( $term_id ) {
+        $columns->add( 'popularity' )->populate( function( $term_id ) {
             echo get_term_meta( $term_id, '_popularity', true );
         } );
 
@@ -70,7 +72,7 @@ class Genres extends Taxonomy
 
 ## Sortable Columns
 
-To define which custom columns are sortable use the `sortable()` method.
+To define which columns are sortable use the `sort()` method.
 
 ```php
 use PostTypes\Taxonomy;
@@ -89,10 +91,11 @@ class Genres extends Taxonomy
     public function columns( Columns $columns ): Columns
     {
         // Make the popularity column sortable.
-        $columns->sortable( 'popularity', function( WP_Term_Query $query ) {
-            $query->query_vars['meta_key'] = 'popularity';
+        $columns->add( 'popularity' )->sort( function( WP_Term_Query $query ) {
+            $query->query_vars['meta_key'] = '_popularity';
             $query->query_vars['orderby'] = 'meta_value_num';
         } );
+
         return $columns;
     }
 }
@@ -125,7 +128,7 @@ class Genres extends Taxonomy
 }
 ```
 
-## Column Order
+## Column Positioning
 
 To rearrange columns pass an array of column slugs and position to the `order()` method. Only olumns you want to reorder need to be set, not all columns.
 
@@ -152,5 +155,3 @@ class Genres extends Taxonomy
     }
 }
 ```
-
-

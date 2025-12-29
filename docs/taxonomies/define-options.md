@@ -1,6 +1,6 @@
-# Defining options
+# Define options
 
-Options for a Taxonomy are defined in the `options()` method and should return an array of valid [WordPress taxonomy options](https://developer.wordpress.org/reference/functions/register_taxonomy/#parameters).
+Options for a Taxonomy are defined in the `options()` method and must return an array of valid [WordPress taxonomy options](https://developer.wordpress.org/reference/functions/register_taxonomy/#parameters).
 
 By default, an empty array is returned.
 

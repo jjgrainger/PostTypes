@@ -1,6 +1,6 @@
-# Defining labels
+# Define labels
 
-Labels for a Taxonomy are defined in the `labels()` method and should return an array of labels.
+Labels for a Taxonomy are defined in the `labels()` method and must return an array of labels.
 
 By default, an empty array is returned and the WordPress default labels are used.
 
@@ -21,12 +21,12 @@ class Genres extends Taxonomy
     public function labels(): array
     {
         return [
-            'name'               => __( 'Genres', 'my-text-domain' ),
-            'singular_name'      => __( 'Genre', 'my-text-domain' ),
-            'search_items'       => __( 'Search Genres', 'my-text-domain' ),
-            'all_items'          => __( 'Genres', 'my-text-domain' ),
-            'edit_item'          => __( 'Edit Genre', 'my-text-domain' ),
-            'view_item'          => __( 'View Genre', 'my-text-domain' ),
+            'name'          => __( 'Genres', 'my-text-domain' ),
+            'singular_name' => __( 'Genre', 'my-text-domain' ),
+            'search_items'  => __( 'Search Genres', 'my-text-domain' ),
+            'all_items'     => __( 'Genres', 'my-text-domain' ),
+            'edit_item'     => __( 'Edit Genre', 'my-text-domain' ),
+            'view_item'     => __( 'View Genre', 'my-text-domain' ),
         ];
     }
 }
