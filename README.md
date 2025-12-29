@@ -6,7 +6,7 @@
 
 ## Migrating from v2 to v3
 
-> Important: v3.0 is a breaking release. Existing v2 post type and taxonomy definitions will not work without modification.
+> **Important**: v3.0 is a breaking release. Existing v2 post type and taxonomy definitions will not work without modification. Please review the migration guide in the [documentation](https://posttypes.jjgrainger.co.uk) on how to upgrade to version 3.
 
 ## Requirements
 
