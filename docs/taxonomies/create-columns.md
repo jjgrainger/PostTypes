@@ -20,7 +20,7 @@ class PopularityColumn extends Column
      */
     public function name(): string
     {
-        return 'populariy';
+        return 'popularity';
     }
 
     /**

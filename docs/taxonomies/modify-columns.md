@@ -28,11 +28,11 @@ class Genres extends Taxonomy
             // Position the column after the title column.
             ->after( 'title' )
             // Populate the popularity column with term meta.
-            >populate( 'popularity', function( $term_id ) {
+            >populate( function( $term_id ) {
                 echo get_term_meta( $term_id, '_popularity', true );
             } );
             // Make the popularity column sortable.
-            ->sortable( 'popularity', function( WP_Term_Query $query ) {
+            ->sort( function( WP_Term_Query $query ) {
                 $query->query_vars['meta_key'] = '_popularity';
                 $query->query_vars['orderby'] = 'meta_value_num';
             } );
@@ -72,7 +72,7 @@ class Genres extends Taxonomy
 
 ## Sortable Columns
 
-To define which columns are sortable use the `sort()` method.
+To define a column as sortable use the `sort()` method by passing in the sort callback.
 
 ```php
 use PostTypes\Taxonomy;
