@@ -67,7 +67,7 @@ class Book extends PostType {
             'title',
             'editor',
             'thumbnail',
-            'custom-fields'
+            'custom-fields',
         ];
     }
 
@@ -77,7 +77,7 @@ class Book extends PostType {
     public function taxonomies(): array {
         return [
             'genre',
-            'category'
+            'category',
         ];
     }
 
@@ -94,7 +94,7 @@ class Book extends PostType {
     public function filters(): array {
         return [
             'genre',
-            'category'
+            'category',
         ];
     }
 
@@ -105,13 +105,21 @@ class Book extends PostType {
         // Remove the author and date column.
         $columns->remove( [ 'author', 'date' ] );
 
-        // Add a Rating column.
-        $columns->add( 'rating', __( 'Rating', 'post-types' ) );
-
-        // Populate the rating column.
-        $columns->populate( 'rating', function( $post_id ) {
-            echo get_post_meta( $post_id, 'rating', true );
-        } );
+        // Add a new price column.
+        $columns->add( 'price' )
+            // Set the label.
+            ->label( __( 'Price', 'my-text-domain' ) )
+            // Position the column after the title column.
+            ->after( 'title' )
+            // Set the populate callback.
+            ->populate( function( $post_id ) {
+                echo '$' . get_post_meta( $post_id, '_price', true );
+            } )
+            // Set the sort callback.
+            ->sort( function( WP_Query $query ) {
+                $query->set( 'meta_key', 'price' );
+                $query->set( 'orderby', 'meta_value_num' );
+            } );
 
         return $columns;
     }
