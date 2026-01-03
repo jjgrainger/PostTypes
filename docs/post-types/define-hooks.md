@@ -1,4 +1,4 @@
-# Defining hooks
+# Define hooks
 
 Additional hooks are supported with the `hooks()` method.
 
@@ -15,9 +15,9 @@ class Books extends PostType
     /**
      * Adds additional hooks for the post type.
      *
-     * @return array
+     * @return void
      */
-    public function hooks(): array
+    public function hooks(): void
     {
         add_action( 'save_post_book', [ $this, 'onSave' ], 10, 3 );
     }

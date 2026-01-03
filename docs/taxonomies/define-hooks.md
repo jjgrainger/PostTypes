@@ -1,8 +1,8 @@
-# Defining hooks
+# Define hooks
 
 Additional hooks are supported with the `hooks()` method.
 
-Here you can register additional actions and filters to WordPress and allows you to keep logic associated with your post type in one class.
+Here you can register additional actions and filters to WordPress and allows you to keep logic associated with your taxonomy in one class.
 
 ```php
 use PostTypes\Taxonomy;
@@ -12,11 +12,11 @@ class Genres extends Taxonomy
     //...
 
     /**
-     * Adds additional hooks for the post type.
+     * Adds additional hooks for the taxonomy.
      *
-     * @return array
+     * @return void
      */
-    public function hooks(): array
+    public function hooks(): void
     {
         add_action( 'saved_term', [ $this, 'onSave' ], 10, 5 );
     }

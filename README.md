@@ -1,8 +1,12 @@
-# PostTypes v2.2.1
+# PostTypes v3.0
 
 [![tests](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml/badge.svg)](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jjgrainger/PostTypes/branch/master/graph/badge.svg?token=SGrK2xDF46)](https://codecov.io/gh/jjgrainger/PostTypes) [![Latest Stable Version](https://flat.badgen.net/github/release/jjgrainger/PostTypes/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![Total Downloads](https://flat.badgen.net/packagist/dt/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://flat.badgen.net/github/license/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes)
 
-> Simple WordPress custom post types.
+> Modern PHP abstractions for WordPress post types and taxonomies.
+
+## Migrating from v2 to v3
+
+> **Important**: v3.0 is a breaking release. Existing v2 post type and taxonomy definitions will not work without modification. Please review the migration guide in the [documentation](https://posttypes.jjgrainger.co.uk) on how to upgrade to version 3.
 
 ## Requirements
 
@@ -58,7 +62,7 @@ class Book extends PostType {
             'view_item'          => __( 'View Book', 'text-domain' ),
             'search_items'       => __( 'Search Books', 'text-domain' ),
             'not_found'          => __( 'No Books found', 'text-domain' ),
-            'not_found_in_trash' => __( 'No Books found in Trash', 'text-domain'),
+            'not_found_in_trash' => __( 'No Books found in Trash', 'text-domain' ),
             'parent_item_colon'  => __( 'Parent Book', 'text-domain' ),
         ];
     }
@@ -71,7 +75,7 @@ class Book extends PostType {
             'title',
             'editor',
             'thumbnail',
-            'custom-fields'
+            'custom-fields',
         ];
     }
 
@@ -80,7 +84,7 @@ class Book extends PostType {
      */
     public function taxonomies(): array {
         return [
-            'genre'
+            'genre',
             'category',
         ];
     }
@@ -98,7 +102,7 @@ class Book extends PostType {
     public function filters(): array {
         return [
             'genre',
-            'category'
+            'category',
         ];
     }
 
@@ -127,11 +131,11 @@ class Book extends PostType {
 Once the custom post type class is created it can be registered to WordPress by instantiating and call the register method.
 
 ```php
-// Instantiate the Books PostType class.
-$books = new Books;
+// Instantiate the Book PostType class.
+$book = new Book;
 
-// Register the books PostType to WordPress.
-$books->register();
+// Register the Book PostType to WordPress.
+$book->register();
 ```
 
 ## Notes

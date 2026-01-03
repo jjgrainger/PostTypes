@@ -2,13 +2,13 @@
 
 The following section contains information on creating and working with post types.
 
-* [Create a Post Type](Create-a-post-type.md)
-* [Defining Labels](Defining-labels.md)
-* [Defining Options](Defining-options.md)
-* [Defining taxonomies](Defining-taxonomies.md)
-* [Defining feature supports](Defining-feature-supports.md)
-* [Defining an icon](Defining-an-icon.md)
-* [Defining filters](Defining-filters.md)
-* [Modifying columns](Modifying-columns.md)
-* [Creating columns](Creating-columns.md)
-* [Defining hooks](Defining-hooks.md)
+* [Create a Post Type](create-a-post-type.md)
+* [Define Labels](define-labels.md)
+* [Define Options](define-options.md)
+* [Define taxonomies](define-taxonomies.md)
+* [Define feature supports](define-feature-supports.md)
+* [Define an icon](define-an-icon.md)
+* [Define filters](define-filters.md)
+* [Modify columns](modify-columns.md)
+* [Create columns](create-columns.md)
+* [Define hooks](define-hooks.md)

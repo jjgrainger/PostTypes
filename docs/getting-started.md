@@ -54,7 +54,7 @@ class Book extends PostType {
             'view_item'          => __( 'View Book', 'text-domain' ),
             'search_items'       => __( 'Search Books', 'text-domain' ),
             'not_found'          => __( 'No Books found', 'text-domain' ),
-            'not_found_in_trash' => __( 'No Books found in Trash', 'text-domain'),
+            'not_found_in_trash' => __( 'No Books found in Trash', 'text-domain' ),
             'parent_item_colon'  => __( 'Parent Book', 'text-domain' ),
         ];
     }
@@ -67,7 +67,7 @@ class Book extends PostType {
             'title',
             'editor',
             'thumbnail',
-            'custom-fields'
+            'custom-fields',
         ];
     }
 
@@ -76,7 +76,7 @@ class Book extends PostType {
      */
     public function taxonomies(): array {
         return [
-            'genre'
+            'genre',
             'category',
         ];
     }
@@ -94,7 +94,7 @@ class Book extends PostType {
     public function filters(): array {
         return [
             'genre',
-            'category'
+            'category',
         ];
     }
 
@@ -105,13 +105,21 @@ class Book extends PostType {
         // Remove the author and date column.
         $columns->remove( [ 'author', 'date' ] );
 
-        // Add a Rating column.
-        $columns->add( 'rating', __( 'Rating', 'post-types' ) );
-
-        // Populate the rating column.
-        $columns->populate( 'rating', function( $post_id ) {
-            echo get_post_meta( $post_id, 'rating', true );
-        } );
+        // Add a new price column.
+        $columns->add( 'price' )
+            // Set the label.
+            ->label( __( 'Price', 'my-text-domain' ) )
+            // Position the column after the title column.
+            ->after( 'title' )
+            // Set the populate callback.
+            ->populate( function( $post_id ) {
+                echo '$' . get_post_meta( $post_id, '_price', true );
+            } )
+            // Set the sort callback.
+            ->sort( function( WP_Query $query ) {
+                $query->set( 'meta_key', 'price' );
+                $query->set( 'orderby', 'meta_value_num' );
+            } );
 
         return $columns;
     }
@@ -123,9 +131,9 @@ class Book extends PostType {
 Once the custom post type class is created it can be registered to WordPress by instantiating and call the register method.
 
 ```php
-// Instantiate the Books PostType class.
-$books = new Books;
+// Instantiate the Book PostType class.
+$book = new Book;
 
-// Register the books PostType to WordPress.
-$books->register();
+// Register the Book PostType to WordPress.
+$book->register();
 ```
