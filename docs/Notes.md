@@ -4,19 +4,25 @@
 
 Since 2.0 the `translation()` method has been removed. You can translate any labels and names when you assign them to the PostType or Taxonomy. It was removed to provide more control to the developer while encouraging best practices around internationalizing plugins and themes set out by [WordPress](https://developer.wordpress.org/plugins/internationalization/how-to-internationalize-your-plugin/).
 
-```php
-// Translating the post types plural and singular names.
-$books = new PostType( [
-    'name'     => 'book',
-    'singular' => __( 'Book', 'YOUR_TEXTDOMAIN' ),
-    'plural'   => __( 'Books', 'YOUR_TEXTDOMAIN' ),
-    'slug'     => 'books',
-] );
+{% hint style="info" %}
+The `register()` method hooks into WordPress and sets up the different actions and filters to create your custom post type. For translations to work correctly, wrap your PostTypes code in an `init` action with priority `0`. Avoid wrapping it in other actions/filters as this may lead to unexpected results.
+{% endhint %}
 
-// Translating labels.
-$books->labels( [
-    'add_new_item' => __( 'Add new Book', 'YOUR_TEXTDOMAIN' ),
-] );
+```php
+add_action( 'init', function() {
+    // Translating the post types plural and singular names.
+    $books = new PostType( [
+        'name'     => 'book',
+        'singular' => __( 'Book', 'YOUR_TEXTDOMAIN' ),
+        'plural'   => __( 'Books', 'YOUR_TEXTDOMAIN' ),
+        'slug'     => 'books',
+    ] );
+
+    // Translating labels.
+    $books->labels( [
+        'add_new_item' => __( 'Add new Book', 'YOUR_TEXTDOMAIN' ),
+    ] );
+}, 0 );
 ```
 
 ## Custom Fields

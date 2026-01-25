@@ -9,15 +9,21 @@ To create a new post type pass the post types name to the class constructor. In 
 ```php
 use PostTypes\PostType;
 
-// Create a book post type.
-$books = new PostType( 'book' );
+add_action( 'init', function() {
+    // Create a book post type.
+    $books = new PostType( 'book' );
 
-// Register the post type to WordPress.
-$books->register();
+    // Set labels.
+    $books->labels( [
+        'add_new_item' => __( 'Add new Book' ),
+    ] );
+    // Register the post type to WordPress.
+    $books->register();
+}, 0 );
 ```
 
 {% hint style="info" %}
-The `register()` method hooks into WordPress and sets up the different actions and filters to create your custom post type. You do not need to add any of your PostTypes code in actions/filters. Doing so may lead to unexpected results.
+The `register()` method hooks into WordPress and sets up the different actions and filters to create your custom post type. For translations to work correctly, wrap your PostTypes code in an `init` action with priority `0`. Avoid wrapping it in other actions/filters as this may lead to unexpected results.
 {% endhint %}
 
 ### Set names
