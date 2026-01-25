@@ -1,5 +1,12 @@
 # Changelog
 
+##### v3.0.0
+* merge [pull request #98](https://github.com/jjgrainger/PostTypes/pull/98): Major v3.0 refactor and feature updates
+* refactor: modernise architecture and introduce class-based PostType/Taxonomy handling
+* feature: improved column handling and introduce column builder
+* docs: update examples and documentation for v3.0 implementation
+* maintenance: introduce phpstan and improve GitHub workflows
+
 ##### v2.2.2
 * merge [pull request #103](https://github.com/jjgrainger/PostTypes/pull/103): Update documentation for translations
 
