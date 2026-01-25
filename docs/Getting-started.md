@@ -23,9 +23,14 @@ require __DIR__ . '/vendor/autoload.php';
 
 use PostTypes\PostType;
 
-$books = new PostType( 'book' );
+require __DIR__ . '/vendor/autoload.php';
 
-$books->register();
+use PostTypes\PostType;
+
+add_action( 'init', function() {
+    $books = new PostType( 'book' );
+    $books->register();
+}, 0 );
 ```
 
 See Composer's [basic usage](https://getcomposer.org/doc/01-basic-usage.md#autoloading) guide for details on working with Composer and autoloading.
@@ -42,29 +47,31 @@ require __DIR__ . '/vendor/autoload.php';
 use PostTypes\PostType;
 use PostTypes\Taxonomy;
 
-// Create a book post type.
-$books = new PostType( 'book' );
+add_action( 'init', function() {
+    // Create a book post type.
+    $books = new PostType( 'book' );
 
-// Attach the genre taxonomy (which is created below).
-$books->taxonomy( 'genre' );
+    // Attach the genre taxonomy (which is created below).
+    $books->taxonomy( 'genre' );
 
-// Hide the date and author columns.
-$books->columns()->hide( [ 'date', 'author' ] );
+    // Hide the date and author columns.
+    $books->columns()->hide( [ 'date', 'author' ] );
 
-// Set the Books menu icon.
-$books->icon( 'dashicons-book-alt' );
+    // Set the Books menu icon.
+    $books->icon( 'dashicons-book-alt' );
 
-// Register the post type to WordPress.
-$books->register();
+    // Register the post type to WordPress.
+    $books->register();
 
-// Create a genre taxonomy.
-$genres = new Taxonomy( 'genre' );
+    // Create a genre taxonomy.
+    $genres = new Taxonomy( 'genre' );
 
-// Set options for the taxonomy.
-$genres->options( [
-    'hierarchical' => false,
-] );
+    // Set options for the taxonomy.
+    $genres->options( [
+        'hierarchical' => false,
+    ] );
 
-// Register the taxonomy to WordPress.
-$genres->register();
+    // Register the taxonomy to WordPress.
+    $genres->register();
+}, 0 );
 ```
