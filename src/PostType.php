@@ -13,7 +13,7 @@ use PostTypes\Registrars\PostTypeRegistrar;
  * @link    https://github.com/jjgrainger/PostTypes/
  * @author  jjgrainger
  * @link    https://jjgrainger.co.uk
- * @version 2.2.1
+ * @version 2.2.2
  * @license https://opensource.org/licenses/mit-license.html MIT License
  */
 class PostType

@@ -1,5 +1,8 @@
 # Changelog
 
+##### v2.2.2
+* merge [pull request #103](https://github.com/jjgrainger/PostTypes/pull/103): Update documentation for translations
+
 ##### v2.2.1
 * merge [pull requests #95](https://github.com/jjgrainger/PostTypes/pull/95): Update tests
 * merge [pull requests #93](https://github.com/jjgrainger/PostTypes/pull/93): Fix empty array if taxonomy query var is null
