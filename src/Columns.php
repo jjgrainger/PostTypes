@@ -2,239 +2,245 @@
 
 namespace PostTypes;
 
-/**
- * Columns
- *
- * Used to help manage a post types columns in the admin table
- *
- * @link    https://github.com/jjgrainger/PostTypes/
- * @author  jjgrainger
- * @link    https://jjgrainger.co.uk
- * @version 2.2.2
- * @license https://opensource.org/licenses/mit-license.html MIT License
- */
+use InvalidArgumentException;
+use PostTypes\Contracts\ColumnContract;
+
 class Columns
 {
     /**
-     * Holds an array of all the defined columns.
+     * Columns keys and labels.
      *
      * @var array
      */
-    public $items = [];
+    protected $labels = [];
 
     /**
-     * An array of columns to add.
+     * Columns to remove.
      *
      * @var array
      */
-    public $add = [];
+    protected $remove = [];
 
     /**
-     * An array of columns to hide.
+     * Columns whitelist.
      *
      * @var array
      */
-    public $hide = [];
+    protected $only = [];
 
     /**
-     * An array of columns to reposition.
+     * Column positions.
      *
      * @var array
      */
-    public $positions = [];
+    protected $positions = [];
 
     /**
-     * An array of custom populate callbacks.
+     * Column populate callbacks.
      *
      * @var array
      */
-    public $populate = [];
+    protected $populateCallbacks = [];
 
     /**
-     * An array of columns that are sortable.
+     * Sortable columns and sort callbacks.
      *
      * @var array
      */
-    public $sortable = [];
+    protected $sortCallbacks = [];
 
     /**
-     * Set the all columns
-     * @param array $columns an array of all the columns to replace
+     * Create a new Column.
+     *
+     * @param string $key
+     * @return ColumnBuilder
      */
-    public function set($columns)
+    public function add(string $key): ColumnBuilder
     {
-        $this->items = $columns;
+        return new ColumnBuilder($this, $key);
     }
 
     /**
-     * Add a new column
-     * @param string  $column   the slug of the column
-     * @param string  $label    the label for the column
+     * Modify an existing column.
+     *
+     * @param string $key
+     * @return ColumnBuilder
      */
-    public function add($columns, $label = null)
+    public function modify(string $key): ColumnBuilder
     {
-
-        if (!is_array($columns)) {
-            $columns = [$columns => $label];
-        }
-
-        foreach ($columns as $column => $label) {
-            if (is_null($label)) {
-                $label = str_replace(['_', '-'], ' ', ucfirst($column));
-            }
-
-            $this->add[$column] = $label;
-        }
-
-        return $this;
+        return $this->add($key);
     }
 
     /**
-     * Add a column to hide
-     * @param  string $column the slug of the column to hdie
+     * Add a column object.
+     *
+     * @param ColumnContract $column
+     * @return void
      */
-    public function hide($columns)
+    public function column(ColumnContract $column): void
     {
-        if (!is_array($columns)) {
-            $columns = [$columns];
+        $this->label($column->name(), $column->label());
+
+        if (!is_null($column->position())) {
+            [$direction, $reference] = $column->position();
+
+            $this->position($column->name(), $direction, $reference);
         }
 
-        foreach ($columns as $column) {
-            $this->hide[] = $column;
+        if ($callback = $column->populate()) {
+            $this->populate($column->name(), $callback);
         }
 
-        return $this;
+        if ($callback = $column->sort()) {
+            $this->sort($column->name(), $callback);
+        }
     }
 
     /**
-     * Set a custom callback to populate a column
-     * @param  string $column   the column slug
-     * @param  mixed  $callback callback function
+     * Remove columns.
+     *
+     * @param array $keys
+     * @return void
      */
-    public function populate($column, $callback)
+    public function remove(array $keys): void
     {
-        $this->populate[$column] = $callback;
-
-        return $this;
+        $this->remove = array_merge($this->remove, $keys);
     }
 
     /**
-     * Define the postion for a columns
-     * @param  string  $columns  an array of columns
+     * Set columns.
+     *
+     * @param array $keys
+     * @return void
      */
-    public function order($columns)
+    public function only(array $keys): void
     {
-        foreach ($columns as $column => $position) {
-            $this->positions[$column] = $position;
-        }
-
-        return $this;
+        $this->only = array_merge($this->only, $keys);
     }
 
     /**
-     * Set columns that are sortable
-     * @param  string  $column     the slug of the column
-     * @param  string  $meta_value the meta_value to orderby
-     * @param  boolean $is_num     whether to order by string/number
+     * Set the label for a column.
+     *
+     * @param string $key
+     * @param string $label
+     * @return void
      */
-    public function sortable($sortable)
+    public function label(string $key, string $label): void
     {
-        foreach ($sortable as $column => $options) {
-            $this->sortable[$column] = $options;
-        }
-
-        return $this;
+        $this->labels[$key] = $label;
     }
 
     /**
-     * Check if an orderby field is a custom sort option.
-     * @param  string  $orderby  the orderby value from query params
+     * Set column position.
+     *
+     * @param string $key
+     * @param string $direction
+     * @param string $reference
+     * @return void
+     * @throws InvalidArgumentException
      */
-    public function isSortable($orderby)
+    public function position(string $key, string $direction, string $reference): void
     {
-        if (is_string($orderby) && array_key_exists($orderby, $this->sortable)) {
-            return true;
+        if (!in_array($direction, ['before', 'after'], true)) {
+            throw new InvalidArgumentException("Invalid position direction '{$direction}'");
         }
 
-        foreach ($this->sortable as $column => $options) {
-            if (is_string($options) && $options === $orderby) {
-                return true;
-            }
-            if (is_array($options) && isset($options[0]) && $options[0] === $orderby) {
-                return true;
-            }
-        }
-
-        return false;
+        $this->positions[$key] = [$direction, $reference];
     }
 
     /**
-     * Get meta key for an orderby.
-     * @param  string  $orderby  the orderby value from query params
+     * Set column populate callback.
+     *
+     * @param string $key
+     * @param callable $callback
+     * @return void
      */
-    public function sortableMeta($orderby)
+    public function populate(string $key, callable $callback): void
     {
-        if (array_key_exists($orderby, $this->sortable)) {
-            return $this->sortable[$orderby];
-        }
-
-        foreach ($this->sortable as $column => $options) {
-            if (is_string($options) && $options === $orderby) {
-                return $options;
-            }
-            if (is_array($options) && isset($options[0]) && $options[0] === $orderby) {
-                return $options;
-            }
-        }
-
-        return '';
+        $this->populateCallbacks[$key] = $callback;
     }
 
     /**
-     * Modify the columns for the object
-     * @param  array  $columns WordPress default columns
-     * @return array           The modified columns
+     * Set sortable columns and sort callback.
+     *
+     * @param string $key
+     * @param callable $callback
+     * @return void
      */
-    public function modifyColumns($columns)
+    public function sort(string $key, callable $callback): void
     {
-        // if user defined set columns, return those
-        if (!empty($this->items)) {
-            return $this->items;
-        }
+        $this->sortCallbacks[$key] = $callback;
+    }
 
-        // add additional columns
-        if (!empty($this->add)) {
-            foreach ($this->add as $key => $label) {
-                $columns[$key] = $label;
-            }
-        }
+    /**
+     * Get columns to add.
+     *
+     * @return array
+     */
+    public function getColumns(): array
+    {
+        return $this->labels;
+    }
 
-        // unset hidden columns
-        if (!empty($this->hide)) {
-            foreach ($this->hide as $key) {
-                unset($columns[$key]);
-            }
-        }
+    /**
+     * Get removed columns.
+     *
+     * @return array
+     */
+    public function getRemoved(): array
+    {
+        return $this->remove;
+    }
 
-        // if user has made added custom columns
-        if (!empty($this->positions)) {
-            foreach ($this->positions as $key => $position) {
-                // find index of the element in the array
-                $index = array_search($key, array_keys($columns));
-                // retrieve the element in the array of columns
-                $item = array_slice($columns, $index, 1);
-                // remove item from the array
-                unset($columns[$key]);
+    /**
+     * Get only columns.
+     *
+     * @return array
+     */
+    public function getOnly(): array
+    {
+        return $this->only;
+    }
 
-                // split columns array into two at the desired position
-                $start = array_slice($columns, 0, $position, true);
-                $end = array_slice($columns, $position, count($columns) - 1, true);
+    /**
+     * Get column positions.
+     *
+     * @return array
+     */
+    public function getPositions(): array
+    {
+        return $this->positions;
+    }
 
-                // insert column into position
-                $columns = $start + $item + $end;
-            }
-        }
+    /**
+     * Get a column populate callback.
+     *
+     * @param string $key
+     * @return callable|null
+     */
+    public function getPopulateCallback(string $key): ?callable
+    {
+        return $this->populateCallbacks[$key] ?? null;
+    }
 
-        return $columns;
+    /**
+     * Get sortable columns.
+     *
+     * @return array
+     */
+    public function getSortableColumns(): array
+    {
+        return array_combine(array_keys($this->sortCallbacks), array_keys($this->sortCallbacks));
+    }
+
+    /**
+     * Get column sort callback.
+     *
+     * @param string $key
+     * @return callable|null
+     */
+    public function getSortCallback(string $key): ?callable
+    {
+        return $this->sortCallbacks[$key] ?? null;
     }
 }

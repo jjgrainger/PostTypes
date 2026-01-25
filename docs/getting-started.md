@@ -1,12 +1,4 @@
-# PostTypes v3.0
-
-[![tests](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml/badge.svg)](https://github.com/jjgrainger/PostTypes/actions/workflows/tests.yml) [![codecov](https://codecov.io/gh/jjgrainger/PostTypes/branch/master/graph/badge.svg?token=SGrK2xDF46)](https://codecov.io/gh/jjgrainger/PostTypes) [![Latest Stable Version](https://flat.badgen.net/github/release/jjgrainger/PostTypes/stable)](https://packagist.org/packages/jjgrainger/posttypes) [![Total Downloads](https://flat.badgen.net/packagist/dt/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes) [![License](https://flat.badgen.net/github/license/jjgrainger/PostTypes)](https://packagist.org/packages/jjgrainger/posttypes)
-
-> Modern PHP abstractions for WordPress post types and taxonomies.
-
-## Migrating from v2 to v3
-
-> **Important**: v3.0 is a breaking release. Existing v2 post type and taxonomy definitions will not work without modification. Please review the migration guide in the [documentation](https://posttypes.jjgrainger.co.uk) on how to upgrade to version 3.
+# Getting Started
 
 ## Requirements
 
@@ -113,13 +105,21 @@ class Book extends PostType {
         // Remove the author and date column.
         $columns->remove( [ 'author', 'date' ] );
 
-        // Add a Rating column.
-        $columns->add( 'rating', __( 'Rating', 'post-types' ) );
-
-        // Populate the rating column.
-        $columns->populate( 'rating', function( $post_id ) {
-            echo get_post_meta( $post_id, 'rating', true );
-        } );
+        // Add a new price column.
+        $columns->add( 'price' )
+            // Set the label.
+            ->label( __( 'Price', 'my-text-domain' ) )
+            // Position the column after the title column.
+            ->after( 'title' )
+            // Set the populate callback.
+            ->populate( function( $post_id ) {
+                echo '$' . get_post_meta( $post_id, '_price', true );
+            } )
+            // Set the sort callback.
+            ->sort( function( WP_Query $query ) {
+                $query->set( 'meta_key', 'price' );
+                $query->set( 'orderby', 'meta_value_num' );
+            } );
 
         return $columns;
     }
@@ -137,16 +137,3 @@ $book = new Book;
 // Register the Book PostType to WordPress.
 $book->register();
 ```
-
-## Notes
-
-* The full documentation can be found online at [posttypes.jjgrainger.co.uk](https://posttypes.jjgrainger.co.uk)
-* Licensed under the [MIT License](https://github.com/jjgrainger/PostTypes/blob/master/LICENSE)
-* Maintained under the [Semantic Versioning Guide](https://semver.org)
-
-## Author
-
-**Joe Grainger**
-
-* [https://jjgrainger.co.uk](https://jjgrainger.co.uk)
-* [https://twitter.com/jjgrainger](https://twitter.com/jjgrainger)
