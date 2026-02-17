@@ -190,7 +190,10 @@ class TaxonomyRegistrar
      */
     public function sortSortableColumns($query)
     {
-        if (!is_admin() || !in_array($this->taxonomy->name(), $query->query_vars['taxonomy'])) {
+        if (!is_admin() ||
+            !is_array($query->query_vars['taxonomy']) ||
+            !in_array($this->taxonomy->name(), $query->query_vars['taxonomy'])
+        ) {
             return;
         }
 
