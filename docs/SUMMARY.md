@@ -1,6 +1,6 @@
 # Table of Contents
 
-* [PostTypes v3.0](../README.md)
+* [PostTypes v3.0.1](../README.md)
 * [Migrating from v2 to v3](migrating-from-v2-v3.md)
 * [Getting Started](getting-started.md)
 * [PostTypes](post-types/README.md)
