@@ -1,5 +1,9 @@
 # Changelog
 
+##### v3.0.1
+* merge [pull request #109](https://github.com/jjgrainger/PostTypes/pull/109): Check taxonomy in query vars is an array
+* maintenance: Update PHPUnit and GitHub workflows to php 8.4
+
 ##### v3.0.0
 * merge [pull request #98](https://github.com/jjgrainger/PostTypes/pull/98): Major v3.0 refactor and feature updates
 * refactor: modernise architecture and introduce class-based PostType/Taxonomy handling
