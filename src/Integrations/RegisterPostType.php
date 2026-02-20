@@ -32,6 +32,8 @@ class RegisterPostType
     {
         add_action('init', [$this, 'registerPostType']);
         add_filter('register_post_type_args', [$this, 'setOptions'], 10, 2);
+
+        $this->posttype->hooks();
     }
 
     /**
