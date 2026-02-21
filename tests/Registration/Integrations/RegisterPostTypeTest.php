@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PostTypes\Integrations\RegisterPostType;
+use PostTypes\Registration\Integrations\RegisterPostType;
 use PostTypes\PostType;
 
 class RegisterPostTypeTest extends TestCase

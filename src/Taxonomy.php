@@ -4,7 +4,7 @@ namespace PostTypes;
 
 use PostTypes\Columns;
 use PostTypes\Contracts\TaxonomyContract;
-use PostTypes\Registrars\TaxonomyRegistrar;
+use PostTypes\Registration\Service;
 
 abstract class Taxonomy implements TaxonomyContract
 {
@@ -77,12 +77,12 @@ abstract class Taxonomy implements TaxonomyContract
     }
 
     /**
-     * Register the taxonomy.
+     * Register the Taxonomy.
      *
      * @return void
      */
     public function register(): void
     {
-        (new TaxonomyRegistrar($this))->register();
+        Service::forTaxonomy()->register($this);
     }
 }

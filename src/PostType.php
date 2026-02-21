@@ -4,7 +4,7 @@ namespace PostTypes;
 
 use PostTypes\Columns;
 use PostTypes\Contracts\PostTypeContract;
-use PostTypes\Registrars\PostTypeRegistrar;
+use PostTypes\Registration\Service;
 
 abstract class PostType implements PostTypeContract
 {
@@ -110,12 +110,12 @@ abstract class PostType implements PostTypeContract
     }
 
     /**
-     * Register the post type.
+     * Register the PostType.
      *
      * @return void
      */
     public function register(): void
     {
-        (new PostTypeRegistrar($this))->register();
+        Service::forPostType()->register($this);
     }
 }

@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use PostTypes\Column;
 use PostTypes\Columns;
-use PostTypes\Integrations\ManagePostTypeColumns;
+use PostTypes\Registration\Integrations\ManagePostTypeColumns;
 use PostTypes\PostType;
 
 class ManagePostTypeColumnsTest extends TestCase

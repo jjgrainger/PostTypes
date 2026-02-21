@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use PostTypes\Column;
 use PostTypes\Columns;
-use PostTypes\Integrations\ManageTaxonomyColumns;
+use PostTypes\Registration\Integrations\ManageTaxonomyColumns;
 use PostTypes\Taxonomy;
 
 class ManageTaxonomyColumnsTest extends TestCase

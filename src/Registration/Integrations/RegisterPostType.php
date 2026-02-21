@@ -1,6 +1,6 @@
 <?php
 
-namespace PostTypes\Integrations;
+namespace PostTypes\Registration\Integrations;
 
 use PostTypes\Contracts\PostTypeContract;
 

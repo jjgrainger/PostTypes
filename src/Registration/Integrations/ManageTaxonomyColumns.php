@@ -1,22 +1,22 @@
 <?php
 
-namespace PostTypes\Integrations;
+namespace PostTypes\Registration\Integrations;
 
+use PostTypes\Contracts\TaxonomyContract;
 use PostTypes\Columns;
-use PostTypes\Contracts\PostTypeContract;
-use WP_Query;
+use WP_Term_Query;
 
-class ManagePostTypeColumns
+class ManageTaxonomyColumns
 {
     /**
-     * PostType to register.
+     * Taxonomy to register.
      *
-     * @var PostTypeContract
+     * @var TaxonomyContract
      */
-    protected $posttype;
+    private $taxonomy;
 
     /**
-     * The PostType columns.
+     * Taxonomy Columns.
      *
      * @var Columns
      */
@@ -25,27 +25,27 @@ class ManagePostTypeColumns
     /**
      * Constructor.
      *
-     * @param PostTypeContract $posttype
+     * @param TaxonomyContract $taxonomy
      */
-    public function __construct(PostTypeContract $posttype)
+    public function __construct(TaxonomyContract $taxonomy)
     {
-        $this->posttype = $posttype;
+        $this->taxonomy = $taxonomy;
     }
 
     /**
-     * Add hooks.
+     * Register the Taxonomy to WordPress.
      *
      * @return void
      */
     public function register(): void
     {
-        $name = $this->posttype->name();
+        $name = $this->taxonomy->name();
 
-        add_action('init', [$this, 'createColumns'], 10, 0);
-        add_filter('manage_' . $name . '_posts_columns', [$this, 'modifyColumns'], 10, 1);
-        add_action('manage_' . $name . '_posts_custom_column', [$this, 'populateColumns'], 10, 2);
+        add_action('init', [$this, 'createcolumns'], 10);
+        add_filter('manage_edit-' . $name . '_columns', [$this, 'modifyColumns'], 10, 1);
+        add_action('manage_' . $name . '_custom_column', [$this, 'populateColumns'], 10, 3);
         add_filter('manage_edit-' . $name . '_sortable_columns', [$this, 'setSortableColumns'], 10, 1);
-        add_action('pre_get_posts', [$this, 'sortSortableColumns'], 10, 1);
+        add_action('parse_term_query', [$this, 'sortSortableColumns'], 10, 1);
     }
 
     /**
@@ -55,11 +55,11 @@ class ManagePostTypeColumns
      */
     public function createColumns(): void
     {
-        $this->columns = $this->posttype->columns(new Columns());
+        $this->columns = $this->taxonomy->columns(new Columns());
     }
 
     /**
-     * Modify the PostType columns.
+     * Modify the Taxonomy columns.
      *
      * @param array $columns
      * @return array
@@ -106,47 +106,49 @@ class ManagePostTypeColumns
     }
 
     /**
-     * Populate the PostType columns.
+     * Populate Taxonomy column.
      *
+     * @param string $content
      * @param string $column
-     * @param int $post_id
+     * @param int $term_id
      * @return void
      */
-    public function populateColumns(string $column, int $post_id): void
+    public function populateColumns(string $content, string $column, int $term_id): void
     {
         $callback = $this->columns->getPopulateCallback($column);
 
         if ($callback) {
-            call_user_func_array($callback, [$post_id]);
+            call_user_func_array($callback, [$term_id, $content]);
         }
     }
 
     /**
-     * Set the PostTypes sortable columns.
+     * Set the Taxonomy sortable columns.
      *
      * @param array $columns
      * @return array
      */
     public function setSortableColumns(array $columns): array
     {
-        $sortable = $this->columns->getSortableColumns();
-
-        return array_merge($columns, $sortable);
+        return array_merge($columns, $this->columns->getSortableColumns());
     }
 
     /**
-     * Sort PostType columns.
+     * Sort Taxonomy column.
      *
-     * @param WP_Query $query
+     * @param \WP_Term_Query $query
      * @return void
      */
-    public function sortSortableColumns(WP_Query $query): void
+    public function sortSortableColumns(WP_Term_Query $query): void
     {
-        if (!is_admin() || !$query->is_main_query()) {
+        if (!is_admin() ||
+            !is_array($query->query_vars['taxonomy']) ||
+            !in_array($this->taxonomy->name(), $query->query_vars['taxonomy'])
+        ) {
             return;
         }
 
-        $column = $query->get('orderby');
+        $column = $query->query_vars['orderby'];
         $callback = $this->columns->getSortCallback($column);
 
         if ($callback) {

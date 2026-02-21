@@ -1,7 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
-use PostTypes\Integrations\RegisterTaxonomy;
+use PostTypes\Registration\Integrations\RegisterTaxonomy;
 use PostTypes\Taxonomy;
 
 class RegisterTaxonomyTest extends TestCase
