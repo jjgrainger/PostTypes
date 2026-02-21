@@ -28,7 +28,7 @@ class RegisterTaxonomy
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         add_action('init', [$this, 'registerTaxonomy'], 9);
         add_action('init', [$this, 'registerTaxonomyToPostTypes'], 10);
@@ -41,7 +41,7 @@ class RegisterTaxonomy
      *
      * @return void
      */
-    public function registerTaxonomy()
+    public function registerTaxonomy(): void
     {
         register_taxonomy($this->taxonomy->name(), [], $this->generateOptions());
     }
@@ -51,7 +51,7 @@ class RegisterTaxonomy
      *
      * @return array
      */
-    public function generateOptions()
+    public function generateOptions(): array
     {
         $defaults = [
             'public'            => true,
@@ -72,7 +72,7 @@ class RegisterTaxonomy
      *
      * @return void
      */
-    public function registerTaxonomyToPostTypes()
+    public function registerTaxonomyToPostTypes(): void
     {
         foreach ($this->taxonomy->posttypes() as $posttype) {
             register_taxonomy_for_object_type($this->taxonomy->name(), $posttype);

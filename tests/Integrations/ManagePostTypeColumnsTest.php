@@ -30,9 +30,9 @@ class ManagePostTypeColumnsTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new ManagePostTypeColumns($stub);
-        $registrar->createColumns();
-        $output = $registrar->modifyColumns($defaults);
+        $integration = new ManagePostTypeColumns($stub);
+        $integration->createColumns();
+        $output = $integration->modifyColumns($defaults);
 
         $expected = [
             'cb' => '',
@@ -71,9 +71,9 @@ class ManagePostTypeColumnsTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new ManagePostTypeColumns($stub);
-        $registrar->createColumns();
-        $registrar->populateColumns('column', 1);
+        $integration = new ManagePostTypeColumns($stub);
+        $integration->createColumns();
+        $integration->populateColumns('column', 1);
     }
 
     public function test_can_set_sortable_columns()
@@ -96,9 +96,9 @@ class ManagePostTypeColumnsTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new ManagePostTypeColumns($stub);
-        $registrar->createColumns();
-        $output = $registrar->setSortableColumns($sortable);
+        $integration = new ManagePostTypeColumns($stub);
+        $integration->createColumns();
+        $output = $integration->setSortableColumns($sortable);
 
         $expected = [
             'title' => 'title',

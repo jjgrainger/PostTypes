@@ -29,9 +29,9 @@ class ManageTaxonomyColumnsTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new ManageTaxonomyColumns($stub);
-        $registrar->createColumns();
-        $output = $registrar->modifyColumns($defaults);
+        $integration = new ManageTaxonomyColumns($stub);
+        $integration->createColumns();
+        $output = $integration->modifyColumns($defaults);
 
         $expected = [
             'cb' => '',
@@ -69,9 +69,9 @@ class ManageTaxonomyColumnsTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new ManageTaxonomyColumns($stub);
-        $registrar->createColumns();
-        $registrar->populateColumns('', 'column', 1);
+        $integration = new ManageTaxonomyColumns($stub);
+        $integration->createColumns();
+        $integration->populateColumns('', 'column', 1);
     }
 
     public function test_can_set_sortable_columns()
@@ -94,9 +94,9 @@ class ManageTaxonomyColumnsTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new ManageTaxonomyColumns($stub);
-        $registrar->createColumns();
-        $output = $registrar->setSortableColumns($sortable);
+        $integration = new ManageTaxonomyColumns($stub);
+        $integration->createColumns();
+        $output = $integration->setSortableColumns($sortable);
 
         $expected = [
             'title' => 'title',

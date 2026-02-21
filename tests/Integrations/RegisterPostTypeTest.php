@@ -14,13 +14,13 @@ class RegisterPostTypeTest extends TestCase
             ->method('name')
             ->will($this->returnValue('book'));
 
-        $registrar = new RegisterPostType($stub);
+        $inegration = new RegisterPostType($stub);
 
         $args = [
             'public' => false,
         ];
 
-        $options = $registrar->setOptions($args, 'book');
+        $options = $inegration->setOptions($args, 'book');
 
         $expected = [
             'public'       => true,
@@ -45,13 +45,13 @@ class RegisterPostTypeTest extends TestCase
             ->method('name')
             ->will($this->returnValue('book'));
 
-        $registrar = new RegisterPostType($stub);
+        $inegration = new RegisterPostType($stub);
 
         $args = [
             'public' => false,
         ];
 
-        $options = $registrar->setOptions($args, 'post');
+        $options = $inegration->setOptions($args, 'post');
 
         $this->assertEquals($args, $options);
     }

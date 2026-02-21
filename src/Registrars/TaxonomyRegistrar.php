@@ -3,7 +3,6 @@
 namespace PostTypes\Registrars;
 
 use PostTypes\Contracts\TaxonomyContract;
-use PostTypes\Columns;
 use PostTypes\Integrations\ManageTaxonomyColumns;
 use PostTypes\Integrations\RegisterTaxonomy;
 
@@ -41,7 +40,7 @@ class TaxonomyRegistrar
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         foreach ($this->integrations as $integration) {
             (new $integration($this->taxonomy))->register();

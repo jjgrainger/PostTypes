@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PostTypes\Columns;
 use PostTypes\PostType;
 
 class PostTypeTest extends TestCase
@@ -13,6 +14,8 @@ class PostTypeTest extends TestCase
             ->method('name')
             ->will($this->returnValue('book'));
 
+        $columns = new Columns;
+
         $this->assertEquals('book', $stub->slug());
         $this->assertEquals([], $stub->labels());
         $this->assertEquals([], $stub->options());
@@ -20,6 +23,7 @@ class PostTypeTest extends TestCase
         $this->assertEquals(['title', 'editor'], $stub->supports());
         $this->assertEquals(null, $stub->icon());
         $this->assertEquals([], $stub->filters());
+        $this->assertEquals($columns, $stub->columns($columns));
         $this->assertEquals(null, $stub->hooks());
     }
 }

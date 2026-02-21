@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+use PostTypes\Columns;
 use PostTypes\Taxonomy;
 
 class TaxonomyTest extends TestCase
@@ -13,10 +14,13 @@ class TaxonomyTest extends TestCase
             ->method('name')
             ->will($this->returnValue('genre'));
 
+        $columns = new Columns;
+
         $this->assertEquals('genre', $stub->slug());
         $this->assertEquals([], $stub->labels());
         $this->assertEquals([], $stub->options());
         $this->assertEquals([], $stub->posttypes());
+        $this->assertEquals($columns, $stub->columns($columns));
         $this->assertEquals(null, $stub->hooks());
     }
 }

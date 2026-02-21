@@ -4,6 +4,8 @@ namespace PostTypes\Integrations;
 
 use PostTypes\Contracts\TaxonomyContract;
 use PostTypes\Columns;
+use WP_Tax_Query;
+use WP_Term_Query;
 
 class ManageTaxonomyColumns
 {
@@ -36,7 +38,7 @@ class ManageTaxonomyColumns
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $name = $this->taxonomy->name();
 
@@ -52,7 +54,7 @@ class ManageTaxonomyColumns
      *
      * @return void
      */
-    public function createColumns()
+    public function createColumns(): void
     {
         $this->columns = $this->taxonomy->columns(new Columns());
     }
@@ -63,7 +65,7 @@ class ManageTaxonomyColumns
      * @param array $columns
      * @return array
      */
-    public function modifyColumns(array $columns)
+    public function modifyColumns(array $columns): array
     {
         foreach ($this->columns->getColumns() as $key => $label) {
             $columns[$key] = $label;
@@ -112,7 +114,7 @@ class ManageTaxonomyColumns
      * @param int $term_id
      * @return void
      */
-    public function populateColumns($content, $column, $term_id)
+    public function populateColumns(string $content, string $column, int $term_id): void
     {
         $callback = $this->columns->getPopulateCallback($column);
 
@@ -127,7 +129,7 @@ class ManageTaxonomyColumns
      * @param array $columns
      * @return array
      */
-    public function setSortableColumns($columns)
+    public function setSortableColumns(array $columns): array
     {
         return array_merge($columns, $this->columns->getSortableColumns());
     }
@@ -138,7 +140,7 @@ class ManageTaxonomyColumns
      * @param \WP_Term_Query $query
      * @return void
      */
-    public function sortSortableColumns($query)
+    public function sortSortableColumns(WP_Term_Query $query): void
     {
         if (!is_admin() ||
             !is_array($query->query_vars['taxonomy']) ||

@@ -27,9 +27,9 @@ class RegisterTaxonomyTest extends TestCase
             ]));
 
 
-        $registrar = new RegisterTaxonomy($stub);
+        $integration = new RegisterTaxonomy($stub);
 
-        $options = $registrar->generateOptions();
+        $options = $integration->generateOptions();
 
         $expected = [
             'public'            => false,

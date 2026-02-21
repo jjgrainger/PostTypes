@@ -42,7 +42,7 @@ class PostTypeRegistrar
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         foreach ($this->integrations as $integration) {
             (new $integration($this->posttype))->register();
