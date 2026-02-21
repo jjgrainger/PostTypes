@@ -3,74 +3,11 @@
 use PHPUnit\Framework\TestCase;
 use PostTypes\Column;
 use PostTypes\Columns;
+use PostTypes\Registration\Integrations\ManagePostTypeColumns;
 use PostTypes\PostType;
-use PostTypes\Registrars\PostTypeRegistrar;
 
-class PostTypeRegistrarTest extends TestCase
+class ManagePostTypeColumnsTest extends TestCase
 {
-    public function test_can_create_registrar()
-    {
-        $stub = $this->getMockForAbstractClass(PostType::class);
-
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('book'));
-
-        $registrar = new PostTypeRegistrar($stub);
-
-        $this->assertInstanceOf(PostTypeRegistrar::class, $registrar);
-    }
-
-    public function test_will_modify_post_type()
-    {
-        $stub = $this->getMockForAbstractClass(PostType::class);
-
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('book'));
-
-        $registrar = new PostTypeRegistrar($stub);
-
-        $args = [
-            'public' => false,
-        ];
-
-        $options = $registrar->modifyPostType($args, 'book');
-
-        $expected = [
-            'public'       => true,
-            'show_in_rest' => true,
-            'labels'       => [],
-            'taxonomies'   => [],
-            'supports'     => ['title', 'editor'],
-            'menu_icon'    => null,
-            'rewrite'      => [
-                'slug' => 'book',
-            ],
-        ];
-
-        $this->assertEquals($expected, $options);
-    }
-
-    public function test_will_not_modify_post_type_if_name_does_not_match()
-    {
-        $stub = $this->getMockForAbstractClass(PostType::class);
-
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('book'));
-
-        $registrar = new PostTypeRegistrar($stub);
-
-        $args = [
-            'public' => false,
-        ];
-
-        $options = $registrar->modifyPostType($args, 'post');
-
-        $this->assertEquals($args, $options);
-    }
-
     public function test_can_modify_columns()
     {
         $defaults = [
@@ -93,9 +30,9 @@ class PostTypeRegistrarTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new PostTypeRegistrar($stub);
-        $registrar->createColumns();
-        $output = $registrar->modifyColumns($defaults);
+        $integration = new ManagePostTypeColumns($stub);
+        $integration->createColumns();
+        $output = $integration->modifyColumns($defaults);
 
         $expected = [
             'cb' => '',
@@ -134,9 +71,9 @@ class PostTypeRegistrarTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new PostTypeRegistrar($stub);
-        $registrar->createColumns();
-        $registrar->populateColumns('column', 1);
+        $integration = new ManagePostTypeColumns($stub);
+        $integration->createColumns();
+        $integration->populateColumns('column', 1);
     }
 
     public function test_can_set_sortable_columns()
@@ -159,9 +96,9 @@ class PostTypeRegistrarTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new PostTypeRegistrar($stub);
-        $registrar->createColumns();
-        $output = $registrar->setSortableColumns($sortable);
+        $integration = new ManagePostTypeColumns($stub);
+        $integration->createColumns();
+        $output = $integration->setSortableColumns($sortable);
 
         $expected = [
             'title' => 'title',

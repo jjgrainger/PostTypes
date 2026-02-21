@@ -3,63 +3,11 @@
 use PHPUnit\Framework\TestCase;
 use PostTypes\Column;
 use PostTypes\Columns;
-use PostTypes\Registrars\TaxonomyRegistrar;
+use PostTypes\Registration\Integrations\ManageTaxonomyColumns;
 use PostTypes\Taxonomy;
 
-class TaxonomyRegistrarTest extends TestCase
+class ManageTaxonomyColumnsTest extends TestCase
 {
-    public function test_can_create_registrar()
-    {
-        $stub = $this->getMockForAbstractClass(Taxonomy::class);
-
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('genre'));
-
-        $registrar = new TaxonomyRegistrar($stub);
-
-        $this->assertInstanceOf(TaxonomyRegistrar::class, $registrar);
-    }
-
-    public function test_can_generate_options_with_overrides()
-    {
-        $stub = $this->getMockBuilder(Taxonomy::class)
-            ->getMock();
-
-        $stub->expects($this->any())
-            ->method('name')
-            ->will($this->returnValue('genre'));
-
-        $stub->expects($this->any())
-            ->method('slug')
-            ->will($this->returnValue('genre'));
-
-
-        $stub->expects($this->once())
-            ->method('options')
-            ->will($this->returnValue([
-                'public' => false,
-            ]));
-
-
-        $registrar = new TaxonomyRegistrar($stub);
-
-        $options = $registrar->generateOptions();
-
-        $expected = [
-            'public'            => false,
-            'show_in_rest'      => true,
-            'hierarchical'      => true,
-            'show_admin_column' => true,
-            'labels'            => [],
-            'rewrite'           => [
-                'slug' => 'genre',
-            ],
-        ];
-
-        $this->assertEquals($expected, $options);
-    }
-
     public function test_can_modify_columns()
     {
         $defaults = [
@@ -81,9 +29,9 @@ class TaxonomyRegistrarTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new TaxonomyRegistrar($stub);
-        $registrar->createColumns();
-        $output = $registrar->modifyColumns($defaults);
+        $integration = new ManageTaxonomyColumns($stub);
+        $integration->createColumns();
+        $output = $integration->modifyColumns($defaults);
 
         $expected = [
             'cb' => '',
@@ -121,9 +69,9 @@ class TaxonomyRegistrarTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new TaxonomyRegistrar($stub);
-        $registrar->createColumns();
-        $registrar->populateColumns('', 'column', 1);
+        $integration = new ManageTaxonomyColumns($stub);
+        $integration->createColumns();
+        $integration->populateColumns('', 'column', 1);
     }
 
     public function test_can_set_sortable_columns()
@@ -146,9 +94,9 @@ class TaxonomyRegistrarTest extends TestCase
             ->method('columns')
             ->will($this->returnValue($columns));
 
-        $registrar = new TaxonomyRegistrar($stub);
-        $registrar->createColumns();
-        $output = $registrar->setSortableColumns($sortable);
+        $integration = new ManageTaxonomyColumns($stub);
+        $integration->createColumns();
+        $output = $integration->setSortableColumns($sortable);
 
         $expected = [
             'title' => 'title',

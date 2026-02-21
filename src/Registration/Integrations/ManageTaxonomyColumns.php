@@ -1,11 +1,12 @@
 <?php
 
-namespace PostTypes\Registrars;
+namespace PostTypes\Registration\Integrations;
 
 use PostTypes\Contracts\TaxonomyContract;
 use PostTypes\Columns;
+use WP_Term_Query;
 
-class TaxonomyRegistrar
+class ManageTaxonomyColumns
 {
     /**
      * Taxonomy to register.
@@ -36,22 +37,15 @@ class TaxonomyRegistrar
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $name = $this->taxonomy->name();
 
-        add_action('init', [$this, 'registerTaxonomy'], 9);
-        add_action('init', [$this, 'registerTaxonomyToPostTypes'], 10);
         add_action('init', [$this, 'createcolumns'], 10);
-
-        // Handle Taxonomy columns.
         add_filter('manage_edit-' . $name . '_columns', [$this, 'modifyColumns'], 10, 1);
         add_action('manage_' . $name . '_custom_column', [$this, 'populateColumns'], 10, 3);
         add_filter('manage_edit-' . $name . '_sortable_columns', [$this, 'setSortableColumns'], 10, 1);
         add_action('parse_term_query', [$this, 'sortSortableColumns'], 10, 1);
-
-        // Register custom hooks.
-        $this->taxonomy->hooks();
     }
 
     /**
@@ -59,52 +53,9 @@ class TaxonomyRegistrar
      *
      * @return void
      */
-    public function createColumns()
+    public function createColumns(): void
     {
         $this->columns = $this->taxonomy->columns(new Columns());
-    }
-
-    /**
-     * Register the Taxonomy.
-     *
-     * @return void
-     */
-    public function registerTaxonomy()
-    {
-        register_taxonomy($this->taxonomy->name(), [], $this->generateOptions());
-    }
-
-    /**
-     * Generate Taxonomy options.
-     *
-     * @return array
-     */
-    public function generateOptions()
-    {
-        $defaults = [
-            'public'            => true,
-            'show_in_rest'      => true,
-            'hierarchical'      => true,
-            'show_admin_column' => true,
-            'labels'            => $this->taxonomy->labels(),
-            'rewrite'           => [
-                'slug' => $this->taxonomy->slug(),
-            ],
-        ];
-
-        return array_replace_recursive($defaults, $this->taxonomy->options());
-    }
-
-    /**
-     * Register Taxonomy to post types.
-     *
-     * @return void
-     */
-    public function registerTaxonomyToPostTypes()
-    {
-        foreach ($this->taxonomy->posttypes() as $posttype) {
-            register_taxonomy_for_object_type($this->taxonomy->name(), $posttype);
-        }
     }
 
     /**
@@ -113,7 +64,7 @@ class TaxonomyRegistrar
      * @param array $columns
      * @return array
      */
-    public function modifyColumns(array $columns)
+    public function modifyColumns(array $columns): array
     {
         foreach ($this->columns->getColumns() as $key => $label) {
             $columns[$key] = $label;
@@ -162,7 +113,7 @@ class TaxonomyRegistrar
      * @param int $term_id
      * @return void
      */
-    public function populateColumns($content, $column, $term_id)
+    public function populateColumns(string $content, string $column, int $term_id): void
     {
         $callback = $this->columns->getPopulateCallback($column);
 
@@ -177,7 +128,7 @@ class TaxonomyRegistrar
      * @param array $columns
      * @return array
      */
-    public function setSortableColumns($columns)
+    public function setSortableColumns(array $columns): array
     {
         return array_merge($columns, $this->columns->getSortableColumns());
     }
@@ -188,7 +139,7 @@ class TaxonomyRegistrar
      * @param \WP_Term_Query $query
      * @return void
      */
-    public function sortSortableColumns($query)
+    public function sortSortableColumns(WP_Term_Query $query): void
     {
         if (!is_admin() ||
             !is_array($query->query_vars['taxonomy']) ||
